@@ -1,0 +1,159 @@
+.boxInfo {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding-top: 50px;
+}
+
+.boxInfo .boxInfoText .boxInfoTextSvg {
+    display: flex;
+    align-items: flex-end;
+}
+
+.boxInfo .boxInfoText h1 {
+    font-family: Acme;
+    font-size: 52px;
+    margin-bottom: -2px;
+    color: transparent;
+    border-radius: 4px;
+    box-shadow: #000;
+    opacity: 0.8;
+    margin-left: 5px;
+    -webkit-text-stroke-width: 2px;
+    -webkit-text-stroke-color: var(--blue-azure);
+}
+
+.boxInfo .boxInfoText svg {
+    filter:drop-shadow(0 0 1px #000000);
+}
+
+.boxInfo .boxInfoText svg .logo {
+    stroke-dasharray: 50;
+    margin-left: 15px;
+
+    animation: dash_stroke 3s ease-in-out infinite alternate;
+}
+
+@keyframes dash_stroke {
+    from {
+        stroke-dashoffset: 0;
+    }
+    to {
+        stroke-dashoffset: 280;
+    }
+}
+
+.boxInfo .boxInfoText h2 {
+    color: var(--blue-azure);
+    margin-top: 10px;
+    font-family: Roboto;
+    font-weight: 300;
+    box-shadow:#000;
+}
+
+.boxInfo .boxInfoMovie {
+    width: 25rem;
+    height:15rem;
+    margin-left: 50px;
+    margin-right: 50px;
+    border-radius: 0.5rem;
+    margin-top: 20px;
+    background-size: cover;
+    background-position: center;
+    border: 5px solid var(--blue-azure);
+    box-shadow: 1px 0 6px #000000;
+}
+
+
+
+/* ####################### ESTILIZAÇÃO PARA EVENTOS ########################## */
+
+.home-content {
+    padding: 10px;
+}
+
+.home-content .content {
+    font-size: 0 !important;
+}
+
+.home-content .events-calendary {
+    font-family: McLaren;
+    font-size: 25px;
+    color: var(--blue-strong);
+    margin-bottom: 10px;
+}
+
+.home-content hr {
+    margin-bottom: 20px;
+    border: 2px solid var(--brown-active);
+    max-width: 50%;
+    margin-bottom: 30px;
+}
+
+.home-content .events-block {
+    display: flex;
+    align-items: center;
+    margin-bottom: 16px;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.home-content .events-block img {
+    width: 200px;
+    height: auto;
+    box-shadow: 2px 1px 4px #000;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+.home-content .events-block div h2 {
+    font-family: Roboto;
+    color: var(--brown-active);
+    font-size: 18px;
+    margin-bottom: 8px;
+}
+
+.home-content .events-block div p {
+    font-family: Roboto;
+    font-size: 14px;
+    color: var(--brown-active);
+}
+
+/* ################################ PADRÃO HOME FAMILY #################### */
+
+.family-description h1 {
+    font-family: Roboto;
+    font-size: 35px;
+    color: var(--blue-azure);
+}
+
+.home-restoration {
+    width: 80%;
+    margin-left: 10%;
+}
+
+.home-restoration h1 {
+    font-family: McLaren;
+    color: var(--blue-strong);
+    margin-bottom: 10px;
+    margin-top: 40px;
+}
+
+.home-restoration hr {
+    margin-bottom: 30px;
+    border: 2px solid var(--brown-active);
+    max-width: 50%;
+}
+
+.home-restoration .projects {
+    display: flex;
+}
+
+.home-restoration .projects .projects-box {
+    background-color: cadetblue;
+    flex: 1;
+    width: 24%;
+    height:300px;
+    margin-left: 2%;
+}
+
