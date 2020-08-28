@@ -21,16 +21,13 @@ export const HeaderBackImage = styled.img`
 `;
 
 export const HomeGoupContent = styled.section`
-    /* position:absolute; */
-    position:relative;
+    position:absolute;
     background-color:var(--grey-soft);
     z-index: 98;
-    height:auto;
+    padding-bottom:50px
 `;
 
 export const HomeContent = styled.div`
-    /* display:block; */
-    /* position:relative; */
     position:relative;
     background-color:var(--grey-soft);
     width: 80%;
@@ -50,11 +47,16 @@ export const HomeEventsTitle = styled.div`
 export const HomeEventsBox = styled.div`
     display: flex;
     align-items: center;
-    margin-bottom: 16px;
     opacity:${props => props.scroll > 195 ? 1 : 0};
     margin-left: ${props => props.scroll > 195 ? 20 : -30}px;
     margin-right: 20px;
+    transform:scale(0.95);
     transition: all ease .5s;
+    cursor:pointer;
+
+    :hover {
+        transform:scale(1);
+    }
 `;
     
 export const HomeFamilyBackground = styled.section`
@@ -78,6 +80,7 @@ export const HomeFamily = styled.section`
     z-index: 20;
     height:200px;
     background-color: rgba(0,0,0, 0.5);
+    margin-top:${props => props.resetContent}px;
 `;
 
 export const HomeFamilyText = styled.h1`

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import MenuFloat from '../../components/MenuFloat';
 import Header from '../../components/Header';
@@ -45,27 +45,34 @@ const Home = () => {
     const [ menu, setMenu ] = useState(false);
     const [ scrollCount, setScrollCount ] = useState(0);
     const [ modalStatus, setModalStatus ] = useState(false);
+    const [ boxContent, setBoxContent ] = useState(0);
 
-    //pega o estilo do css para animar os blocos
-    const target = document.querySelectorAll('[data-anime]');
-    const animationClass = 'animate';
+    useEffect(() => {
+        const manangerHeightContainer = () => {
+            let valor = document.getElementById('box').offsetHeight - 160;
+            setBoxContent(valor);
+        }
 
-    window.addEventListener("scroll", function (event) {
-        let scroll = this.scrollY;
-        setScrollCount(scroll);
-        
-        if( scroll > 180 ){
-            setMenu(true); 
-            target.forEach(function(element) {
-                element.classList.add(animationClass);
-            })           
-        }else {
-            setMenu(false);
-            target.forEach(function(element) {
-                element.classList.remove(animationClass);
-            })
-        } 
-    });
+        manangerHeightContainer();
+    },[]);
+
+    useEffect(() => {
+        const manangerScrollPage = () => {
+            window.addEventListener("scroll", function (event) {
+                let scroll = this.scrollY;
+                setScrollCount(scroll);
+                
+                if( scroll > 180 ){
+                    setMenu(true);           
+                }else {
+                    setMenu(false);
+                } 
+            });
+        }
+
+        manangerScrollPage();
+    }, []);
+
 
     const handleFocusModal = () => {
         setModalStatus(true);
@@ -85,7 +92,7 @@ const Home = () => {
             <MenuFloat active={menu} />
 
             {/* ####################### CORPO DA HOME ############################# */}
-            <HeaderBackground>
+            <HeaderBackground >
                 <HeaderOpacity  >
                     <HeaderBackImage />
 
@@ -108,7 +115,7 @@ const Home = () => {
                 </HeaderOpacity>
             </HeaderBackground>
 
-            <HomeGoupContent className="absoluteDiv" >
+            <HomeGoupContent id="box" >
                 <HomeContent scroll={scrollCount} >
                 <div className="home-content" >
                     <h1 className="content" >Calendário de eventos</h1>
@@ -161,7 +168,7 @@ const Home = () => {
 
             <HomeFamilyBackground />
 
-            <HomeFamily>
+            <HomeFamily resetContent={boxContent} >
                 <HomeFamilyText scroll={scrollCount} >Mais que amigos, uma verdadeira Família</HomeFamilyText>
             </HomeFamily>
 
@@ -171,7 +178,7 @@ const Home = () => {
                 </div>
             </HomeFamilyDescription>
 
-            <HomeRestauration>
+            <HomeRestauration id="divId" >
                 <div className="home-restoration">
                     <HomeRestaurationText scroll={scrollCount} >PROJETOS E RESTAURAÇÕES</HomeRestaurationText>
                     <HomeRestaurationHr scroll={scrollCount} />
