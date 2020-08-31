@@ -22,7 +22,7 @@ const Header = ({ active }) => {
 
                 <MenuText active={active} marginTop={50} />                    
             </HeaderGroup>
-        </ContainerHeader>
+        </ContainerHeader> 
     );
 }
 

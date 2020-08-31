@@ -23,7 +23,7 @@ const MenuFloat = ({active}) => {
                     </FloatNav>
                 </ContainerNav> 
             }
-        </MenuScroll> 
+        </MenuScroll>   
     );
 }
 

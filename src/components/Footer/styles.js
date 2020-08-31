@@ -8,15 +8,19 @@ export const Container = styled.footer`
     height:auto;
     background-color:var(--blue-relative);
     justify-content:center;
+    align-items:center;
 `;
 
 export const FooterBox = styled.div`
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
     margin-top:40px;
     margin-bottom:80px;
 `;
    
 export const FooterLogo = styled.img`
-    margin-left:45%;
     width:80px;
     height:auto;
     justify-content:center;
@@ -28,18 +32,23 @@ export const FooterDescription = styled.p`
     margin-top:10px;
     color:var(--blue-strong);
     font-size:14px;
-    margin-left:22%;
+    text-align:center;
 `;
 
 export const FooterBoxLinks = styled.div`
+    display:flex;
     margin-top:40px;
     margin-bottom:20px;
     width:100%;
-    padding-left:40px;
+
+    @media(max-width:768px) {
+        flex-direction:column;
+        justify-content:center;
+        align-items:center;
+    }
 `;
 
 export const FooterLinks = styled.span`
-    margin-right:40px;
     cursor:pointer;
     padding:5px 10px;
     font-family:Roboto;
@@ -56,7 +65,11 @@ export const FooterCopyright = styled.div`
     color:var(--blue-strong);
     font-family:Roboto;
     margin-top:40px;
-    margin-left:28%;
+
+    @media(max-width:768px) {
+        font-size:14px;
+        text-align:center;
+    }
 `;
 
 export const FooterDesigner = styled.div`
@@ -76,7 +89,7 @@ export const FooterBoxAuthor = styled.div``;
 export const FooterTextAuthor = styled.p`
     font-family: Roboto;
     font-size:12px;
-    margin-right:40px;
+    margin-right:40px; 
     color:var(--grey-soft);
     font-weight:100;
 `;
@@ -86,4 +99,8 @@ export const FooterText = styled.p`
     font-size:18px;
     margin-right:40px;
     color:var(--grey-soft);
+
+    @media(max-width:768px) {
+        margin-right:10px;
+    }
 `;

@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import MenuFloat from '../../components/MenuFloat';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
+import MenuMobile from '../../components/MenuMobile';
 
 import { 
     HeaderBackground,
@@ -91,6 +92,10 @@ const Home = () => {
             {/* ################### MENU SCROLL PARA WEB ########################## */}
             <MenuFloat active={menu} />
 
+            {/* ######################## MENU MOBILE  ############################# */}
+            <MenuMobile />
+
+
             {/* ####################### CORPO DA HOME ############################# */}
             <HeaderBackground >
                 <HeaderOpacity  >
@@ -112,7 +117,7 @@ const Home = () => {
                             >
                         </div>
                     </div>
-                </HeaderOpacity>
+                </HeaderOpacity> 
             </HeaderBackground>
 
             <HomeGoupContent id="box" >

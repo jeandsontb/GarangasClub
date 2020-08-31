@@ -227,3 +227,74 @@
     background-color: rgba(139,69,19, 1);
     border: 1px solid rgba(255, 255, 255, 0.5);
 }
+
+@media(max-width: 768px) {
+    .boxInfo {
+        flex-direction: column;
+        padding-top: 100px;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .boxInfo .boxInfoText {
+        justify-content: center;
+        align-items: center;
+    }
+
+    .boxInfo .boxInfoText .boxInfoTextSvg {
+        width: 250px;
+        margin-left: 15%;
+    }
+
+    .boxInfo .boxInfoText h1 {
+        font-size: 35px;
+        width: 100%;
+        margin-bottom: 8px;
+    }
+
+    .boxInfo .boxInfoText h2 {
+        font-size: 18px;
+        margin-top: calc(100vh - 170% );
+    }
+
+    .boxInfo .boxInfoMovie {
+        align-items: flex-end;
+        width: 22rem;
+        height:12rem;
+    }
+
+    .home-content .events-calendary {
+        font-size: 18px;
+    }
+
+    .home-content .events-block {
+        flex-direction: column;
+        background-color: var(--white-active);
+        padding: 15px;
+        margin-left: -10px;
+        border-radius: 5px;
+    }
+
+    .home-content .events-block img {
+        width: 250px;
+        height: auto;
+        box-shadow: 2px 1px 4px #000;
+        border-radius: 5px;
+    }
+    
+    .home-content .events-block div h2 {
+        font-size: 18px;
+        margin-top: 16px;
+    }
+    
+    
+    .home-content .events-block div p {
+        font-size: 16px;        
+    }
+
+    .home-restoration .projects {
+        flex-direction: column;
+    }
+
+
+}

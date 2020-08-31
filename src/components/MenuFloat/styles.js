@@ -11,6 +11,10 @@ export const MenuScroll = styled.div`
     transition: all ease .2s;
     box-shadow:-5px 0px 5px #000;
     z-index:99;
+
+    @media(max-width: 768px) {
+        display:none !important;
+    }
 `;
 
 export const ContainerNav = styled.div`
@@ -31,3 +35,4 @@ export const Image = styled.img`
 export const FloatNav = styled.div`
 
 `;
+

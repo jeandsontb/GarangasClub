@@ -9,12 +9,20 @@ export const HeaderBackground = styled.section`
     width:100vw;
     height:calc(100vh - 120px);
     z-index:95;
-    `;
+
+    @media(max-width: 768px) { 
+        height:100vh;
+    }
+`;
 
 export const HeaderOpacity = styled.div`
     background-color:rgba(139,69,19, 0.5);
     width:100vw;
     height:calc(100vh - 120px);
+
+    @media(max-width: 768px) {
+        height:100vh;
+    }
 `;
 
 export const HeaderBackImage = styled.img`
@@ -24,7 +32,7 @@ export const HomeGoupContent = styled.section`
     position:absolute;
     background-color:var(--grey-soft);
     z-index: 98;
-    padding-bottom:50px
+    padding-bottom:50px;
 `;
 
 export const HomeContent = styled.div`
@@ -35,13 +43,21 @@ export const HomeContent = styled.div`
     margin-left:10%;
     margin-top:${props => props.scroll > 190 ? -150 : 0}px;
     z-index:98 !important;
-    transition:all ease .8s;
+    transition:all ease .8s; 
+
+    @media(max-width:768px) {
+        margin-top:${props => props.scroll > 120 ? -150 : 0}px;
+    }
 `;
 
 export const HomeEventsTitle = styled.div`
     opacity:${props => props.scroll > 195 ? 1 : 0};
     margin-left: ${props => props.scroll > 195 ? 20 : 100}px;
     transition: all ease .5s;
+
+    @media(max-width:768px) {
+        margin-left:${props => props.scroll > 150 ? 20 : 100}px;
+    }
 `;
 
 export const HomeEventsBox = styled.div`
@@ -56,6 +72,10 @@ export const HomeEventsBox = styled.div`
 
     :hover {
         transform:scale(1);
+    }
+
+    @media(max-width:768px) {
+        margin-left: ${props => props.scroll > 150 ? 20 : -30}px;
     }
 `;
     
@@ -81,6 +101,10 @@ export const HomeFamily = styled.section`
     height:200px;
     background-color: rgba(0,0,0, 0.5);
     margin-top:${props => props.resetContent}px;
+
+    @media(max-width:768px) {
+        margin-top:${props => props.resetContent + 50}px;
+    }    
 `;
 
 export const HomeFamilyText = styled.h1`
@@ -90,6 +114,15 @@ export const HomeFamilyText = styled.h1`
     opacity:${props => props.scroll > 560 ? 1 : 0};
     margin-left: ${props => props.scroll > 560 ? 0 : -100 }px;
     transition: all ease .6s;
+
+
+    @media(max-width:768px) {
+        opacity:${props => props.scroll > 1500 ? 1 : 0};
+        margin-left: ${props => props.scroll > 1500 ? 0 : -100 }px;
+        font-size:18px;
+        text-align:center;
+        margin-top:10px;
+    }
 `;
 export const HomeFamilyDescription = styled.section`
     display:flex;
@@ -108,6 +141,11 @@ export const HomeFamilyDescriptionText = styled.h1`
     opacity:${props => props.scroll > 640 ? 1 : 0};
     margin-right: ${props => props.scroll > 640 ? 0 : -100 }px;
     transition: all ease .6s;
+
+    @media(max-width:768px) {
+        opacity:${props => props.scroll > 1600 ? 1 : 0};
+        margin-right: ${props => props.scroll > 1600 ? 0 : -100 }px;
+    }
 `;
 
 
@@ -130,6 +168,12 @@ export const HomeRestaurationText = styled.h1`
     opacity:${props => props.scroll > 760 ? 1 : 0};
     margin-left: ${props => props.scroll > 760 ? 0 : 100 }px;
     transition: all ease .6s;
+
+    @media(max-width:768px) {
+        opacity:${props => props.scroll > 1600 ? 1 : 0};
+        margin-left: ${props => props.scroll > 1600 ? 0 : 100 }px;
+        font-size:18px;
+    }
 `;
 
 export const HomeRestaurationHr = styled.hr`
@@ -139,6 +183,12 @@ export const HomeRestaurationHr = styled.hr`
     opacity:${props => props.scroll > 760 ? 1 : 0};
     margin-left: ${props => props.scroll > 760 ? 0 : 100 }px;
     transition: all ease .6s;
+
+    @media(max-width:768px) {
+        opacity:${props => props.scroll > 1700 ? 1 : 0};
+        margin-left: ${props => props.scroll > 1700 ? 0 : 100 }px;
+        font-size:18px;
+    }
 `;
 
 export const HomeRestaurationProjects = styled.div`
@@ -151,6 +201,13 @@ export const HomeRestaurationProjects = styled.div`
     margin-top: ${props => props.scroll > 840 ? 0 : 200 }px;
     transition: all ease .6s;
     border-radius:5px;
+
+    @media(max-width:768px) {
+        opacity:${props => props.scroll > 1800 ? 1 : 0};
+        margin-top: ${props => props.scroll > 1800 ? 0 : 200 }px;
+        width:100%;
+        margin-bottom:20px;
+    }
 `;
 
 export const Container = styled.div`

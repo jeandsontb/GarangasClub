@@ -14,12 +14,12 @@ import {
  } from './styles';
 
 const Footer = () => {
-    return (
+    return ( 
         <Container>
             <FooterBox>
                 <FooterLogo src="/assets/logo.png" />
                 <FooterDescription>
-                    Grupos de amigos unidos por um interesse comum - Carros Antigos.
+                    Grupos de amigos unidos por um interesse comum <br />--- Carros Antigos ---
                 </FooterDescription>
                 <FooterBoxLinks> 
                     <FooterLinks>Home</FooterLinks>
