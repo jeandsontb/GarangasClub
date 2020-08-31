@@ -39,16 +39,20 @@ O layout foi elaborado com base em um modelo mais retrô mostrando melhor intera
 </p>
 
 <p align="center" style="display: flex; align-items: flex-start; justify-content: center;">
-  <img alt="Garangas Club" title="#Garangas" src="https://raw.githubusercontent.com/jeandsontb/GarangasClub/master/public/assets/github_Img/garangas2.png" width="400px">
+  <img alt="Garangas Club" title="#Garangas" src="https://raw.githubusercontent.com/jeandsontb/GarangasClub/master/public/assets/github_Img/garangas4.png" width="400px">
 </p>
 
 
 ### Mobile
 
 <p align="center">
-  <img alt="Garangas" title="#Garangas Club" src="./assets/home-mobile.png" width="200px">
+  <img alt="Garangas" title="#Garangas Club" src="https://raw.githubusercontent.com/jeandsontb/GarangasClub/master/public/assets/github_Img/mobile.png" width="200px">
 
-  <img alt="Garangas" title="#Garangas Club" src="./assets/detalhes-mobile.svg" width="200px">
+  <img alt="Garangas" title="#Garangas Club" src="https://raw.githubusercontent.com/jeandsontb/GarangasClub/master/public/assets/github_Img/mobile2.png" width="200px">
+
+  <img alt="Garangas" title="#Garangas Club" src="https://raw.githubusercontent.com/jeandsontb/GarangasClub/master/public/assets/github_Img/mobile3.png" width="200px">
+
+  <img alt="Garangas" title="#Garangas Club" src="https://raw.githubusercontent.com/jeandsontb/GarangasClub/master/public/assets/github_Img/mobile4.png" width="200px">
 </p>
 
 ## 🛠 Tecnologias
