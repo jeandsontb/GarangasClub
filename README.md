@@ -1,5 +1,5 @@
 <h1 align="center">
-    <img alt="NetFlix" title="#Fontend Garangas Club" src="https://raw.githubusercontent.com/jeandsontb/NetFlix/master/public/assets/flix.png" />
+    <img alt="NetFlix" title="#Fontend Garangas Club" src="https://raw.githubusercontent.com/jeandsontb/GarangasClub/master/public/assets/github_Img/garangas.png" />
 </h1>
 
 <h4 align="center"> 
@@ -28,14 +28,18 @@ O layout foi elaborado com base em um modelo mais retrô mostrando melhor intera
 ### Web
 
 <p align="center" style="display: flex; align-items: flex-start; justify-content: center;">
-  <img alt="Garangas Club" title="#Garangas" src="https://raw.githubusercontent.com/jeandsontb/NetFlix/master/public/assets/flix10.png" width="400px">
+  <img alt="Garangas Club" title="#Garangas" src="https://raw.githubusercontent.com/jeandsontb/GarangasClub/master/public/assets/github_Img/garangas01.png" width="400px">
 
-  <img alt="Garangas Club" title="#Garangas" src="https://raw.githubusercontent.com/jeandsontb/NetFlix/master/public/assets/flix1.png" width="400px">
+  <img alt="Garangas Club" title="#Garangas" src="https://raw.githubusercontent.com/jeandsontb/GarangasClub/master/public/assets/github_Img/garangas1.png" width="400px">
 </p>
 <p align="center" style="display: flex; align-items: flex-start; justify-content: center;">
-  <img alt="Garangas Club" title="#Garangas" src="https://raw.githubusercontent.com/jeandsontb/NetFlix/master/public/assets/flix10.png" width="400px">
+  <img alt="Garangas Club" title="#Garangas" src="https://raw.githubusercontent.com/jeandsontb/GarangasClub/master/public/assets/github_Img/garangas2.png" width="400px">
 
-  <img alt="Garangas Club" title="#Garangas" src="https://raw.githubusercontent.com/jeandsontb/NetFlix/master/public/assets/flix1.png" width="400px">
+  <img alt="Garangas Club" title="#Garangas" src="https://raw.githubusercontent.com/jeandsontb/GarangasClub/master/public/assets/github_Img/garangas3.png" width="400px">
+</p>
+
+<p align="center" style="display: flex; align-items: flex-start; justify-content: center;">
+  <img alt="Garangas Club" title="#Garangas" src="https://raw.githubusercontent.com/jeandsontb/GarangasClub/master/public/assets/github_Img/garangas2.png" width="400px">
 </p>
 
 
