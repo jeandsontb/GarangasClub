@@ -5,7 +5,7 @@ export const ContainerHeader = styled.header`
     position:relative;
     width: 100vw;
     height: 120px;  
-    box-shadow: -10px 25px 25px var(--brown-relative); 
+    box-shadow: -8px 25px 15px var(--brown-relative); 
     z-index:96;
 
     @media(max-width: 768px) {

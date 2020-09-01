@@ -28,7 +28,7 @@ export const Image = styled.img`
         margin-left:20px;
         margin-top:5px;
 `;
-
+ 
 export const MenuButton = styled.div`
         width:60px;
         height:60px;
@@ -38,6 +38,6 @@ export const BoxContentMenu = styled.div`
     height: ${props => props.height === true ? 300 : 0}px;
     width:100vw;
     background-color:rgba(205,133,63, 0.9);
-    margin-top:-30px;
+    margin-top:-40px;
     transition: all ease 0.5s;
 `;

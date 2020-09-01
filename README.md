@@ -17,6 +17,7 @@
 GARANGAS CLUB - É uma plataforma para compartilhamento de informações, eventos, reuniões, imagens e vendas dos veículos dos integrantes vinculados no clube
 
  - O projeto está na fase inicial com a page home finalizada visível na web e nos dispositivos mobile.
+ - Nesse projeto está sendo utilizado HTML5, CSS3, Node, React, Style-Components, Redux, Hooks, React-Router-Dom.  
  - Ao desenvolver mais funcionalidades, será disponibilizado nesse local o que for sendo realizado
 
 Esse projeto foi desenvolvido usando as tecnologias mais atuais de mercado.

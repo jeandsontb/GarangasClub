@@ -19,7 +19,7 @@ const MenuFloat = ({active}) => {
                     </FloatImage>
 
                     <FloatNav>
-                        <MenuText marginTop={18} />
+                        <MenuText marginTop={8} />
                     </FloatNav>
                 </ContainerNav> 
             }

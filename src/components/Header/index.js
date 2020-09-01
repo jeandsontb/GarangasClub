@@ -6,7 +6,7 @@ import {
     HeaderGroup,
     HeaderLink,
     HeaderImage
- } from './styles';
+ } from './styles'; 
 
 import MenuText from '../MenuText';
 
@@ -20,7 +20,7 @@ const Header = ({ active }) => {
                     <HeaderImage src="/assets/logo.png" />
                 </HeaderLink>
 
-                <MenuText active={active} marginTop={50} />                    
+                <MenuText active={active} marginTop={40} />                    
             </HeaderGroup>
         </ContainerHeader> 
     );

@@ -42,7 +42,7 @@ export default () => {
 
             <BoxContentMenu height={openMenu} >
                 {openMenu &&
-                   <MenuText   />                  
+                   <MenuText marginTop={8}  />                  
                 }
             </BoxContentMenu>
         </Container>

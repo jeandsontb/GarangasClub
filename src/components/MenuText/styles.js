@@ -1,4 +1,4 @@
-import styled from 'styled-components/macro';
+import styled from 'styled-components';
 
 export const ContainerNav = styled.nav`
     padding-right: 50px;
@@ -10,12 +10,23 @@ export const ContainerNav = styled.nav`
         align-items:center;
         justify-content:center;
         margin-left:10%;
-        padding-top:50px;
+        padding-top:40px;
+    } 
+`;
+
+export const ContainerUl = styled.ul`
+    display:flex;
+    list-style:none;
+    
+    @media(max-width:768px) {
+        flex-direction:column;
+        text-align:center;
     }
 `;
 
-export const ListText = styled.a`
-    text-decoration: none;
+export const ListText = styled.li`
+    list-style:none;
+    text-decoration: none !important;
     margin-left: 5px;
     font-size: 20px;
     font-weight: 400;

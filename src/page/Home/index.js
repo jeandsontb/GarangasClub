@@ -13,7 +13,7 @@ import {
     HomeEventsTitle,
     HomeEventsBox,
     HomeContent,
-    HomeFamilyBackground,
+    HomeFamilyBackground, 
     HomeFamily,
     HomeFamilyDescription,
     HomeFamilyDescriptionText,
