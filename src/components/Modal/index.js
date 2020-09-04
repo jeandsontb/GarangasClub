@@ -15,14 +15,9 @@ export default ({ url, closeModal }) => {
 
     return (
         <Container className="ModalContent" onClick={handleModalClose} >
-            <Content>
-                <Player>
-                    <iframe 
-                        width="560" 
-                        height="315" 
-                        src = {url}
-                        frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
-                        allowfullscreen>                            
+            <Content> 
+                <Player >
+                    <iframe src = {url} >                            
                     </iframe>
                 </Player>
             </Content>

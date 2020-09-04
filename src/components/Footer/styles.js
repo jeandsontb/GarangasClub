@@ -16,8 +16,11 @@ export const FooterBox = styled.div`
     flex-direction:column;
     justify-content:center;
     align-items:center;
-    margin-top:40px;
     margin-bottom:80px;
+    margin-top:40px;
+    opacity:${props => props.scroll > 1250 ? 1 : 0};
+    margin-left: ${props => props.scroll > 1250 ? 0 : 150 }px;
+    transition: all ease 0.5s;
 `;
    
 export const FooterLogo = styled.img`
