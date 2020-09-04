@@ -4,6 +4,7 @@ import MenuFloat from '../../components/MenuFloat';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import MenuMobile from '../../components/MenuMobile';
+import Modal from '../../components/Modal';
 
 import { 
     HeaderBackground,
@@ -42,10 +43,12 @@ const Home = () => {
 
     const youTubeID = getYouTubeId(url);
     const bgUrl = `https://img.youtube.com/vi/${youTubeID}/maxresdefault.jpg`;
+    const movieUrl = `https://www.youtube.com/embed/${youTubeID}`;
 
     const [ menu, setMenu ] = useState(false);
     const [ scrollCount, setScrollCount ] = useState(0);
     const [ modalStatus, setModalStatus ] = useState(false);
+    const [ activeModal, setActiveModal ] = useState(false);
     const [ boxContent, setBoxContent ] = useState(0);
 
     useEffect(() => {
@@ -85,6 +88,10 @@ const Home = () => {
         }
     }
 
+    const handleActiveModal = () => {
+        setActiveModal(true);
+    }
+
     return (
         <> 
             <Header />
@@ -114,6 +121,7 @@ const Home = () => {
                         <div 
                             className="boxInfoMovie" 
                             style={{backgroundImage:`url(${bgUrl})`}}
+                            onClick={handleActiveModal}
                             >
                         </div>
                     </div>
@@ -252,6 +260,10 @@ const Home = () => {
                     </div>
                 </div>
             </HomeRestauration>
+
+            {activeModal &&
+                <Modal url={movieUrl} closeModal={setActiveModal} />
+            }
             
             <Container 
                 className="ModalBg"
