@@ -13,10 +13,10 @@ import {
     FooterText
  } from './styles';
 
-const Footer = ({ scroll }) => {
+const Footer = () => {
     return ( 
         <Container  >
-            <FooterBox scroll={scroll} >
+            <FooterBox >
                 <FooterLogo src="/assets/logo.png" />
                 <FooterDescription>
                     Grupos de amigos unidos por um interesse comum <br />--- Carros Antigos ---

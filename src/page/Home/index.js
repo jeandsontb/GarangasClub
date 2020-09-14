@@ -278,7 +278,7 @@ const Home = () => {
                     </ModalBody>
             </Container>
 
-            <Footer  scroll={scrollCount} />
+            <Footer />
         </>
     );
 }

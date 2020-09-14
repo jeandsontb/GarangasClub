@@ -65,7 +65,7 @@ const Historic = () => {
 
 
 
-            <Footer />
+            <Footer  />
         </>
     );
 }

@@ -5,7 +5,8 @@ import MenuMobile from '../../components/MenuMobile';
 import MenuFloat from '../../components/MenuFloat';
 import Footer from '../../components/Footer';
 import {  
-    HeadCarSale
+    HeadCarSale,
+    Container
 } from './styles';
 
 
@@ -34,15 +35,19 @@ const Sale = () => {
 
     return (
         <>
-            <HeadCarSale style={{height:1200}}>
+            <HeadCarSale>
                 <Header />
                 <MenuFloat active={menu}/>
                 <MenuMobile />
 
             </HeadCarSale>
 
+            <Container>
 
-            <Footer />
+            </Container>
+
+
+            <Footer /> 
         </>
     );
 }
