@@ -55,7 +55,7 @@ const Member = () => {
 
             <Container>
                 <Members>
-                <Box>
+                    <Box>
                         <BoxImage>
                             <Image src="https://s3.amazonaws.com/muzeez/uploads/galleries/large/galleriesFiles/T8yse8HNjJbTYS5LK-6659933ef79ee46b2a2dd4f9f43e21ed.jpg" alt="Restauration" />
                             <ImageTitle>Guilherme</ImageTitle>

@@ -21,6 +21,10 @@ export const Members = styled.div`
     margin-left:10%;
     margin-right:10%;
     margin-top:80px;
+
+    @media(max-width:768px) {
+        flex-direction:column;
+    }
 `;
 
 export const Box = styled.div`
@@ -31,12 +35,22 @@ export const Box = styled.div`
     border-radius: 5px;
     margin-top:20px;
     margin-right:0.5%;
+
+    @media(max-width:768px) {
+        width:100%;
+        height:110px;   
+        margin-top:10px;
+    }
 `;
 
 export const BoxImage = styled.div`
     width: 100%;
     height: 300px;
     position: relative;
+
+    @media(max-width:768px) {
+        height:110px;
+    }
 `; 
 
 
@@ -47,6 +61,10 @@ export const Image = styled.img`
     position: absolute;
     z-index: 10;
     border-radius: 5px;
+
+    @media(max-width:768px) {
+        height:110px;
+    }
 `;
 
 
@@ -61,6 +79,10 @@ export const ImageTitle = styled.strong`
     border-bottom: 1px solid var(--blue-azure);
     border-top-right-radius: 100px;
     z-index: 10;
+
+    @media(max-width:768px) {
+        font-size:16px;   
+    }
 `;
 
 export const BoxText = styled.div`
@@ -81,6 +103,12 @@ export const BoxText = styled.div`
     :hover {
         opacity: 1;
         cursor: initial;
+    }
+
+    @media(max-width:768px) {
+        height:110px;
+        margin-top:-110px;
+
     }
 `;
 
