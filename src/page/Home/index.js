@@ -1,5 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
 
+import api from '../../services/api';
 import MenuFloat from '../../components/MenuFloat';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
@@ -28,38 +30,52 @@ import {
 } from './styles';
 import './style.css';
 
-
 const Home = () => {
 
-    const url = 'https://www.youtube.com/watch?v=VfpwNQoKhoQ&t=156s';
+    const ref = useRef();
 
-    function getYouTubeId(youtubeURL) {
-        return youtubeURL
-          .replace(
-            /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/,
-            '$7',
-          );
-    }    
+    //data home
+    const [ textMovie, setTextMovie ] = useState('');
+    const [ urlMovie, setUrlMovie ] = useState('');
+    const [ events, setEvents ] = useState([]);
+    const [ projects, setProjects ] = useState([]);
+    const [ idProject, setIdProject ] = useState(0);
+    const [ idProjectOne, setIdProjectOne ] = useState({});
 
-    const youTubeID = getYouTubeId(url);
-    const bgUrl = `https://img.youtube.com/vi/${youTubeID}/maxresdefault.jpg`;
-    const movieUrl = `https://www.youtube.com/embed/${youTubeID}`;
-
+    const [ activeImg, setActiveImg ] = useState(0);
+    
     const [ menu, setMenu ] = useState(false);
     const [ scrollCount, setScrollCount ] = useState(0);
     const [ modalStatus, setModalStatus ] = useState(false);
     const [ activeModal, setActiveModal ] = useState(false);
-    const [ boxContent, setBoxContent ] = useState(0);
+    const [ heightBox, setHeightBox ] = useState(0);
+    
+    
+    
+    useEffect(() => {
+        api.get('movies').then(response => {
+            setTextMovie(response.data[0].title);
+            setUrlMovie(response.data[0].url);
+        });
+
+        api.get('events').then(resEvent => {
+            setEvents(resEvent.data);
+        });
+
+        api.get('projects').then(resProjec => {
+            setProjects(resProjec.data);
+        });
+
+        setHeightBox(ref.current.clientHeight);
+    }, []);
 
     useEffect(() => {
-        const manangerHeightContainer = () => {
-            let valor = document.getElementById('box').offsetHeight - 160;
-            setBoxContent(valor);
-        }
-
-        manangerHeightContainer();
-    },[]);
-
+        api.get(`projects/${idProject}`).then(resProjectId => {
+            setIdProjectOne(resProjectId.data);
+        })
+    }, [idProject]);
+    
+    
     useEffect(() => {
         const manangerScrollPage = () => {
             window.addEventListener("scroll", function (event) {
@@ -73,18 +89,34 @@ const Home = () => {
                 } 
             });
         }
-
+        
         manangerScrollPage();
     }, []);
 
+    const url = urlMovie;    
 
-    const handleFocusModal = () => {
+    function getYouTubeId(youtubeURL) {
+        return youtubeURL
+          .replace(
+            /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/,
+            '$7',
+          );
+    } 
+    
+
+    const youTubeID = getYouTubeId(url);
+    const bgUrl = `https://img.youtube.com/vi/${youTubeID}/maxresdefault.jpg`;
+    const movieUrl = `https://www.youtube.com/embed/${youTubeID}`;
+   
+    const handleFocusModal = ( id ) => {
+        setIdProject(id);
         setModalStatus(true);
     }
-
+    
     const handleCloseModal = (e) => {
         if( e.target.classList.contains('ModalBg')) {
             setModalStatus(false);
+            setActiveImg(0);
         }
     }
 
@@ -92,8 +124,15 @@ const Home = () => {
         setActiveModal(true);
     }
 
+    const handleRenderImg = ( id ) => {
+        setActiveImg(id);
+    }    
+
     return (
         <> 
+            <HomeFamilyBackground />
+
+
             <Header />
 
             {/* ################### MENU SCROLL PARA WEB ########################## */}
@@ -116,72 +155,47 @@ const Home = () => {
                                 </svg>
                                 <h1>arangas Club</h1>
                             </div>
-                            <h2>Confira o encontro realizado em 16/12/2020</h2>
+                            <h2 >{textMovie}</h2>
                         </div>
                         <div 
                             className="boxInfoMovie" 
                             style={{backgroundImage:`url(${bgUrl})`}}
                             onClick={handleActiveModal}
-                            >
+                        >
                         </div>
                     </div>
                 </HeaderOpacity> 
             </HeaderBackground>
 
-            <HomeGoupContent id="box" >
+            <HomeGoupContent  ref={ref} >
                 <HomeContent scroll={scrollCount} >
-                <div className="home-content" >
+                <div className="home-content">
                     <h1 className="content" >Calendário de eventos</h1>
                     <HomeEventsTitle scroll={scrollCount} >
                         <h2 className="events-calendary" >EVENTOS E PASSEIOS</h2>
                         <hr />
                     </HomeEventsTitle>                   
-                        <HomeEventsBox scroll={scrollCount}>
-                            <div className="events-block">
-                                <img src={bgUrl} alt="Encontro" />
-                                <div>
-                                    <h2>Passeio com destino a cidade de Argoverde</h2>
-                                    <p>Domingo 15/12/2020 às 08:00 horas todos os garangueiros estárão saindo
-                                        da praça Mestre Dominguinhos com destino a Arcoverde com parada
-                                        obrigatória em fulano de tal o maior colecionador de artigos 
-                                        e peças para veículos antigos
-                                    </p>
-                                </div>
-                            </div>
-                        </HomeEventsBox>
-                        <HomeEventsBox scroll={scrollCount}>
-                            <div className="events-block">
-                                <img src={bgUrl} alt="Encontro" />
-                                <div>
-                                    <h2>Passeio com destino a cidade de Argoverde</h2>
-                                    <p>Domingo 15/12/2020 às 08:00 horas todos os garangueiros estárão saindo
-                                        da praça Mestre Dominguinhos com destino a Arcoverde com parada
-                                        obrigatória em fulano de tal o maior colecionador de artigos 
-                                        e peças para veículos antigos
-                                    </p>
-                                </div>
-                            </div>
-                        </HomeEventsBox>
-                        <HomeEventsBox scroll={scrollCount}>
-                            <div className="events-block">
-                                <img src={bgUrl} alt="Encontro" />
-                                <div>
-                                    <h2>Passeio com destino a cidade de Argoverde</h2>
-                                    <p>Domingo 15/12/2020 às 08:00 horas todos os garangueiros estárão saindo
-                                        da praça Mestre Dominguinhos com destino a Arcoverde com parada
-                                        obrigatória em fulano de tal o maior colecionador de artigos 
-                                        e peças para veículos antigos
-                                    </p>
-                                </div>
-                            </div>
-                        </HomeEventsBox>
+                    {events.map(event => {
+                            return (
+                                <HomeEventsBox key={event.id} scroll={scrollCount}>
+                                    <div className="events-block">
+                                        <img src={event.url} alt="Encontro" />
+                                        <div>
+                                            <h2>{event.title}</h2>
+                                            <p>{event.description}</p>
+                                            <p className="date">{event.date}</p>
+                                        </div>
+                                    </div>
+                                </HomeEventsBox>
+                            );
+                        })}
                 </div>
                 </HomeContent>
             </HomeGoupContent>
 
-            <HomeFamilyBackground />
+            {/* <HomeFamilyBackground /> */}
 
-            <HomeFamily resetContent={boxContent} >
+            <HomeFamily resetContent={heightBox + (events.length * 110) } >
                 <HomeFamilyText scroll={scrollCount} >Mais que amigos, uma verdadeira Família</HomeFamilyText>
             </HomeFamily>
 
@@ -197,66 +211,36 @@ const Home = () => {
                     <HomeRestaurationHr scroll={scrollCount} />
 
                     <div className="projects" >
-                        <HomeRestaurationProjects scroll={scrollCount} >
-                            <div className="box" >
-                                <div className="box-image" >
-                                    <img src="https://i.ytimg.com/vi/35BPUoqR3pE/maxresdefault.jpg" alt="Restauration" />
-                                    <strong>Fusca do Neto</strong>
-                                </div>
-                                <div className="box-text" >
-                                    <h2>Restauração completa</h2>
-                                    <p>Restauração geral do fusca herois exterior e interior</p>
-                                    <div className="box-button" >
-                                        <span 
-                                            className="details-button" 
-                                            onClick={handleFocusModal}
-                                        >
-                                            Detalhes
-                                        </span>
+                        {projects.slice(0, 4).map(project => {
+                            return (
+                                <HomeRestaurationProjects scroll={scrollCount} >
+                                    <div className="box" >
+                                        <div className="box-image" >
+                                            <img src={project.images[0].url} alt="Restauration" />
+                                            <strong>{project.name}</strong>
+                                        </div>
+                                        <div className="box-text" >
+                                            <h2>{project.title}</h2>
+                                            <p>{project.description.substring(0, 100)}...</p>
+                                            <div className="box-button" >
+                                                <span 
+                                                    className="details-button" 
+                                                    onClick={() => handleFocusModal(project.id)}
+                                                >
+                                                    Detalhes
+                                                </span>
+                                            </div>
+                                        </div>                                                                
                                     </div>
-                                </div>                                                                
-                            </div>
-                        </HomeRestaurationProjects> 
-                        <HomeRestaurationProjects scroll={scrollCount} >
-                            <div className="box" >
-                                <div className="box-image" >
-                                    <img src="https://i.ytimg.com/vi/F775LJib1GQ/hqdefault.jpg" alt="Restauration" />
-                                    <strong>Fusca do Simão</strong>
-                                </div>
-                                <div className="box-text" >
-                                    <h2>Serviço de funilaria e pintura</h2>
-                                    <p>Restauração geral do fusca herois exterior e interior</p>
-                                    <div className="box-button" >
-                                        <span 
-                                            className="details-button" 
-                                            onClick={handleFocusModal}
-                                        >
-                                            Detalhes
-                                        </span>
-                                    </div>
-                                </div>                                                                
-                            </div>
-                        </HomeRestaurationProjects> 
-                        <HomeRestaurationProjects scroll={scrollCount} >
-                            <div className="box" >
-                                <div className="box-image" >
-                                    <img src="https://s3.amazonaws.com/muzeez/uploads/galleries/large/galleriesFiles/T8yse8HNjJbTYS5LK-6659933ef79ee46b2a2dd4f9f43e21ed.jpg" alt="Restauration" />
-                                    <strong>Fusca do Francisco</strong>
-                                </div>
-                                <div className="box-text" >
-                                    <h2>Tapeceria completa</h2>
-                                    <p>Restauração geral do fusca herois exterior e interior</p>
-                                    <div className="box-button" >
-                                        <span 
-                                            className="details-button"
-                                            onClick={handleFocusModal} 
-                                        >
-                                            Detalhes
-                                        </span>
-                                    </div>
-                                </div>                                                                
-                            </div>
-                        </HomeRestaurationProjects> 
+                                </HomeRestaurationProjects>  
+                            );
+                        })}
+                    </div>
+
+                    <div className="projects-total" >
+                        <Link className="projects-button" to="/projects" style={{textDecoration:'none'}} >
+                            Veja todos os Projetos
+                        </Link>
                     </div>
                 </div>
             </HomeRestauration>
@@ -266,15 +250,49 @@ const Home = () => {
             }
             
             <Container 
+                // projectId={idProject}
                 className="ModalBg"
                 status={modalStatus} 
                 onClick={handleCloseModal}
             >
                     <ModalBody>
-                        sadf sadfsasad ad,.<br/>
-                        sadf sadfsasad ad,.<br/>
-                        sadf sadfsasad ad,.<br/>
-                        sadf sadfsasad ad,.<br/>
+                        <div className="projects-details" >                            
+                            {idProjectOne.images &&
+                                <img 
+                                    className="image-featured"
+                                    src={idProjectOne.images[activeImg].url} 
+                                    alt={idProjectOne.name}
+                                />
+                            }
+
+                            {idProjectOne.images && idProjectOne.images.map((thumbImg, index ) => {
+                                return (
+                                    <button 
+                                        key={thumbImg.id} 
+                                        className={activeImg === index ? 'active' : ''} 
+                                        type="button"
+                                        onClick={() => handleRenderImg(index)}
+                                    >
+                                        <img 
+                                            className="image-thumb"
+                                            src={thumbImg.url}
+                                            alt={thumbImg.name}
+                                        />
+                                    </button>
+                                );
+                            })}
+                        </div> 
+
+                        <div className="projects-body" >                              
+                            <h2>{idProjectOne.title}</h2> 
+
+                            <p className="project-description" >{idProjectOne.description}</p>
+
+                            <p className="project-future-projects" >
+                                <strong>Melhoramentos futuros. </strong>
+                                {idProjectOne.future_projects}
+                            </p>
+                        </div>                                               
                     </ModalBody>
             </Container>
 

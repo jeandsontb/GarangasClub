@@ -6,7 +6,9 @@ import Historic from './page/Historic';
 import CarSale from './page/CarsSale';
 import Members from './page/Members';
 import Partners from './page/Partners';
+import Projects from './page/Projects';
 import NotFound from './page/NotFound';
+
 
 export default () => {
     return (
@@ -25,6 +27,9 @@ export default () => {
             </Route>
             <Route exact path="/Partners">
                 <Partners />
+            </Route>
+            <Route exact path="/Projects">
+                <Projects />
             </Route>
             <Route  >
                 <NotFound />

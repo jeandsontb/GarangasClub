@@ -1,5 +1,18 @@
 import styled from 'styled-components/macro';
 
+export const HomeFamilyBackground = styled.section`
+    display:block;
+    position:fixed;
+    background-image: url('/assets/fundo.jpg'); 
+    background-size: cover;
+    background-repeat:no-repeat;
+    left:0;
+    top:0;
+    right:0;
+    bottom:0;
+    z-index:0 !important;
+`;
+
 export const HeaderBackground = styled.section`
     display:flex; 
     position:relative;
@@ -17,7 +30,7 @@ export const HeaderBackground = styled.section`
 
 export const HeaderOpacity = styled.div`
     background-color:rgba(139,69,19, 0.5);
-    width:100vw;
+    width:100%;
     height:calc(100vh - 120px);
 
     @media(max-width: 768px) {
@@ -33,14 +46,14 @@ export const HomeGoupContent = styled.section`
     background-color:var(--grey-soft);
     z-index: 98;
     padding-bottom:50px;
+    width: 100vw !important;
 `;
 
 export const HomeContent = styled.div`
     position:relative;
     background-color:var(--grey-soft);
     width: 80%;
-    height:auto;
-    margin-left:10%;
+    margin-left:10%; 
     margin-top:${props => props.scroll > 190 ? -150 : 0}px;
     z-index:98 !important;
     transition:all ease .8s; 
@@ -67,7 +80,7 @@ export const HomeEventsBox = styled.div`
     margin-left: ${props => props.scroll > 195 ? 20 : -30}px;
     margin-right: 20px;
     transform:scale(0.95);
-    transition: all ease .5s;
+    transition: all ease .2s;
     cursor:pointer;
 
     :hover {
@@ -79,31 +92,32 @@ export const HomeEventsBox = styled.div`
     }
 `;
     
-export const HomeFamilyBackground = styled.section`
-    display:block;
-    position:fixed;
-    background-image: url('/assets/fundo.jpg'); 
-    background-size: cover;
-    background-repeat:no-repeat;
-    left:0;
-    top:0;
-    right:0;
-    bottom:0;
-    z-index:0 !important;
-`;
+// export const HomeFamilyBackground = styled.section`
+//     display:block;
+//     position:fixed;
+//     background-image: url('/assets/fundo.jpg'); 
+//     background-size: cover;
+//     background-repeat:no-repeat;
+//     left:0;
+//     top:0;
+//     right:0;
+//     bottom:0;
+//     z-index:0 !important;
+// `;
 
 export const HomeFamily = styled.section`
     display:flex;
     align-items: center;
     justify-content:center;
     position: relative;
-    z-index: 20;
-    height:200px;
+    z-index: 95;
+    height:200px; /// meche aqui para tirar a div fosca do codigo
     background-color: rgba(0,0,0, 0.5);
-    margin-top:${props => props.resetContent}px;
+    width:100vw !important;
+    margin-top:${props => props.resetContent - 150}px;
 
     @media(max-width:768px) {
-        margin-top:${props => props.resetContent + 50}px;
+        margin-top:${props => props.resetContent + 300}px;
     }    
 `;
 
@@ -117,8 +131,8 @@ export const HomeFamilyText = styled.h1`
 
 
     @media(max-width:768px) {
-        opacity:${props => props.scroll > 1500 ? 1 : 0};
-        margin-left: ${props => props.scroll > 1500 ? 0 : -100 }px;
+        opacity:${props => props.scroll > 700 ? 1 : 0};
+        margin-left: ${props => props.scroll > 700 ? 0 : -100 }px;
         font-size:18px;
         text-align:center;
         margin-top:10px;
@@ -131,6 +145,7 @@ export const HomeFamilyDescription = styled.section`
     position: relative;
     z-index: 20;
     height:100px;
+    width:100vw !important;
     background-color:var(--blue-relative);
 `;
 
@@ -143,8 +158,8 @@ export const HomeFamilyDescriptionText = styled.h1`
     transition: all ease .6s;
 
     @media(max-width:768px) {
-        opacity:${props => props.scroll > 1600 ? 1 : 0};
-        margin-right: ${props => props.scroll > 1600 ? 0 : -100 }px;
+        opacity:${props => props.scroll > 750 ? 1 : 0};
+        margin-right: ${props => props.scroll > 750 ? 0 : -100 }px;
     }
 `;
 
@@ -170,8 +185,8 @@ export const HomeRestaurationText = styled.h1`
     transition: all ease .6s;
 
     @media(max-width:768px) {
-        opacity:${props => props.scroll > 1600 ? 1 : 0};
-        margin-left: ${props => props.scroll > 1600 ? 0 : 100 }px;
+        opacity:${props => props.scroll > 850 ? 1 : 0};
+        margin-left: ${props => props.scroll > 850 ? 0 : 100 }px;
         font-size:18px;
     }
 `;
@@ -185,8 +200,8 @@ export const HomeRestaurationHr = styled.hr`
     transition: all ease .6s;
 
     @media(max-width:768px) {
-        opacity:${props => props.scroll > 1700 ? 1 : 0};
-        margin-left: ${props => props.scroll > 1700 ? 0 : 100 }px;
+        opacity:${props => props.scroll > 900 ? 1 : 0};
+        margin-left: ${props => props.scroll > 900 ? 0 : 100 }px;
         font-size:18px;
     }
 `;
@@ -203,8 +218,8 @@ export const HomeRestaurationProjects = styled.div`
     border-radius:5px;
 
     @media(max-width:768px) {
-        opacity:${props => props.scroll > 1800 ? 1 : 0};
-        margin-top: ${props => props.scroll > 1800 ? 0 : 200 }px;
+        opacity:${props => props.scroll > 1000 ? 1 : 0};
+        margin-top: ${props => props.scroll > 1000 ? 0 : 200 }px;
         width:100%;
         margin-bottom:20px;
     }
@@ -222,9 +237,20 @@ export const Container = styled.div`
     
     justify-content:center;
     align-items:center;
+
+    @media(max-width:768px) {
+        margin:0;
+        padding:0;
+        z-index:99999999;
+        align-items:unset;
+        justify-content:center;
+        width:100vw;
+    }
 `;
 
 export const ModalBody = styled.div`
+    display: flex;
+    flex-direction:row;
     padding:15px;
     background-color:var(--grey-soft);
     border-radius:20px;
@@ -232,5 +258,17 @@ export const ModalBody = styled.div`
     max-width:90vw;
     max-height:95vh;
     overflow:hidden;
+    padding-bottom: 150px;
 
+    @media(max-width:768px) {
+        flex-direction:column;
+        padding:0;
+        width: 100vw;
+        max-height:80vh;
+        min-height:60vh;
+        margin:0;
+        align-items:unset;
+        border-top-left-radius:0;
+        border-top-right-radius:0;
+    }
 `;

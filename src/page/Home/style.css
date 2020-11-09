@@ -110,15 +110,23 @@
 .home-content .events-block div h2 {
     font-family: Roboto;
     color: var(--brown-active);
-    font-size: 18px;
+    font-size: 22px;
     margin-bottom: 8px;
 }
 
 
 .home-content .events-block div p {
     font-family: Roboto;
+    font-size: 16px;
+    color: var(--brown-active);
+}
+
+.home-content .events-block div p.date {
+    font-family: Roboto;
     font-size: 14px;
     color: var(--brown-active);
+    margin-top: 10px;
+    font-weight: bold;
 }
 
 
@@ -204,7 +212,7 @@
     display: flex;
     justify-content: center;
     margin-top: 30px;
-    font-weight: 300;
+    font-weight: 300;    
 }
 
 .projects .box .box-text .box-button {
@@ -229,12 +237,100 @@
     border: 1px solid rgba(255, 255, 255, 0.5);
 }
 
+.projects-details {
+    max-width: 500px;
+    max-height: 320px;
+    margin-right: 20px;
+}
+
+.projects-details .image-featured {
+    width: 500px;
+    height: 320px;
+    object-fit: cover;
+    border-radius: 10px;
+    box-shadow: 1px 0 6px #000000;
+}
+
+.projects-details button {
+    background: none;
+    overflow: hidden;
+    outline: none;
+    border: 0;
+    margin-left: 4px;
+    cursor: pointer;
+    border-radius: 15px;
+    margin-top: 10px;
+    opacity: 0.50;
+    transition: 0.2s;
+}
+
+.projects-details button.active {
+    opacity: 1;
+}
+
+.projects-details .image-thumb {
+    width: 80px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 5px;
+    border: none;
+}
+
+.projects-body {
+    background-color: rgb(245, 244, 244);
+    border-radius: 15px;
+    padding: 10px;
+    height: auto;
+}
+
+.projects-body h2 {
+    text-align: center;
+    font-family: McLaren;
+    color: var(--blue-strong);
+    margin-top: 10px;
+}
+
+.projects-body .project-description {
+    font-family: Roboto;
+    color: var(--brown-active);
+    margin-top: 50px;
+}
+
+.projects-body .project-future-projects {
+    font-family: Roboto;
+    color: var(--brown-active);
+    margin-top: 20px;
+}
+
+.projects-total {
+    margin-top: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.projects-total .projects-button {
+    background-color: var(--blue-strong);
+    border: none;
+    overflow: hidden;
+    outline: none;
+    cursor: pointer;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-size: 20px;
+    font-family: Roboto;
+    color: var(--blue-azure);
+    transition: 0.2s;
+}
+
+.projects-total .projects-button:hover {
+    opacity: 0.9;
+}
+
 @media(max-width: 768px) {
     .boxInfo {
         flex-direction: column;
         padding-top: 100px;
-        padding-left: 10px;
-        padding-right: 10px;
     }
 
     .boxInfo .boxInfoText {
@@ -244,7 +340,7 @@
 
     .boxInfo .boxInfoText .boxInfoTextSvg {
         width: 250px;
-        margin-left: 15%;
+        margin-left: 8%;
     }
 
     .boxInfo .boxInfoText h1 {
@@ -255,7 +351,7 @@
 
     .boxInfo .boxInfoText h2 {
         font-size: 18px;
-        margin-top: calc(100vh - 170% );
+        margin-top: calc(100vh - 210% );
     }
 
     .boxInfo .boxInfoMovie {
@@ -297,5 +393,47 @@
         flex-direction: column;
     }
 
+    .projects-details {
+        max-width: 100%;
+        max-height: auto;
+        padding: 0;
+        margin-right: 0;
+    }
+
+    .projects-details .image-featured {
+        width:100%;
+        height: 220px;
+        object-fit: cover;
+        border-radius: 0;
+        margin-right: 0;
+        box-shadow: 1px 0 6px #000000;
+        margin-bottom: -5px;
+    }
+
+    .projects-details .image-thumb {
+        width: 60px;
+        height: 80px;
+        object-fit: cover;
+        border: none;
+    }
+
+    .projects-details button {
+        border-radius: 8px;
+    }
+
+    .projects-body {
+        overflow:auto;
+        padding: 10px;
+        margin-top: 10px;
+        height: 100%;
+    }
+
+    .projects-body h2 {
+        font-size: 16px;
+    }
+
+    .projects-body .project-description { 
+        margin-top: 10px;
+    }
 
 }
