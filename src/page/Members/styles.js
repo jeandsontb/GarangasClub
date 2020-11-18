@@ -15,15 +15,46 @@ export const Container = styled.section`
     padding-bottom:50px;
 `;
 
+export const ContainerTitle = styled.div`
+    padding-top:80px; 
+
+    @media(max-width:768px) {
+        padding-top:100px;
+    }   
+`;
+
+export const ContainerTitleText = styled.h1`
+    font-family: McLaren;
+    color: var(--blue-strong);
+    transition: all ease .6s;
+    margin-left:15%;
+
+    @media(max-width:768px) {
+        font-size:18px;
+    }
+`;
+
+export const ContainerTitleLine = styled.hr`
+    border: 2px solid var(--brown-active);
+    max-width: 40%;
+    transition: all ease .6s;
+    margin-left:15%;
+    margin-top:10px;
+
+    @media(max-width:768px) {
+
+    }
+`;
+
 export const Members = styled.div`
     display:flex;
     flex-wrap: wrap;
     margin-left:10%;
     margin-right:10%;
-    margin-top:80px;
+    margin-top:20px;
 
     @media(max-width:768px) {
-        flex-direction:column;
+        flex-direction:column; 
     }
 `;
 
@@ -161,6 +192,160 @@ export const ShowButton = styled.button`
 export const ShowButtonTitle = styled.strong`
     color:var(--grey-soft);
     font-size:18px;
+`;
+
+
+
+export const ContainerModal = styled.div`
+    display:${props => props.status ? 'flex' : 'none'};
+    position:fixed;
+    left:0;
+    top:0;
+    right:0;
+    bottom:0;
+    background-color: rgba(0,0,0, 0.7);
+    z-index:900;
+    
+    justify-content:center;
+    align-items:center;
+
+    @media(max-width:768px) {
+        margin:0;
+        padding:0;
+        z-index:99999999;
+        align-items:unset;
+        justify-content:center;
+        width:100vw;
+    }
+`;
+
+export const ModalBody = styled.div`
+    display: flex;
+    flex-direction:row;
+    padding:15px;
+    background-color:var(--grey-soft);
+    border-radius:20px;
+    box-shadow: 0px 0px 50px #000;
+    max-width:90vw;
+    max-height:95vh;
+    overflow:hidden;
+    padding-bottom: 150px;
+
+    @media(max-width:768px) {
+        flex-direction:column;
+        padding:0;
+        width: 100vw;
+        max-height:80vh;
+        min-height:60vh;
+        margin:0;
+        align-items:unset;
+        border-top-left-radius:0;
+        border-top-right-radius:0;
+    }
+`;
+
+export const MemberDetail = styled.div`
+    max-width: 500px;
+    max-height: 320px;
+    margin-right: 20px;
+
+    @media(max-width:768px) {
+        max-width: 100%;
+        max-height: auto;
+        padding: 0;
+        margin-right: 0;
+    }
+`;
+
+export const MemberImgIndex = styled.img`
+    width: 500px;
+    height: 320px;
+    object-fit: cover;
+    border-radius: 10px;
+    box-shadow: 1px 0 6px #000000;
+
+    @media(max-width:768px) {
+        width:100%;
+        height: 220px;
+        object-fit: cover;
+        border-radius: 0;
+        margin-right: 0;
+        box-shadow: 1px 0 6px #000000;
+        margin-bottom: -5px;
+    }
+`;
+
+export const MemberButtonThumb = styled.button`
+    background: none;
+    overflow: hidden;
+    outline: none;
+    border: 0;
+    margin-left: 4px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 10px;
+    opacity: ${props => props.className === 'active' ? 1 : 0.5};
+    transition: 0.2s;
+
+    @media(max-width:768px) {
+        border-radius: 8px;
+    }
+`;
+
+export const MemberButtonThumbImage = styled.img`
+    width: 60px;
+    height: 70px;
+    object-fit: cover;
+    border-radius: 5px;
+    border: none;
+
+    @media(max-width:768px) {
+        width: 40px;
+        height: 50px;
+        object-fit: cover;
+        border: none;
+    }
+`;
+
+export const MemberBody = styled.div`
+    background-color: rgb(245, 244, 244);
+    border-radius: 15px;
+    padding: 10px;
+    height: auto;
+
+    @media(max-width:768px) {
+        overflow:auto;
+        padding: 10px;
+        margin-top: 10px;
+        height: 100%;
+    }
+`;
+
+export const MemberBodyTitle = styled.h2`
+    text-align: center;
+    font-family: McLaren;
+    color: var(--blue-strong);
+    margin-top: 10px;
+
+    @media(max-width:768px) {
+        font-size: 16px;
+    }
+`;
+
+export const MemberBodyDescription = styled.p`
+    font-family: Roboto;
+    color: var(--brown-active);
+    margin-top: 50px;
+
+    @media(max-width:768px) {
+        margin-top: 10px;
+    }
+`;
+
+export const MemberBodyFuture = styled.p`
+    font-family: Roboto;
+    color: var(--brown-active);
+    margin-top: 20px;
 `;
 
 

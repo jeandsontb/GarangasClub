@@ -13,7 +13,11 @@ export const Container = styled.section`
 `;
 
 export const ContainerTitle = styled.div`
-    padding-top:80px;    
+    padding-top:80px;   
+
+    @media(max-width:768px) {
+        padding-top:100px;
+    }  
 `;
 
 export const ContainerTitleText = styled.h1`
@@ -246,7 +250,7 @@ export const ProjetcButtonThumb = styled.button`
     border: 0;
     margin-left: 4px;
     cursor: pointer;
-    border-radius: 15px;
+    border-radius: 5px;
     margin-top: 10px;
     opacity: ${props => props.className === 'active' ? 1 : 0.5};
     transition: 0.2s;
@@ -257,15 +261,15 @@ export const ProjetcButtonThumb = styled.button`
 `;
 
 export const ProjectButtonThumbImage = styled.img`
-    width: 80px;
-    height: 100px;
+    width: 60px;
+    height: 70px;
     object-fit: cover;
     border-radius: 5px;
     border: none;
 
     @media(max-width:768px) {
-        width: 60px;
-        height: 80px;
+        width: 40px;
+        height: 50px;
         object-fit: cover;
         border: none;
     }

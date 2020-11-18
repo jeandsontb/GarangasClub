@@ -35,7 +35,6 @@ import {
 const Projects = () => {
 
     const [ menu, setMenu ] = useState(false);
-    const [ scrollCount, setScrollCount ] = useState(0);
     const [ idProject, setIdProject ] = useState(0);
     const [ projects, setProjects ] = useState([]);
     const [ modalStatus, setModalStatus ] = useState(false);
@@ -51,7 +50,6 @@ const Projects = () => {
         const manangerScrollPage = () => {
             window.addEventListener("scroll", function (event) {
                 let scroll = this.scrollY;
-                setScrollCount(scroll);
                 
                 if( scroll > 180 ){
                     setMenu(true);           
@@ -65,7 +63,7 @@ const Projects = () => {
     }, []);
 
     useEffect(() => {
-        api.get(`projects/${idProject}`).then(resProjectId => {
+        api.get(`projects/${idProject}`).then(resProjectId => { 
             setIdProjectOne(resProjectId.data);
         })
     }, [idProject]);
@@ -134,7 +132,7 @@ const Projects = () => {
             >
                     <ModalBody>
                         <ProjectDetail>
-                            {idProjectOne.images &&
+                            {idProjectOne.images && 
                                 <ProjectImgIndex 
                                     src={idProjectOne.images[activeImg].url} 
                                     alt={idProjectOne.name}
