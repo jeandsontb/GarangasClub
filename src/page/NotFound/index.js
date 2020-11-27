@@ -12,14 +12,12 @@ import {
 const NotFound = () => {
 
     const [ menu, setMenu ] = useState(false);
-    const [ scrollCount, setScrollCount ] = useState(0);
 
 
     useEffect(() => {
         const manangerScrollPage = () => {
             window.addEventListener("scroll", function (event) {
                 let scroll = this.scrollY;
-                setScrollCount(scroll);
                 
                 if( scroll > 180 ){
                     setMenu(true);           

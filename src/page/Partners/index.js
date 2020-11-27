@@ -5,21 +5,23 @@ import MenuMobile from '../../components/MenuMobile';
 import MenuFloat from '../../components/MenuFloat';
 import Footer from '../../components/Footer';
 import {  
-    HeadPartners
+    HeadPartners,
+    Container,
+    ContainerTitle,
+    ContainerTitleText,
+    ContainerTitleLine,
 } from './styles';
 
 
 const Partners = () => {
 
     const [ menu, setMenu ] = useState(false);
-    const [ scrollCount, setScrollCount ] = useState(0);
 
 
     useEffect(() => {
         const manangerScrollPage = () => {
             window.addEventListener("scroll", function (event) {
                 let scroll = this.scrollY;
-                setScrollCount(scroll);
                 
                 if( scroll > 180 ){
                     setMenu(true);           
@@ -38,8 +40,16 @@ const Partners = () => {
                 <Header />
                 <MenuFloat active={menu}/>
                 <MenuMobile />
-
             </HeadPartners>
+
+
+            <Container>
+                <ContainerTitle>
+                    <ContainerTitleText>PARCEIROS</ContainerTitleText>
+                    <ContainerTitleLine  />
+                </ContainerTitle>
+
+            </Container>
 
 
             <Footer />

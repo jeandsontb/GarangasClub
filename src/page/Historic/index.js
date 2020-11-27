@@ -7,6 +7,9 @@ import Footer from '../../components/Footer';
 import {  
     HeadHistoric,
     Content,
+    ContainerTitle,
+    ContainerTitleLine,
+    ContainerTitleText,
     ContentBox,
     ContentImage,
     ContentBoxText,
@@ -16,14 +19,12 @@ import {
 const Historic = () => {
 
     const [ menu, setMenu ] = useState(false);
-    const [ scrollCount, setScrollCount ] = useState(0);
 
 
     useEffect(() => {
         const manangerScrollPage = () => {
             window.addEventListener("scroll", function (event) {
                 let scroll = this.scrollY;
-                setScrollCount(scroll);
                 
                 if( scroll > 180 ){
                     setMenu(true);           
@@ -45,6 +46,12 @@ const Historic = () => {
             </HeadHistoric>
 
             <Content>
+
+                <ContainerTitle>
+                    <ContainerTitleText>HISTÓRIA</ContainerTitleText>
+                    <ContainerTitleLine  />
+                </ContainerTitle>
+
                 <ContentBox>
                     <ContentImage src="/assets/historic.jpg" alt="Primeiro encontro" />
                     <ContentBoxText>

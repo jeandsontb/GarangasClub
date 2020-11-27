@@ -12,12 +12,43 @@ export const Content = styled.section`
     padding:20px 0;
 `;
 
+export const ContainerTitle = styled.div`
+    padding-top:60px; 
+
+    @media(max-width:768px) {
+        padding-top:80px;
+    }   
+`;
+
+export const ContainerTitleText = styled.h1`
+    font-family: McLaren;
+    color: var(--blue-strong);
+    transition: all ease .6s;
+    margin-left:15%;
+
+    @media(max-width:768px) {
+        font-size:18px;
+    }
+`;
+
+export const ContainerTitleLine = styled.hr`
+    border: 2px solid var(--brown-active);
+    max-width: 40%;
+    transition: all ease .6s;
+    margin-left:15%;
+    margin-top:10px;
+
+    @media(max-width:768px) {
+
+    }
+`;
+
 export const ContentBox = styled.div`
     display:flex;
     flex-direction:column;
     width:80%;
     margin-left:10%;
-    margin-top:80px;
+    margin-top:40px;
     background-color:var(--white-active);
     padding:20px;
     border-radius:10px;

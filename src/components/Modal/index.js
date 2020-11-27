@@ -17,7 +17,7 @@ export default ({ url, closeModal }) => {
         <Container className="ModalContent" onClick={handleModalClose} >
             <Content> 
                 <Player >
-                    <iframe src = {url} >                            
+                    <iframe src = {url} title={url} >                            
                     </iframe>
                 </Player>
             </Content>
