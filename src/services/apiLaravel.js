@@ -215,7 +215,50 @@ export default () => {
           getMembers: async () => {
             let json = await request('get', `/member`, {});
             return json;
+          },
+          addFileMember: async (file) => {
+            let token =  localStorage.getItem('token');
+            let formData = new FormData();
+            formData.append('photo', file);
+          
+            let  req = await fetch(`${baseUrl}/member/file/restrict`, {
+                method: 'POST',
+                headers: {
+                  'Authorization': `Bearer ${token}`,
+                },
+                body: formData,
+              });
+              let json = await req.json();
+              return json; 
+          },
+          addMember: async (cover, photos, name, title, description) => {
+            let token =  localStorage.getItem('token'); 
+        
+            let json = await request('post', `/member/restrict`, {
+              name,              
+              title,
+              description,
+              cover,
+              photos
+            }, token);
+            return json;
+          },
+          addEditMember: async (id, cover, photos, name, title, description) => {
+            let token =  localStorage.getItem('token'); 
+        
+            let json = await request('post', `/member/restrict/${id}`, {
+              name,              
+              title,
+              description,
+              cover,
+              photos
+            }, token);
+            return json;
+          },
+          removeMember: async (id) => {
+            let token =  localStorage.getItem('token');
+            let json = await request('delete', `/member/restrict/${id}`, {}, token);
+            return json;
           }
- 
     };       
 }

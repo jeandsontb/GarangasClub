@@ -59,7 +59,7 @@ const Insertions = () => {
     const [futureProject, setFutureProject] = useState('');
 
     const [dataMember, setDataMember] = useState({});
-    const [idMember, setMember] = useState(0);
+    const [idMember, setIdMember] = useState(0);
     const [formMember, setFormMember] = useState(false);
     const [formEditMember, setFormEditMember] = useState(false);
     const [photoMember, setPhotoMember] = useState({});
@@ -258,6 +258,12 @@ const Insertions = () => {
         setPhotoFilesProject([]);
         getDataProject();
         setFormMember(false);
+        setFormEditMember(false);
+        setNameMember('');
+        setTitleMember('');                
+        setDescriptionMember('');
+        setPhotoFileMember('')
+        setPhotoFilesMember([]);
     }
 
     const handleEditLinkYoutube = (data) => {
@@ -666,11 +672,133 @@ const Insertions = () => {
 
     //********************************************** -- funções api Member -- *********************
 
+    const handleImageMemberForm = async (file) => {
+        if(file) {
+            setPhotoFileMember('');
+            setPhotoMember(file.target.files[0].name);
+            let fileMember = await api.addFileMember(file.target.files[0]);
+            setPhotoFileMember(fileMember.photo);
+        }
+    }
+
+    const handleImagesMemberForm = async (file) => {
+        file.persist();
+        if(file) {
+            let countFiles = [];
+            for(let i = 0; i < file.target.files.length; i++){
+                countFiles.push(i);
+            }
+            setPhotoFilesLoadingMember(countFiles);
+
+            let list = [...photoFilesMember];
+            for(let i = 0; i < file.target.files.length; i++) {                
+                let result = await api.addFileMember(file.target.files[i]);
+                if(result.error === '') {
+                    list.push(result.photo);
+                } else {
+                    alert(result.error);
+                }
+            }
+            setPhotoFilesLoadingMember([]);
+            setPhotoFilesMember(list.reverse());            
+        }
+    }
+
+    const sendValuesFormMember = async () => {
+        if(photoFileMember !== '' && nameMember !== '' && titleMember !== '' && descriptionMember !== '') {
+            setLoadingButton(true);
+
+            const result = await api.addMember(photoFileMember, photoFilesMember, nameMember, titleMember, descriptionMember);
+            setLoadingButton(false);
+            if(result.error === '') {
+                setFormMember(false);
+                setPhotoFileMember('');
+                setNameMember('');
+                setTitleMember('');                
+                setDescriptionMember('');
+                setPhotoFileMember('')
+                setPhotoFilesMember([]);
+                getDataMember();
+            } else {
+                alert(result.error);
+            }
+        } else {
+            alert("Preencha todos os campos do formulário");
+        }
+    }
+
+    const sendValuesFormEditMember = async (id) => {
+        if(photoFileMember !== '' && nameMember !== '' && titleMember !== '' && descriptionMember !== '') {
+            setLoadingButton(true);
+
+            const result = await api.addEditMember(id, photoFileMember, photoFilesMember, nameMember, titleMember, descriptionMember);
+            setLoadingButton(false);
+            if(result.error === '') {
+                setFormMember(false);
+                setFormEditMember(false);
+                setPhotoFilesLoadingMember(false);
+                setPhotoFileMember('');
+                setNameMember('');
+                setTitleMember('');                
+                setDescriptionMember('');
+                setPhotoFileMember('')
+                setPhotoFilesMember([]);
+                getDataMember();
+            } else {
+                alert(result.error);
+            }
+        } else {
+            alert("Preencha todos os campos do formulário");
+        }
+    }
+    
+
+    const handleRemoveMember = async (id) => {
+        if(id) {
+            setLoadingButton(true);
+            const result = await api.removeMember(id);
+            setLoadingButton(false);
+            if(result.error === '') {
+                setFormMember(false);
+                setNameMember('');
+                setTitleMember('');                
+                setDescriptionMember('');
+                setPhotoFileMember('')
+                setPhotoFilesMember([]);
+                getDataMember();
+            } else {
+                alert(result.error);
+            }
+        } else {
+            alert('Não foi possível alterar a postagem.');
+        }
+    }
 
 
     //*************************************** -- funções operacional Member -- *********************
     const handleOpenFormMemberClick = () => {
         setFormMember(true);
+        setNameMember('');
+        setTitleMember('');                
+        setDescriptionMember('');
+        setPhotoFileMember('')
+        setPhotoFilesMember([]);
+    }
+
+    const handlePhotoArrayRemoveMember = (url) => {
+        let list = [...photoFilesMember];
+        list = list.filter(urls => urls !== url);
+        setPhotoFilesMember(list);
+    }
+
+    const handleEditMember = async (data) => {
+        setFormEditMember(true);
+        setIdMember(data.id);
+        setPhotoFileMember(data.cover);
+        setPhotoFilesMember(data.photos);
+        setNameMember(data.name);
+        setTitleMember(data.title);
+        setDescriptionMember(data.description);
     }
 
     //############################################################################ - BODY - ########
@@ -1138,25 +1266,25 @@ const Insertions = () => {
                                             Adicionar  <br />Imagem de <br /> Capa
                                         </S.InputFiles>
 
-                                        {photoProject && photoProject.length > 0 && photoFileProject.length === 0 &&
+                                        {photoMember && photoMember.length > 0 && photoFileMember.length === 0 &&
                                             <S.BoxImageLoadin>
                                                 <S.FileImage alt="Load foto" src="../../assets/ajax-loader.gif" />
                                             </S.BoxImageLoadin>
                                         }
-                                        {photoFileProject && photoFileProject.length > 0 &&
+                                        {photoFileMember && photoFileMember.length > 0 &&
                                             <>
-                                                <S.FileImagePhoto alt="Foto do projeto" src={photoFileProject} /> 
+                                                <S.FileImagePhoto alt="Foto do projeto" src={photoFileMember} /> 
                                             </>
                                         }
                                         
                                         <S.Files 
-                                            onChange={handleImageProjectForm} 
+                                            onChange={handleImageMemberForm} 
                                             name="file" 
                                             type="file" 
                                             id="image" 
                                         />
                                         <S.Files 
-                                            onChange={handleImagesProjectForm} 
+                                            onChange={handleImagesMemberForm} 
                                             multiple
                                             name="imageFiles" 
                                             type="file" 
@@ -1164,21 +1292,119 @@ const Insertions = () => {
                                         />
                                     </S.BoxFilexImage>
                                     <S.BoxFilexImageArray>
-                                        {photoFileProject && photoFileProject.length > 0 &&
+                                        {photoFileMember && photoFileMember.length > 0 &&
                                             <>                                                
                                                 <S.InputFiles htmlFor="imageFiles" style={{marginLeft: '15px'}} >
                                                     Adicionar <br /> imagens do <br /> projeto
                                                 </S.InputFiles>
 
-                                                {photoFilesLoadingProjects && photoFilesLoadingProjects.map((item, index) => (
+                                                {photoFilesLoadingMember && photoFilesLoadingMember.map((item, index) => (
                                                     <S.BoxImageLoadin key={index}>
                                                         <S.FileImage alt="Load foto" src="../../assets/ajax-loader.gif" />
                                                     </S.BoxImageLoadin>
                                                 ))}
                                                 
 
-                                                {photoFilesProject && photoFilesProject.map((item, index) => (
+                                                {photoFilesMember && photoFilesMember.map((item, index) => (
                                                     <S.FileImagePhoto key={index} alt="Foto do projeto" src={item} />
+                                                ))}
+
+                                            </>
+                                        }
+                                    </S.BoxFilexImageArray>
+
+                                    <S.LabelForms>Digite o nome do membro:</S.LabelForms>
+                                    <S.InputForms 
+                                        type="text" 
+                                        value={nameMember}
+                                        onChange={e => setNameMember(e.target.value)} 
+                                    />
+
+                                    <S.LabelForms>Digite o título:</S.LabelForms>
+                                    <S.InputForms 
+                                        type="text" 
+                                        value={titleMember}
+                                        onChange={e => setTitleMember(e.target.value)} 
+                                    />
+                                    <S.LabelForms>Digite a descrição:</S.LabelForms>
+                                    <S.InputFormsTextArea 
+                                        type="text" 
+                                        value={descriptionMember}
+                                        onChange={e => setDescriptionMember(e.target.value)} 
+                                    ></S.InputFormsTextArea>
+                                    <S.ButtonForms type="button" onClick={sendValuesFormMember} >
+                                        {loadingButton ? 'Enviando Dados' : 'Enviar Dados'} 
+                                    </S.ButtonForms>
+                                </S.BoxForm>                                
+                            </S.BoxForm>
+                        }
+
+
+
+
+
+
+                        {formEditMember &&
+                            <S.BoxForm>                            
+                                <S.ButtonClose type="button" onClick={handleCloseFormClick} >
+                                    Fechar
+                                </S.ButtonClose>
+                                
+
+                                <S.BoxForm style={{boxShadow: 'none'}}>
+                                    <S.BoxFilexImage>
+                                        <S.InputFiles htmlFor="image" >
+                                            Adicionar  <br />Imagem de <br /> Capa
+                                        </S.InputFiles>
+
+                                        {photoMember && photoMember.length > 0 && photoFileMember.length === 0 &&
+                                            <S.BoxImageLoadin>
+                                                <S.FileImage alt="Load foto" src="../../assets/ajax-loader.gif" />
+                                            </S.BoxImageLoadin>
+                                        }
+                                        {photoFileMember && photoFileMember.length > 0 &&
+                                            <>
+                                                <S.FileImagePhoto alt="Foto do projeto" src={photoFileMember} /> 
+                                            </>
+                                        }
+                                        
+                                        <S.Files 
+                                            onChange={handleImageMemberForm} 
+                                            name="file" 
+                                            type="file" 
+                                            id="image" 
+                                        />
+                                        <S.Files 
+                                            onChange={handleImagesMemberForm} 
+                                            multiple
+                                            name="imageFiles" 
+                                            type="file" 
+                                            id="imageFiles" 
+                                        />
+                                    </S.BoxFilexImage>
+                                    <S.BoxFilexImageArray>
+                                        {photoFileMember && photoFileMember.length > 0 &&
+                                            <>                                                
+                                                <S.InputFiles htmlFor="imageFiles" style={{marginLeft: '15px'}} >
+                                                    Adicionar <br /> imagens do <br /> projeto
+                                                </S.InputFiles>
+
+                                                {photoFilesLoadingMember && photoFilesLoadingMember.map((item, index) => (
+                                                    <S.BoxImageLoadin key={index}>
+                                                        <S.FileImage alt="Load foto" src="../../assets/ajax-loader.gif" />
+                                                    </S.BoxImageLoadin>
+                                                ))}
+                                                
+
+                                                {photoFilesMember && photoFilesMember.map((item, index) => (
+                                                    <S.BoxFileImagePhoto key={index}>
+                                                        <S.FileImagePhoto  alt="Foto do projeto" src={item} />
+                                                        <S.BoxFileImagePhotoClose
+                                                            onClick={() => handlePhotoArrayRemoveMember(item)}
+                                                        >
+                                                            <S.TitleClosePhoto>X</S.TitleClosePhoto>
+                                                        </S.BoxFileImagePhotoClose>
+                                                    </S.BoxFileImagePhoto>                                                    
                                                 ))}
 
                                             </>
@@ -1188,29 +1414,23 @@ const Insertions = () => {
                                     <S.LabelForms>Digite o nome do proprietário:</S.LabelForms>
                                     <S.InputForms 
                                         type="text" 
-                                        value={nameProject}
-                                        onChange={e => setNameProject(e.target.value)} 
+                                        value={nameMember}
+                                        onChange={e => setNameMember(e.target.value)} 
                                     />
 
                                     <S.LabelForms>Digite o título:</S.LabelForms>
                                     <S.InputForms 
                                         type="text" 
-                                        value={titleProject}
-                                        onChange={e => setTitleProject(e.target.value)} 
+                                        value={titleMember}
+                                        onChange={e => setTitleMember(e.target.value)} 
                                     />
                                     <S.LabelForms>Digite a descrição:</S.LabelForms>
                                     <S.InputFormsTextArea 
                                         type="text" 
-                                        value={descriptionProject}
-                                        onChange={e => setDescriptionProject(e.target.value)} 
+                                        value={descriptionMember}
+                                        onChange={e => setDescriptionMember(e.target.value)} 
                                     ></S.InputFormsTextArea>
-                                    <S.LabelForms>Digite os projetos futuros:</S.LabelForms>
-                                    <S.InputForms 
-                                        type="text" 
-                                        value={futureProject}
-                                        onChange={e => setFutureProject(e.target.value)} 
-                                    />
-                                    <S.ButtonForms type="button" onClick={sendValuesFormProject} >
+                                    <S.ButtonForms type="button" onClick={() => sendValuesFormEditMember(idMember)} >
                                         {loadingButton ? 'Enviando Dados' : 'Enviar Dados'} 
                                     </S.ButtonForms>
                                 </S.BoxForm>                                
@@ -1240,10 +1460,10 @@ const Insertions = () => {
     
                                 <S.BoxButton>
                                     <S.ButtonEdit 
-                                        onClick={() => handleEditProject(item)} >
+                                        onClick={() => handleEditMember(item)} >
                                         Alterar Publicação
                                     </S.ButtonEdit>
-                                    <S.ButtonDelete onClick={() => handleRemoveProject(item.id)}>
+                                    <S.ButtonDelete onClick={() => handleRemoveMember(item.id)}>
                                         {loadingButton ? 'Removendo Publicação' : 'Remover Publicação'}
                                     </S.ButtonDelete>
                                 </S.BoxButton>
