@@ -70,10 +70,11 @@ const Home = () => {
     }, []);
 
     useEffect(() => {
+        setIdProjectOne({});
         api.get(`projects/${idProject}`).then(resProjectId => {
             setIdProjectOne(resProjectId.data);
-        })
-    }, [idProject]);
+        });
+    }, [idProject, modalStatus]);
     
     
     useEffect(() => {
@@ -116,6 +117,7 @@ const Home = () => {
     const handleCloseModal = (e) => {
         if( e.target.classList.contains('ModalBg')) {
             setModalStatus(false);
+            setIdProjectOne({});
             setActiveImg(0);
         }
     }
@@ -255,7 +257,15 @@ const Home = () => {
                 status={modalStatus} 
                 onClick={handleCloseModal}
             >
-                    <ModalBody>
+
+                    {!idProjectOne &&
+                        <div>
+                            <p color="#FFF" >Carregando...</p>
+                        </div>
+                    }
+
+                    {idProjectOne &&
+                        <ModalBody>
                         <div className="projects-details" >                            
                             {idProjectOne.images &&
                                 <img 
@@ -282,18 +292,18 @@ const Home = () => {
                                 );
                             })}
                         </div> 
-
+                        
                         <div className="projects-body" >                              
                             <h2>{idProjectOne.title}</h2> 
 
                             <p className="project-description" >{idProjectOne.description}</p>
 
-                            <p className="project-future-projects" >
-                                <strong>Melhoramentos futuros. </strong>
+                            <p className="project-future-projects" >    
                                 {idProjectOne.future_projects}
                             </p>
-                        </div>                                               
+                        </div>                                              
                     </ModalBody>
+                    }                    
             </Container>
 
             <Footer />

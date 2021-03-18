@@ -8,6 +8,8 @@ import Members from './page/Members';
 import Partners from './page/Partners';
 import Projects from './page/Projects';
 import NotFound from './page/NotFound';
+import Insertions from './page/Insertions';
+import Admin from './page/Admin';
 
 
 export default () => {
@@ -25,11 +27,17 @@ export default () => {
             <Route exact path="/members">
                 <Members />
             </Route>
-            <Route exact path="/Partners">
+            <Route exact path="/partners">
                 <Partners />
             </Route>
-            <Route exact path="/Projects">
+            <Route exact path="/projects">
                 <Projects />
+            </Route>
+            <Route exact path="/insertions">
+                <Insertions />
+            </Route>
+            <Route exact path="/admin">
+                <Admin />
             </Route>
             <Route  >
                 <NotFound />
