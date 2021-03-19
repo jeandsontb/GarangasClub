@@ -17,12 +17,13 @@ export default () => {
         const checkLogin = async () => {
             if(api.getToken()){
                 setLoading(true);
+                const permission = api.getPermissionUser(); 
                 const result = await api.validateToken();
                 setLoading(false);
-                if(result.error === '') {
+                if(result.error === '' && permission === '1') {
                     history.push('/insertions');
                 } else {
-                    alert(result.error);
+                    alert(result.error+' Essa conta não tem permissão para acessar a área de administrador');
                     history.push('/admin');                    
                 }
             } else {
@@ -35,11 +36,13 @@ export default () => {
     const handleLoginButton = async () => {
         if(cpf && password) {
             const result = await api.login(cpf, password);
-            if(result.error === '') {
+            let permissionUser = result.user.admin;
+            if(result.error === '' && permissionUser === 1 ) {
+                localStorage.setItem('permission', result.user.admin);
                 localStorage.setItem('token', result.token);
                 history.push('/insertions');
             } else {
-                alert(result.error);
+                alert(result.error !== '' ? result.error : 'Usuário não tem permissão para acessar essa área');
             }
         } else {
             alert("digite os dados para acessar");

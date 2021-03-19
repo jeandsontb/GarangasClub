@@ -17,7 +17,8 @@ const Insertions = () => {
     const [viewMembers, setViewMembers] = useState(false);
     const [viewHistory, setViewHistory] = useState(false);
     const [viewPartners, setViewPartners] = useState(false);
-    const [viewCarSale, setViewCarSale] = useState(true);
+    const [viewCarSale, setViewCarSale] = useState(false);
+    const [viewUser, serViewUser] = useState(false);
 
     const [formLink, setFormLink] = useState(false);
     const [dataLinkYoutube, setDataLinkYoutube] = useState({});
@@ -70,6 +71,41 @@ const Insertions = () => {
     const [titleMember, setTitleMember] = useState('');
     const [descriptionMember, setDescriptionMember] = useState('');
 
+    const [dataCarSale, setDataCarSale] = useState({});
+    const [idCarSale, setIdCarSale] = useState(0);
+    const [formCarSale, setFormCarSale] = useState(false);
+    const [formEditCarSale, setFormEditCarSale] = useState(false);
+    const [photoCarSale, setPhotoCarSale] = useState({});
+    const [photoFileCarSale, setPhotoFileCarSale] = useState('');
+    const [photoFilesCarSale, setPhotoFilesCarSale] = useState([]);
+    const [photoFilesLoadingCarSale, setPhotoFilesLoadingCarSale] = useState([]);
+    const [nameCarSale, setNameCarSale] = useState('');
+    const [titleCarSale, setTitleCarSale] = useState('');
+    const [descriptionCarSale, setDescriptionCarSale] = useState('');
+    const [phoneCarSale, setPhoneCarSale] = useState('');
+    const [priceCarSale, setPriceCarSale] = useState('');
+
+    const [dataUser, setDataUser] = useState({});
+    const [idUser, setIdUser] = useState(0);
+    const [formUser, setFormUser] = useState(false);
+    const [formEditUser, setFormEditUser] = useState(false);
+    const [nameUser, setNameUser] = useState('');
+    const [emailUser, setEmailUser] = useState('');
+    const [cpfUser, setCpfUser] = useState('');
+    const [passUser, setPassUser] = useState('');
+    const [passUserConfirm, setPassUserConfirm] = useState('');
+    const [adminUserChecked, setAdminUserChecked] = useState(false);
+    const [adminUser, setAdminUser] = useState(0);
+
+    const [formEditPartner, setFormEditPartner] = useState(false);
+    const [formPartner, setFormPartner] = useState(false);
+    const [dataPartners, setDataPartners] = useState({});
+    const [titlePartner, setTitlePartner] = useState('');
+    const [photoPartner, setPhotoPartner] = useState({});
+    const [photoFilePartner, setPhotoFilePartner] = useState('');
+    const [idEditFormPartner, setIdEditFormPartner] = useState(0);
+
+
 
     //#################################################################### - EFFECT - ###########
  
@@ -77,12 +113,13 @@ const Insertions = () => {
         const checkLogin = async () => {
             if(api.getToken()){
                 setLoading(true);
-                const result = await api.validateToken();                
+                const permission = api.getPermissionUser();                
+                const result = await api.validateToken();
                 setLoading(false);
-                if(result.error === '') {
+                if(result.error === '' && permission === '1') {
                     history.push('/insertions');
                 } else {
-                    alert(result.error);
+                    alert(result.error+' Essa conta não tem permissão para acessar a área de administrador');
                     history.push('/admin');                    
                 }
             } else {
@@ -90,13 +127,22 @@ const Insertions = () => {
             }            
         }    
         checkLogin();
+        getDataCarSale();
+        getDataProject();
+        getDataMember();
         getDataLinkYoutube();
         getDataEvent();
         getDataHistoric();
-        getDataProject();
-        getDataMember();
+        getDataUser();
+        getDataPartner();
     }, []);
 
+    useEffect(() => {
+        setTimeout(() => {
+            localStorage.clear();
+            history.push('/admin');
+        }, 7200000);
+    }, []);
 
     //##################################################################### - FUNCTIONS - #########
 
@@ -152,6 +198,36 @@ const Insertions = () => {
             alert(result.error);
         }
     }
+
+    const getDataCarSale = async () => {
+        setDataCarSale({});
+        const result = await api.getCarSale();
+        if(result.error === '') {
+            setDataCarSale(result.data);
+        } else {    
+            alert(result.error);
+        }
+    }
+
+    const getDataUser = async () => {
+        setDataUser({});
+        const result = await api.getUser();
+        if(result.error === '') {
+            setDataUser(result.data);
+        } else {    
+            alert(result.error);
+        }
+    }
+
+    const getDataPartner = async () => {
+        setDataPartners({});
+        const result = await api.getPartners();
+        if(result.error === '') {
+            setDataPartners(result.data);
+        } else {    
+            alert(result.error);
+        }
+    }
     
     const handleLogoutClick = async () => {
         await api.logout();
@@ -169,6 +245,7 @@ const Insertions = () => {
                 setViewPartners(false);
                 setViewProjects(false);
                 setFormLink(false);
+                serViewUser(false);
                 setViewCarSale(true);
             break;
             case 'viewEvents':
@@ -179,6 +256,7 @@ const Insertions = () => {
                 setViewPartners(false);
                 setViewProjects(false);
                 setFormLink(false);
+                serViewUser(false);
                 setViewEvents(true);
             break;
             case 'viewHistory':
@@ -189,6 +267,7 @@ const Insertions = () => {
                 setViewPartners(false);
                 setViewProjects(false);
                 setFormLink(false);
+                serViewUser(false);
                 setViewHistory(true);
             break;
             case 'viewLink':
@@ -199,6 +278,7 @@ const Insertions = () => {
                 setViewPartners(false);
                 setViewProjects(false);
                 setFormLink(false);
+                serViewUser(false);
                 setViewLink(true);
             break;
             case 'viewMembers':
@@ -209,6 +289,7 @@ const Insertions = () => {
                 setViewPartners(false);
                 setViewProjects(false);
                 setFormLink(false);
+                serViewUser(false);
                 setViewMembers(true);
             break;
             case 'viewPartners':
@@ -219,6 +300,7 @@ const Insertions = () => {
                 setViewMembers(false);
                 setViewProjects(false);
                 setFormLink(false);
+                serViewUser(false);
                 setViewPartners(true);
             break;
             case 'viewProjects':
@@ -229,7 +311,19 @@ const Insertions = () => {
                 setViewMembers(false);
                 setViewPartners(false);
                 setFormLink(false);
+                serViewUser(false);
                 setViewProjects(true);
+            break;
+            case 'viewUsers':
+                setViewEvents(false);
+                setViewHistory(false);
+                setViewLink(false);
+                setViewMembers(false);
+                setViewPartners(false);
+                setViewProjects(false);
+                setFormLink(false);
+                setViewCarSale(false);
+                serViewUser(true);
             break;
         }
     }
@@ -264,6 +358,26 @@ const Insertions = () => {
         setDescriptionMember('');
         setPhotoFileMember('')
         setPhotoFilesMember([]);
+        setFormCarSale(false);
+        setFormEditCarSale(false);
+        setPhotoFilesCarSale('');
+        setPhotoFilesLoadingCarSale([]);
+        setNameCarSale('');
+        setTitleCarSale('');                
+        setDescriptionCarSale('');
+        setPhoneCarSale('');
+        setPriceCarSale('');
+        setPhotoFileCarSale('')
+        setPhotoFilesCarSale([]);
+        setFormUser(false);
+        setFormEditUser(false);
+        setNameUser('');
+        setEmailUser('');
+        setPassUser('');
+        setCpfUser('');
+        setFormPartner(false);
+        setFormEditPartner(false);
+        setTitlePartner('');
     }
 
     const handleEditLinkYoutube = (data) => {
@@ -587,6 +701,8 @@ const Insertions = () => {
             setLoadingButton(false);
             if(result.error === '') {
                 setFormProject(false);
+                setPhotoProject({});
+                setPhotoFilesLoadingProjects([]);
                 setPhotoFileProject('');
                 setNameProject('');
                 setTitleProject('');                
@@ -612,6 +728,8 @@ const Insertions = () => {
             if(result.error === '') {
                 setFormProject(false);
                 setFormEditProject(false);
+                setPhotoProject({});
+                setPhotoFilesLoadingProjects([]);
                 setPhotoFileProject('');
                 setNameProject('');
                 setTitleProject('');                
@@ -791,7 +909,7 @@ const Insertions = () => {
         setPhotoFilesMember(list);
     }
 
-    const handleEditMember = async (data) => {
+    const handleEditMember = (data) => {
         setFormEditMember(true);
         setIdMember(data.id);
         setPhotoFileMember(data.cover);
@@ -800,6 +918,349 @@ const Insertions = () => {
         setTitleMember(data.title);
         setDescriptionMember(data.description);
     }
+
+    //############################### FUNÇÕES PARA CAR SALE ######################################### 
+
+    //********************************************** -- funções api Car Sale -- *********************
+
+    const handleImageCarSaleForm = async (file) => {
+        if(file) {
+            setPhotoFileCarSale('');
+            setPhotoCarSale(file.target.files[0].name);
+            let fileCarSale = await api.addFileCarSale(file.target.files[0]);
+            setPhotoFileCarSale(fileCarSale.photo);
+        }
+    }
+
+    const handleImagesCarSaleForm = async (file) => {
+        file.persist();
+        if(file) {
+            let countFiles = [];
+            for(let i = 0; i < file.target.files.length; i++){
+                countFiles.push(i);
+            }
+            setPhotoFilesLoadingCarSale(countFiles);
+
+            let list = [...photoFilesCarSale];
+            for(let i = 0; i < file.target.files.length; i++) {                
+                let result = await api.addFileCarSale(file.target.files[i]);
+                if(result.error === '') {
+                    list.push(result.photo);
+                } else {
+                    alert(result.error);
+                }
+            }
+            setPhotoFilesLoadingCarSale([]);
+            setPhotoFilesCarSale(list.reverse());            
+        }
+    }
+
+    const sendValuesFormCarSale = async () => {
+        if(photoFileCarSale !== '' && nameCarSale !== '' && titleCarSale !== '' && descriptionCarSale !== '' && phoneCarSale !== '' && priceCarSale !== '') {
+            setLoadingButton(true);
+
+            const result = await api.addCarSale(photoFileCarSale, photoFilesCarSale, nameCarSale, titleCarSale, descriptionCarSale, phoneCarSale, priceCarSale);
+            setLoadingButton(false);
+            if(result.error === '') {
+                setFormCarSale(false);
+                setPhotoFileCarSale('');
+                setNameCarSale('');
+                setTitleCarSale('');                
+                setDescriptionCarSale('');
+                setPhoneCarSale('');
+                setPriceCarSale('');
+                setPhotoFileCarSale('')
+                setPhotoFilesCarSale([]);
+                getDataCarSale();
+            } else {
+                alert(result.error);
+            }
+        } else {
+            alert("Preencha todos os campos do formulário");
+        }
+    }
+
+
+    const sendValuesFormEditCarSale = async (id) => {
+        if(photoFileCarSale !== '' && nameCarSale !== '' && titleCarSale !== '' && descriptionCarSale !== '' && phoneCarSale !== '' && priceCarSale !== '') {
+            setLoadingButton(true);
+
+            const result = await api.addEditCarSale(id, photoFileCarSale, photoFilesCarSale, nameCarSale, titleCarSale, descriptionCarSale, phoneCarSale, priceCarSale);
+            setLoadingButton(false);
+            if(result.error === '') {
+                setFormCarSale(false);
+                setFormEditCarSale(false);
+                setPhotoFileCarSale('');
+                setNameCarSale('');
+                setTitleCarSale('');                
+                setDescriptionCarSale('');
+                setPhoneCarSale('');
+                setPriceCarSale('');
+                setPhotoFileCarSale('')
+                setPhotoFilesCarSale([]);
+                getDataCarSale();
+            } else {
+                alert(result.error);
+            }
+        } else {
+            alert("Preencha todos os campos do formulário");
+        }
+    }
+
+
+    const handleRemoveCarSale = async (id) => {
+        if(id) {
+            setLoadingButton(true);
+            const result = await api.removeCarSale(id);
+            setLoadingButton(false);
+            if(result.error === '') {
+                setFormCarSale(false);
+                setNameCarSale('');
+                setTitleCarSale('');                
+                setDescriptionCarSale('');
+                setPhotoFileCarSale('')
+                setPhoneCarSale('');
+                setPriceCarSale('');
+                setPhotoFilesCarSale([]);
+                getDataCarSale();
+            } else {
+                alert(result.error);
+            }
+        } else {
+            alert('Não foi possível alterar a postagem.');
+        }
+    }
+
+
+    //*************************************** -- funções operacional Car Sale -- *********************
+
+    const handleOpenFormCarSaleClick = () => {
+        setFormCarSale(true);
+        setPhotoFilesLoadingCarSale([]);
+        setPhotoFilesCarSale('');
+        setPhotoCarSale({});
+        setNameCarSale('');
+        setTitleCarSale('');                
+        setDescriptionCarSale('');
+        setPhoneCarSale('');
+        setPriceCarSale('');
+        setPhotoFileCarSale('')
+        setPhotoFilesCarSale([]);
+    }
+
+    const handlePhotoArrayRemoveCarSale = (url) => {
+        let list = [...photoFilesCarSale];
+        list = list.filter(urls => urls !== url);
+        setPhotoFilesCarSale(list);
+    }
+
+    const handleEditCarSale = (data) => {
+        setFormEditCarSale(true);
+        setIdCarSale(data.id);
+        setPhotoFileCarSale(data.cover);
+        setPhotoFilesCarSale(data.photos);
+        setNameCarSale(data.name);
+        setTitleCarSale(data.title);
+        setDescriptionCarSale(data.description);
+        setPhoneCarSale(data.phone);
+        setPriceCarSale(data.price);
+    }
+
+    //################################### FUNÇÕES PARA USER ######################################### 
+
+    //********************************************** -- funções api User -- *********************
+
+    const sendFormUser = async () => {
+        if(nameUser !== '' && emailUser !== '' && cpfUser !== '' && passUser !== '' && passUserConfirm !== '' ) {
+            setLoadingButton(true);
+            const result = await api.addUser(nameUser, emailUser, cpfUser, passUser, passUserConfirm);
+            setLoadingButton(false);
+            if(result.error === '') {
+                setLoadingButton(false);
+                setFormUser(false);
+                setNameUser('');
+                setEmailUser('');
+                setCpfUser('');
+                setPassUser('');
+                setPassUserConfirm('');
+                getDataUser();
+            } else {
+                alert(result.error);
+            }
+        } else {
+            alert("Preencha todos os campos do formulário");
+        }
+    }
+
+    const sendFormEditUser = async (id) => {
+        if(nameUser !== '' && emailUser !== '') {
+            setLoadingButton(true);
+            const result = await api.editUser(id, nameUser, emailUser, passUser, passUserConfirm, adminUser);
+            setLoadingButton(false);
+            if(result.error === '') {
+                setLoadingButton(false);
+                setFormUser(false);
+                setFormEditUser(false);
+                setNameUser('');
+                setEmailUser('');
+                setCpfUser('');
+                setPassUser('');
+                setPassUserConfirm('');
+                getDataUser();
+            } else {
+                alert(result.error);
+            }
+        } else {
+            alert("Preencha todos os campos do formulário");
+        }
+    }
+
+    const handleRemoveUser = async (id) => {
+        if(id) {
+            setLoadingButton(true);
+            const result = await api.removeUser(id);
+            setLoadingButton(false);
+            if(result.error === '') {
+                setLoadingButton(false);
+                setFormUser(false);
+                setFormEditUser(false);
+                setNameUser('');
+                setEmailUser('');
+                setCpfUser('');
+                setPassUser('');
+                setPassUserConfirm('');
+                getDataUser();
+            } else {
+                alert(result.error);
+            }
+        } else {
+            alert('Não foi possível alterar a postagem.');
+        }
+    }
+
+
+    //*************************************** -- funções operacional User -- *********************
+
+    const handleOpenFormUserClick = () => {
+        setFormUser(true);
+    }
+
+    const handleEditUserClick = (data) => {
+        setFormEditUser(true);
+        setNameUser(data.name);
+        setEmailUser(data.email);
+        setCpfUser(data.cpf);
+        setAdminUser(data.admin);
+        setIdUser(data.id);
+        setPassUser('');
+        setPassUserConfirm('');
+
+        if(data.admin === 0) {
+            setAdminUserChecked(false);            
+        } else {
+            setAdminUserChecked(true);
+        }
+    }
+
+    
+    const handlerAdminUserChecked = () => {
+        if(adminUserChecked === false) {
+            setAdminUserChecked(true);
+            setAdminUser(1);
+        } else {
+            setAdminUserChecked(false);
+            setAdminUser(0);
+        }
+    }
+
+
+    //################################### FUNÇÕES PARA PARTNER ###################################### 
+
+    //******************************************** -- funções api Partner -- ************************
+
+    const handleImagePartnerForm = async (file) => {
+        if(file) {
+            setPhotoPartner(file.target.files[0].name);
+            let filePartner = await api.addFilePartner(file.target.files[0]);
+            setPhotoFilePartner(filePartner.photo);
+        }
+    }
+
+    const sendValuesFormPartner = async () => {
+        if(titlePartner !== '' && photoFilePartner.length > 0) {
+            setLoadingButton(true);
+            const result = await api.addPartner(photoFilePartner, titlePartner);
+            setLoadingButton(false);
+            if(result.error === '') {
+                setLoadingButton(false);
+                setFormPartner(false);
+                setPhotoPartner({});
+                setTitlePartner('');
+                setPhotoFilePartner('');
+                getDataPartner();
+            } else {
+                alert(result.error);
+            }
+        } else {
+            alert('Todos os campos tem que ser preenchidos!');
+        }
+    }
+
+    const sendEditValuesFormPartner = async (id) => {
+        if(titlePartner !== '' && photoFilePartner.length > 0) {
+            setLoadingButton(true);
+            const result = await api.setPartner(id, photoFilePartner, titlePartner);
+            setLoadingButton(false);
+            if(result.error === '') {
+                setLoadingButton(false);
+                setFormEditPartner(false);
+                setPhotoPartner({});
+                setTitlePartner('');
+                setPhotoFilePartner('');
+                getDataPartner();
+            } else {
+                alert(result.error);
+            }
+        } else {
+            alert('Todos os campos tem que ser preenchidos!');
+        }
+    }
+
+    const handleRemovePartner = async (id) => {
+        if(id) {
+            setLoadingButton(true);
+            const result = await api.removePartner(id);
+            setLoadingButton(false);
+            if(result.error === '') {
+                setLoadingButton(false);
+                setFormEditPartner(false);
+                setPhotoPartner({});
+                setTitlePartner('');
+                setPhotoFilePartner('');
+                getDataPartner();
+            } else {
+                alert(result.error);
+            }
+        } else {
+            alert('Não foi possível alterar a postagem.');
+        }
+    }
+
+
+    //*************************************** -- funções operacional Partner -- *********************
+
+    const handleOpenFormPartnerClick = () => {
+        setFormPartner(true);
+    }
+
+    const handleEditPartner = (data) => {   
+        setIdEditFormPartner(data.id);     
+        setPhotoFilePartner(data.photos);
+        setTitlePartner(data.title);
+        setFormEditPartner(true);
+    }
+
+
 
     //############################################################################ - BODY - ########
 
@@ -818,6 +1279,7 @@ const Insertions = () => {
                         <S.LinkText onClick={() => handleLinkClick('viewMembers')} > Membros</S.LinkText>
                         <S.LinkText onClick={() => handleLinkClick('viewPartners')} > Parceiros</S.LinkText>
                         <S.LinkText onClick={() => handleLinkClick('viewProjects')} > Projetos</S.LinkText>
+                        <S.LinkText onClick={() => handleLinkClick('viewUsers')} > Usuários</S.LinkText>
                 </S.BoxViews>
                 <S.Logout type="button" onClick={handleLogoutClick} >Sair</S.Logout>
             </S.BoxLeft>
@@ -829,9 +1291,254 @@ const Insertions = () => {
                         <S.TitleBoxesViews>CARROS À VENDA</S.TitleBoxesViews>
 
 
-                        <S.BoxResults></S.BoxResults>
+                        {formCarSale &&
+                            <S.BoxForm>                            
+                                <S.ButtonClose type="button" onClick={handleCloseFormClick} >
+                                    Fechar
+                                </S.ButtonClose>
+                                
 
-                        <S.ButtonAdicionar>Adicionar Carro</S.ButtonAdicionar>
+                                <S.BoxForm style={{boxShadow: 'none'}}>
+                                    <S.BoxFilexImage>
+                                        <S.InputFiles htmlFor="image" >
+                                            Adicionar  <br />Imagem de <br /> Capa
+                                        </S.InputFiles>
+
+                                        {photoCarSale && photoCarSale.length > 0 && photoFileCarSale.length === 0 &&
+                                            <S.BoxImageLoadin>
+                                                <S.FileImage alt="Load foto" src="../../assets/ajax-loader.gif" />
+                                            </S.BoxImageLoadin>
+                                        }
+                                        {photoFileCarSale && photoFileCarSale.length > 0 &&
+                                            <>
+                                                <S.FileImagePhoto alt="Foto do projeto" src={photoFileCarSale} /> 
+                                            </>
+                                        }
+                                        
+                                        <S.Files 
+                                            onChange={handleImageCarSaleForm} 
+                                            name="file" 
+                                            type="file" 
+                                            id="image" 
+                                        />
+                                        <S.Files 
+                                            onChange={handleImagesCarSaleForm} 
+                                            multiple
+                                            name="imageFiles" 
+                                            type="file" 
+                                            id="imageFiles" 
+                                        />
+                                    </S.BoxFilexImage>
+                                    <S.BoxFilexImageArray>
+                                        {photoFileCarSale && photoFileCarSale.length > 0 &&
+                                            <>                                                
+                                                <S.InputFiles htmlFor="imageFiles" style={{marginLeft: '15px'}} >
+                                                    Adicionar <br /> imagens do <br /> projeto
+                                                </S.InputFiles>
+
+                                                {photoFilesLoadingCarSale && photoFilesLoadingCarSale.map((item, index) => (
+                                                    <S.BoxImageLoadin key={index}>
+                                                        <S.FileImage alt="Load foto" src="../../assets/ajax-loader.gif" />
+                                                    </S.BoxImageLoadin>
+                                                ))}
+                                                
+
+                                                {photoFilesCarSale && photoFilesCarSale.map((item, index) => (
+                                                    <S.FileImagePhoto key={index} alt="Foto do projeto" src={item} />
+                                                ))}
+
+                                            </>
+                                        }
+                                    </S.BoxFilexImageArray>
+
+                                    <S.LabelForms>Digite o nome do proprietário:</S.LabelForms>
+                                    <S.InputForms 
+                                        type="text" 
+                                        value={nameCarSale}
+                                        onChange={e => setNameCarSale(e.target.value)} 
+                                    />
+
+                                    <S.LabelForms>Digite o nome do carro:</S.LabelForms>
+                                    <S.InputForms 
+                                        type="text" 
+                                        value={titleCarSale}
+                                        onChange={e => setTitleCarSale(e.target.value)} 
+                                    />
+                                    <S.LabelForms>Digite a descrição:</S.LabelForms>
+                                    <S.InputFormsTextArea 
+                                        type="text" 
+                                        value={descriptionCarSale}
+                                        onChange={e => setDescriptionCarSale(e.target.value)} 
+                                    ></S.InputFormsTextArea>
+                                    <S.LabelForms>Digite o telefone para contato:</S.LabelForms>
+                                    <S.InputForms 
+                                        type="text" 
+                                        value={phoneCarSale}
+                                        onChange={e => setPhoneCarSale(e.target.value)} 
+                                    />
+                                    <S.LabelForms>Digite o valor:</S.LabelForms>
+                                    <S.InputForms 
+                                        type="text" 
+                                        value={priceCarSale}
+                                        onChange={e => setPriceCarSale(e.target.value)} 
+                                    />
+                                    <S.ButtonForms type="button" onClick={sendValuesFormCarSale} >
+                                        {loadingButton ? 'Enviando Dados' : 'Enviar Dados'} 
+                                    </S.ButtonForms>
+                                </S.BoxForm>                                
+                            </S.BoxForm>
+                        }
+
+
+
+
+
+
+                        {formEditCarSale &&
+                            <S.BoxForm>                            
+                                <S.ButtonClose type="button" onClick={handleCloseFormClick} >
+                                    Fechar
+                                </S.ButtonClose>
+                                
+
+                                <S.BoxForm style={{boxShadow: 'none'}}>
+                                    <S.BoxFilexImage>
+                                        <S.InputFiles htmlFor="image" >
+                                            Adicionar  <br />Imagem de <br /> Capa
+                                        </S.InputFiles>
+
+                                        {photoCarSale && photoCarSale.length > 0 && photoFileCarSale.length === 0 &&
+                                            <S.BoxImageLoadin>
+                                                <S.FileImage alt="Load foto" src="../../assets/ajax-loader.gif" />
+                                            </S.BoxImageLoadin>
+                                        }
+                                        {photoFileCarSale && photoFileCarSale.length > 0 &&
+                                            <>
+                                                <S.FileImagePhoto alt="Foto do projeto" src={photoFileCarSale} /> 
+                                            </>
+                                        }
+                                        
+                                        <S.Files 
+                                            onChange={handleImageCarSaleForm} 
+                                            name="file" 
+                                            type="file" 
+                                            id="image" 
+                                        />
+                                        <S.Files 
+                                            onChange={handleImagesCarSaleForm} 
+                                            multiple
+                                            name="imageFiles" 
+                                            type="file" 
+                                            id="imageFiles" 
+                                        />
+                                    </S.BoxFilexImage>
+                                    <S.BoxFilexImageArray>
+                                        {photoFileCarSale && photoFileCarSale.length > 0 &&
+                                            <>                                                
+                                                <S.InputFiles htmlFor="imageFiles" style={{marginLeft: '15px'}} >
+                                                    Adicionar <br /> imagens do <br /> projeto
+                                                </S.InputFiles>
+
+                                                {photoFilesLoadingCarSale && photoFilesLoadingCarSale.map((item, index) => (
+                                                    <S.BoxImageLoadin key={index}>
+                                                        <S.FileImage alt="Load foto" src="../../assets/ajax-loader.gif" />
+                                                    </S.BoxImageLoadin>
+                                                ))}
+                                                
+
+                                                {photoFilesCarSale && photoFilesCarSale.map((item, index) => (
+                                                    <S.BoxFileImagePhoto key={index}>
+                                                        <S.FileImagePhoto  alt="Foto do projeto" src={item} />
+                                                        <S.BoxFileImagePhotoClose
+                                                            onClick={() => handlePhotoArrayRemoveCarSale(item)}
+                                                        >
+                                                            <S.TitleClosePhoto>X</S.TitleClosePhoto>
+                                                        </S.BoxFileImagePhotoClose>
+                                                    </S.BoxFileImagePhoto>                                                    
+                                                ))}
+
+                                            </>
+                                        }
+                                    </S.BoxFilexImageArray>
+
+                                    <S.LabelForms>Digite o nome do proprietário:</S.LabelForms>
+                                    <S.InputForms 
+                                        type="text" 
+                                        value={nameCarSale}
+                                        onChange={e => setNameCarSale(e.target.value)} 
+                                    />
+
+                                    <S.LabelForms>Digite o título:</S.LabelForms>
+                                    <S.InputForms 
+                                        type="text" 
+                                        value={titleCarSale}
+                                        onChange={e => setTitleCarSale(e.target.value)} 
+                                    />
+                                    <S.LabelForms>Digite a descrição:</S.LabelForms>
+                                    <S.InputFormsTextArea 
+                                        type="text" 
+                                        value={descriptionCarSale}
+                                        onChange={e => setDescriptionCarSale(e.target.value)} 
+                                    ></S.InputFormsTextArea>
+                                    <S.LabelForms>Digite o Telefone:</S.LabelForms>
+                                    <S.InputForms 
+                                        type="text" 
+                                        value={phoneCarSale}
+                                        onChange={e => setPhoneCarSale(e.target.value)} 
+                                    />
+                                    <S.LabelForms>Digite o valor:</S.LabelForms>
+                                    <S.InputForms 
+                                        type="text" 
+                                        value={priceCarSale}
+                                        onChange={e => setPriceCarSale(e.target.value)} 
+                                    />
+                                    <S.ButtonForms type="button" onClick={() => sendValuesFormEditCarSale(idCarSale)} >
+                                        {loadingButton ? 'Enviando Dados' : 'Enviar Dados'} 
+                                    </S.ButtonForms>
+                                </S.BoxForm>                                
+                            </S.BoxForm>
+                        }
+
+
+                        <S.BoxResults>
+                        {dataCarSale.length === 0 && 
+                            <>
+                              <S.LabelForms>Não existe publicações no momento!</S.LabelForms>
+                            </>
+                        }
+
+                        {dataCarSale.length > 0 && dataCarSale.map((item, index) => (
+                            <S.BoxInformationEvent key={index}>
+                                <S.BoxEventResults>
+                                    <S.BoxEventResultsImage>
+                                        <S.ImageEvent alt="Member" src={item.cover} />
+                                    </S.BoxEventResultsImage>
+                                    <S.BoxEventResultsDescription>
+                                        <S.LabelForms>{item.name}</S.LabelForms>
+                                        <S.InfoForms>{item.title}</S.InfoForms>
+                                    </S.BoxEventResultsDescription>
+                                </S.BoxEventResults>
+                               
+    
+                                <S.BoxButton>
+                                    <S.ButtonEdit 
+                                        onClick={() => handleEditCarSale(item)} >
+                                        Alterar Publicação
+                                    </S.ButtonEdit>
+                                    <S.ButtonDelete onClick={() => handleRemoveCarSale(item.id)}>
+                                        {loadingButton ? 'Removendo Publicação' : 'Remover Publicação'}
+                                    </S.ButtonDelete>
+                                </S.BoxButton>
+                            </S.BoxInformationEvent>
+                        ))}
+                        </S.BoxResults>
+
+                        <S.ButtonAdicionar
+                            type="button"
+                            onClick={handleOpenFormCarSaleClick}
+                        >
+                            Adicionar Carro
+                        </S.ButtonAdicionar>
                     </S.BoxCarSale>  
                 }
 {/*## Eventos ################################################################################# */}
@@ -1411,7 +2118,7 @@ const Insertions = () => {
                                         }
                                     </S.BoxFilexImageArray>
 
-                                    <S.LabelForms>Digite o nome do proprietário:</S.LabelForms>
+                                    <S.LabelForms>Digite o nome do membro:</S.LabelForms>
                                     <S.InputForms 
                                         type="text" 
                                         value={nameMember}
@@ -1484,10 +2191,138 @@ const Insertions = () => {
                     <S.BoxPartner>
                         <S.TitleBoxesViews>Parceiros</S.TitleBoxesViews>
 
+                        {formPartner &&
+                        <S.BoxForm>                            
+                            <S.ButtonClose type="button" onClick={handleCloseFormClick} >
+                                Fechar
+                            </S.ButtonClose>
+                            
 
-                        <S.BoxResults></S.BoxResults>
+                            <S.BoxForm style={{boxShadow: 'none'}}>
+                                <S.LabelForms>Adicione o banner do parceiro</S.LabelForms>
 
-                        <S.ButtonAdicionar>Adicionar Parceiro</S.ButtonAdicionar>
+                                <S.BoxFilexImage>
+                                     <S.InputFiles htmlFor="image" >
+                                        Adicionar <br /> imagem
+                                     </S.InputFiles>
+
+                                    {photoPartner && photoPartner.length > 0 && photoFilePartner.length === 0 &&
+                                        <S.BoxImageLoadin>
+                                            <S.FileImage alt="Load foto" src="../../assets/ajax-loader.gif" />
+                                        </S.BoxImageLoadin>
+                                    }
+                                    {photoFilePartner && photoFilePartner.length > 0 &&
+                                        <S.FileImagePhoto alt="Foto do evento" src={photoFilePartner} />                                    
+                                    }
+                                     
+                                    <S.Files 
+                                        onChange={handleImagePartnerForm} 
+                                        name="file" 
+                                        type="file" 
+                                        id="image" 
+                                    />
+                                </S.BoxFilexImage>
+
+                                <S.LabelForms>Digite o título:</S.LabelForms>
+                                <S.InputForms 
+                                    type="text" 
+                                    value={titlePartner}
+                                    onChange={e => setTitlePartner(e.target.value)} 
+                                />
+                                <S.ButtonForms type="button" onClick={sendValuesFormPartner} >
+                                    {loadingButton ? 'Enviando Dados' : 'Enviar Dados'} 
+                                </S.ButtonForms>
+                            </S.BoxForm>                                
+                        </S.BoxForm>
+                    }
+
+
+
+
+                    {formEditPartner &&
+                        <S.BoxForm>                            
+                            <S.ButtonClose type="button" onClick={handleCloseFormClick} >
+                                Fechar
+                            </S.ButtonClose>
+                            
+
+                            <S.BoxForm style={{boxShadow: 'none'}}>
+                                <S.LabelForms>Adicione o banner do parceiro</S.LabelForms>
+
+                                <S.BoxFilexImage>
+                                     <S.InputFiles htmlFor="image" >
+                                        Adicionar <br /> imagem
+                                     </S.InputFiles>
+
+                                    {photoPartner && photoPartner.length > 0 && photoFilePartner.length === 0 &&
+                                        <S.BoxImageLoadin>
+                                            <S.FileImage alt="Load foto" src="../../assets/ajax-loader.gif" />
+                                        </S.BoxImageLoadin>
+                                    }
+                                    {photoFilePartner && photoFilePartner.length > 0 &&
+                                        <S.FileImagePhoto alt="Foto do evento" src={photoFilePartner} />                                    
+                                    }
+                                     
+                                    <S.Files 
+                                        onChange={handleImagePartnerForm} 
+                                        name="file" 
+                                        type="file" 
+                                        id="image" 
+                                    />
+                                </S.BoxFilexImage>
+
+                                <S.LabelForms>Digite o título:</S.LabelForms>
+                                <S.InputForms 
+                                    type="text" 
+                                    value={titlePartner}
+                                    onChange={e => setTitlePartner(e.target.value)} 
+                                />
+                                <S.ButtonForms type="button" onClick={() => sendEditValuesFormPartner(idEditFormPartner)} >
+                                    {loadingButton ? 'Enviando Dados' : 'Enviar Dados'} 
+                                </S.ButtonForms>
+                            </S.BoxForm>                                
+                        </S.BoxForm>
+                    }
+
+
+                        <S.BoxResults>
+                        {dataPartners.length === 0 && 
+                            <>
+                              <S.LabelForms>Não existe publicações no momento!</S.LabelForms>
+                            </>
+                        }
+
+                        {dataPartners.length > 0 && dataPartners.map((item, index) => (
+                            <S.BoxInformationEvent key={index}>
+                                <S.BoxEventResults>
+                                    <S.BoxEventResultsImage>
+                                        <S.ImageEvent alt="Partner" src={item.photos} />
+                                    </S.BoxEventResultsImage>
+                                    <S.BoxEventResultsDescription>
+                                        <S.LabelForms>{item.title}</S.LabelForms>
+                                    </S.BoxEventResultsDescription>
+                                </S.BoxEventResults>
+                               
+    
+                                <S.BoxButton>
+                                    <S.ButtonEdit 
+                                        onClick={() => handleEditPartner(item)} >
+                                        Alterar Publicação
+                                    </S.ButtonEdit>
+                                    <S.ButtonDelete onClick={() => handleRemovePartner(item.id)}>
+                                        {loadingButton ? 'Removendo Publicação' : 'Remover Publicação'}
+                                    </S.ButtonDelete>
+                                </S.BoxButton>
+                            </S.BoxInformationEvent>
+                        ))}
+                        </S.BoxResults>
+
+                        <S.ButtonAdicionar
+                            type="button"
+                            onClick={handleOpenFormPartnerClick}
+                        >
+                            Adicionar Parceiro
+                        </S.ButtonAdicionar>
                     </S.BoxPartner>
                 }
 {/*## Projetos ################################################################################# */}
@@ -1732,6 +2567,154 @@ const Insertions = () => {
                             Adicionar Projeto
                         </S.ButtonAdicionar>
                     </S.BoxProject>
+                }
+
+{/*## Users ################################################################################ */}
+                {viewUser &&
+                    <S.BoxPartner>
+                        <S.TitleBoxesViews>Controle de acesso dos usuários</S.TitleBoxesViews>
+
+                        {formUser &&
+                            <S.BoxForm>                            
+                                <S.ButtonClose type="button" onClick={handleCloseFormClick} >
+                                    Fechar
+                                </S.ButtonClose>
+                                
+
+                                <S.BoxForm style={{boxShadow: 'none'}}>
+                                    <S.LabelForms>Digite o nome do usuário</S.LabelForms>
+                                    <S.InputForms 
+                                        type="text" 
+                                        value={nameUser}
+                                        onChange={e => setNameUser(e.target.value)} 
+                                    />
+                                    <S.LabelForms>Digite o e-mail</S.LabelForms>
+                                    <S.InputForms 
+                                        type="text" 
+                                        value={emailUser}
+                                        onChange={e => setEmailUser(e.target.value)} 
+                                    />
+                                    <S.LabelForms>Digite o cpf</S.LabelForms>
+                                    <S.InputForms 
+                                        type="text" 
+                                        value={cpfUser}
+                                        onChange={e => setCpfUser(e.target.value)} 
+                                    />
+                                    <S.LabelForms>Digite a senha</S.LabelForms>
+                                    <S.InputForms 
+                                        type="text" 
+                                        value={passUser}
+                                        onChange={e => setPassUser(e.target.value)} 
+                                    />
+                                    <S.LabelForms>Repita a senha</S.LabelForms>
+                                    <S.InputForms 
+                                        type="text" 
+                                        value={passUserConfirm}
+                                        onChange={e => setPassUserConfirm(e.target.value)} 
+                                    />
+                                    <S.ButtonForms type="button" onClick={sendFormUser} >
+                                        {loadingButton ? 'Enviando Dados' : 'Enviar Dados'} 
+                                    </S.ButtonForms>
+                                </S.BoxForm>                                
+                            </S.BoxForm>
+                        }
+
+
+
+
+
+
+                        {formEditUser &&
+                            <S.BoxForm>                            
+                                <S.ButtonClose type="button" onClick={handleCloseFormClick} >
+                                    Fechar
+                                </S.ButtonClose>
+                                
+
+                                <S.BoxForm style={{boxShadow: 'none'}}>
+                                    <S.LabelForms>Digite o nome do usuário</S.LabelForms>
+                                    <S.InputForms 
+                                        type="text" 
+                                        value={nameUser}
+                                        onChange={e => setNameUser(e.target.value)} 
+                                    />
+                                    <S.LabelForms>Digite o e-mail</S.LabelForms>
+                                    <S.InputForms 
+                                        type="text" 
+                                        value={emailUser}
+                                        onChange={e => setEmailUser(e.target.value)} 
+                                    />
+                                    <S.LabelForms>Digite o cpf</S.LabelForms>
+                                    <S.InputForms 
+                                        type="text" 
+                                        value={cpfUser}
+                                        onChange={e => setCpfUser(e.target.value)} 
+                                    />
+                                    <S.LabelForms>Digite a senha</S.LabelForms>
+                                    <S.InputForms 
+                                        type="text" 
+                                        value={passUser}
+                                        onChange={e => setPassUser(e.target.value)} 
+                                    />
+                                    <S.LabelForms>Repita a senha</S.LabelForms>
+                                    <S.InputForms 
+                                        type="text" 
+                                        value={passUserConfirm}
+                                        onChange={e => setPassUserConfirm(e.target.value)} 
+                                    />
+                                    <S.LabelForms>Definir como Administrador</S.LabelForms>
+                                    <S.InputBoxForms 
+                                        type="checkbox" 
+                                        checked={adminUserChecked}
+                                        onChange={handlerAdminUserChecked} 
+                                    />
+                                    <S.ButtonForms type="button" onClick={() => sendFormEditUser(idUser)} >
+                                        {loadingButton ? 'Enviando Dados' : 'Enviar Dados'} 
+                                    </S.ButtonForms>
+                                </S.BoxForm>                                
+                            </S.BoxForm>
+                        }
+
+                        
+
+                        <S.BoxResults>
+                        {dataUser.length === 0 && 
+                            <>
+                              <S.LabelForms>Não existe publicações no momento!</S.LabelForms>
+                            </>
+                        }
+
+                        {dataUser.length > 0 && dataUser.map((item, index) => (
+                            <S.BoxInformationEvent key={index}>
+                                <S.BoxEventResults>
+                                    <S.BoxEventResultsDescription>
+                                        <S.LabelForms>{item.name}</S.LabelForms>
+                                        <S.InfoForms>{item.email}</S.InfoForms>
+                                    </S.BoxEventResultsDescription>
+                                </S.BoxEventResults>
+                               
+    
+                                <S.BoxButton>
+                                    <S.ButtonEdit 
+                                        onClick={() => handleEditUserClick(item)} >
+                                        Alterar usuário
+                                    </S.ButtonEdit>
+                                    <S.ButtonDelete onClick={() => handleRemoveUser(item.id)}>
+                                        {loadingButton ? 'Removendo Usuário' : 'Remover Usuário'}
+                                    </S.ButtonDelete>
+                                </S.BoxButton>
+                            </S.BoxInformationEvent>
+                        ))}
+
+                        </S.BoxResults>
+
+                        <S.ButtonAdicionar
+                            type="button"
+                            onClick={handleOpenFormUserClick}
+                        >
+                            Adicionar Usuário
+                        </S.ButtonAdicionar>
+                    </S.BoxPartner>
                 }
             </S.BoxRight>                  
           </S.Container>  

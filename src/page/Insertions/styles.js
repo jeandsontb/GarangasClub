@@ -67,7 +67,6 @@ export default {
         padding-top:20px;
     `,
     BoxCarSale:styled.div`
-        background-color:#00FF00;
         width:100%;
         height:200px;
     `,
@@ -394,7 +393,6 @@ export default {
 
     //#################################################### - Partner -#######
     BoxPartner:styled.div`
-        background-color:#00FF00;
         width:100%;
         height:100%;
     `,
@@ -403,6 +401,63 @@ export default {
     BoxProject:styled.div`
         width:100%;
         height:100%;
+    `,
+
+
+    //#################################################### - User -#######
+    InputBoxForms:styled.input`
+        outline: none;
+        position: relative;
+        z-index: 1;
+        margin: 2px;
+        padding: 0;
+        cursor: pointer;
+        width: 220px;
+        height: 24px;
+        overflow: hidden;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+
+        ::before, ::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 2;
+
+            /*efeito animado*/
+            transition: left .15s cubic-bezier(.25, .8, .25, .1),
+                        transform .15s ease-in;
+        }
+
+        ::before {
+            background-color: #ccc;
+            width: 100%;
+            height: 100%;
+            border-radius: 28px;
+        }
+
+        ::after {
+            margin: 2px 0 0 2px;
+            background: #fff;
+            width: 20px;
+            height: 20px;
+            border-radius: 100%;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+        }
+
+        :checked::before {
+            background-color: #75a940;
+        }
+
+        :checked::after {
+            left: 196px;
+        }
+
+        :active::after {
+            transform: scale(1.15, 0.85);
+        }
     `,
 
 }

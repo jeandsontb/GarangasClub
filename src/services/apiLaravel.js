@@ -30,7 +30,10 @@ const request = async (method, endpoint, params, token = null) => {
 export default () => {
     return {
         getToken: () => {
-            return localStorage.getItem('token');
+          return localStorage.getItem('token');
+        },
+        getPermissionUser: () => {
+          return localStorage.getItem('permission');
         },
         validateToken: async () => {
             let token = localStorage.getItem('token');
@@ -197,7 +200,7 @@ export default () => {
           addEditProject: async (id, cover, photos, name, title, description, futureprojects) => {
             let token =  localStorage.getItem('token'); 
         
-            let json = await request('post', `/project/restrict/${id}`, {
+            let json = await request('post', `/project/admin/restrict/${id}`, {
               name,              
               title,
               description,
@@ -209,7 +212,7 @@ export default () => {
           },
           removeProject: async (id) => {
             let token =  localStorage.getItem('token');
-            let json = await request('delete', `/project/restrict/${id}`, {}, token);
+            let json = await request('delete', `/project/admin/restrict/${id}`, {}, token);
             return json;
           },
           getMembers: async () => {
@@ -246,7 +249,7 @@ export default () => {
           addEditMember: async (id, cover, photos, name, title, description) => {
             let token =  localStorage.getItem('token'); 
         
-            let json = await request('post', `/member/restrict/${id}`, {
+            let json = await request('post', `/member/admin/restrict/${id}`, {
               name,              
               title,
               description,
@@ -257,8 +260,133 @@ export default () => {
           },
           removeMember: async (id) => {
             let token =  localStorage.getItem('token');
-            let json = await request('delete', `/member/restrict/${id}`, {}, token);
+            let json = await request('delete', `/member/admin/restrict/${id}`, {}, token);
             return json;
-          }
+          },
+          getCarSale: async () => {
+            let json = await request('get', `/car/sale`, {});
+            return json;
+          },          
+          addFileCarSale: async (file) => {
+            let token =  localStorage.getItem('token');
+            let formData = new FormData();
+            formData.append('photo', file);
+          
+            let  req = await fetch(`${baseUrl}/car/sale/file/restrict`, {
+                method: 'POST',
+                headers: {
+                  'Authorization': `Bearer ${token}`,
+                },
+                body: formData,
+              });
+              let json = await req.json();
+              return json; 
+          },
+          addCarSale: async (cover, photos, name, title, description, phone, price) => {
+            let token =  localStorage.getItem('token'); 
+        
+            let json = await request('post', `/car/sale/restrict`, {
+              name,              
+              title,
+              description,
+              phone,
+              price,
+              cover,
+              photos
+            }, token);
+            return json;
+          },
+          addEditCarSale: async (id, cover, photos, name, title, description, phone, price) => {
+            let token =  localStorage.getItem('token'); 
+        
+            let json = await request('post', `/car/sale/admin/restrict/${id}`, {
+              name,              
+              title,
+              description,
+              phone,
+              price,
+              cover,
+              photos
+            }, token);
+            return json;
+          },
+          removeCarSale: async (id) => {
+            let token =  localStorage.getItem('token');
+            let json = await request('delete', `/car/sale/admin/restrict/${id}`, {}, token);
+            return json;
+          },
+          getUser: async () => {
+            let json = await request('get', `/user`, {});
+            return json;
+          },
+          addUser: async (name, email, cpf, password, password_confirm) => {
+            let token = localStorage.getItem('token');
+            let json = await request('post', '/user/restrict', {
+                name,
+                email,
+                cpf,
+                password,
+                password_confirm
+            }, token);
+            return json;
+        },
+        editUser: async (id, name, email, password, password_confirm, admin) => {
+          let token = localStorage.getItem('token');
+          let json = await request('post', `/user/restrict/${id}`, {
+              name,
+              email,
+              password,
+              password_confirm,
+              admin
+          }, token);
+          return json;
+      },
+      removeUser: async (id) => {
+        let token =  localStorage.getItem('token');
+        let json = await request('delete', `/user/restrict/${id}`, {}, token);
+        return json;
+      },
+      addFilePartner: async (file) => {
+        let token =  localStorage.getItem('token');
+        let formData = new FormData();
+            formData.append('photo', file);
+          
+        let  req = await fetch(`${baseUrl}/partner/file/restrict`, {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+          },
+            body: formData,
+        });
+          let json = await req.json();
+          return json;
+      },
+      getPartners: async () => {
+        let json = await request('get', '/partner', {});
+        return json;
+      },
+      addPartner: async (photos, title ) => {
+        let token =  localStorage.getItem('token');            
+        
+        let json = await request('post', `/partner/restrict`, {
+          photos,
+          title
+        }, token);
+        return json;
+      },
+      setPartner: async (id, photos, title ) => {
+        let token =  localStorage.getItem('token');            
+        
+        let json = await request('post', `/partner/restrict/${id}`, {
+          photos,
+          title
+        }, token);
+        return json;
+      },
+      removePartner: async (id) => {
+        let token =  localStorage.getItem('token');
+        let json = await request('delete', `/partner/restrict/${id}`, {}, token);
+        return json;
+      }
     };       
 }
