@@ -5,7 +5,21 @@ export const ContainerHeader = styled.header`
     position:relative;
     width: 100vw;
     height: 120px;  
-    box-shadow: -8px 25px 15px var(--brown-relative); 
+    z-index:96;
+    margin-top:-170px;
+
+    @media(max-width: 768px) {
+        display:none !important;
+    }
+`;
+
+export const ContainerHeaderShadow = styled.div`//ficou por traz para favorecer o background do menu
+    background-color: var(--brown-relative);
+    background: rgb(191,135,86);
+    background: linear-gradient(180deg, rgba(191,135,86,1) 75%, rgba(255,255,0,0) 100%);
+    position:relative;
+    width: 100vw;
+    height: 170px;      
     z-index:96;
 
     @media(max-width: 768px) {
@@ -23,7 +37,7 @@ export const HeaderGroup = styled.div`
     justify-content: space-between;
 `;
 
-export const HeaderLink = styled.a`
+export const HeaderLink = styled.div`
     display: block; 
 `;
 
@@ -33,5 +47,6 @@ export const HeaderImage = styled.img`
     margin-left:50px;
     margin-top:5px;
     position:relative;
+    z-index:97;
     
 `;

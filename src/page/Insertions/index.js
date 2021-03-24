@@ -9,7 +9,6 @@ const Insertions = () => {
     const api = useApi();
     const history = useHistory();
 
-    const [loading, setLoading] = useState(false);
     const [loadingButton, setLoadingButton] = useState(false);
     const [viewLink, setViewLink] = useState(false);
     const [viewEvents, setViewEvents] = useState(false);
@@ -20,6 +19,7 @@ const Insertions = () => {
     const [viewCarSale, setViewCarSale] = useState(false);
     const [viewUser, serViewUser] = useState(false);
 
+    const [loadingLink, setLoadingLink] = useState(false);
     const [formLink, setFormLink] = useState(false);
     const [dataLinkYoutube, setDataLinkYoutube] = useState({});
     const [formEditLink, setFormEditLink] = useState(false);
@@ -27,6 +27,7 @@ const Insertions = () => {
     const [formUrlLink, setFormUrlLink] = useState('');
     const [editdataLinkYoutube, setEditDataLinkYoutube] = useState({});
 
+    const [loadingEvent, setLoadingEvent] = useState(false);
     const [formEditEvent, setFormEditEvent] = useState(false);
     const [formEvent, setFormEvent] = useState(false);
     const [dataEvent, setDataEvent] = useState({});
@@ -37,6 +38,7 @@ const Insertions = () => {
     const [photoFile, setPhotoFile] = useState('');
     const [idEditFormEvent, setIdEditFormEvent] = useState(0);
 
+    const [loadingHistoric, setLoadingHistoric] = useState(false);
     const [dataHistoric, setDataHistoric] = useState({});
     const [formHistoric, setFormHistoric] = useState(false);
     const [formEditHistoric, setFormEditHistoric] = useState(false);
@@ -46,6 +48,7 @@ const Insertions = () => {
     const [photoHistoric, setPhotoHistoric] = useState({});
     const [filePhotoHistoric, setFilePhotoHistoric] = useState('');
 
+    const [loadingProject, setLoadingProject] = useState(false);
     const [dataProject, setDataProject] = useState({});
     const [idProject, setIdProject] = useState(0);
     const [formProject, setFormProject] = useState(false);
@@ -59,6 +62,7 @@ const Insertions = () => {
     const [descriptionProject, setDescriptionProject] = useState('');
     const [futureProject, setFutureProject] = useState('');
 
+    const [loadingMember, setLoadingMember] = useState(false);
     const [dataMember, setDataMember] = useState({});
     const [idMember, setIdMember] = useState(0);
     const [formMember, setFormMember] = useState(false);
@@ -71,6 +75,7 @@ const Insertions = () => {
     const [titleMember, setTitleMember] = useState('');
     const [descriptionMember, setDescriptionMember] = useState('');
 
+    const [loadingCarSale, setLoadingCarSale] = useState(false);
     const [dataCarSale, setDataCarSale] = useState({});
     const [idCarSale, setIdCarSale] = useState(0);
     const [formCarSale, setFormCarSale] = useState(false);
@@ -85,6 +90,7 @@ const Insertions = () => {
     const [phoneCarSale, setPhoneCarSale] = useState('');
     const [priceCarSale, setPriceCarSale] = useState('');
 
+    const [loadingUser, setLoadingUser] = useState(false);
     const [dataUser, setDataUser] = useState({});
     const [idUser, setIdUser] = useState(0);
     const [formUser, setFormUser] = useState(false);
@@ -97,6 +103,7 @@ const Insertions = () => {
     const [adminUserChecked, setAdminUserChecked] = useState(false);
     const [adminUser, setAdminUser] = useState(0);
 
+    const [loadingPartners, setLoadingPartners] = useState(false);
     const [formEditPartner, setFormEditPartner] = useState(false);
     const [formPartner, setFormPartner] = useState(false);
     const [dataPartners, setDataPartners] = useState({});
@@ -112,10 +119,8 @@ const Insertions = () => {
     useEffect(() => {
         const checkLogin = async () => {
             if(api.getToken()){
-                setLoading(true);
-                const permission = api.getPermissionUser();                
+                let permission = api.getPermissionUser();               
                 const result = await api.validateToken();
-                setLoading(false);
                 if(result.error === '' && permission === '1') {
                     history.push('/insertions');
                 } else {
@@ -127,14 +132,7 @@ const Insertions = () => {
             }            
         }    
         checkLogin();
-        getDataCarSale();
-        getDataProject();
-        getDataMember();
-        getDataLinkYoutube();
-        getDataEvent();
-        getDataHistoric();
-        getDataUser();
-        getDataPartner();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     useEffect(() => {
@@ -142,6 +140,7 @@ const Insertions = () => {
             localStorage.clear();
             history.push('/admin');
         }, 7200000);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     //##################################################################### - FUNCTIONS - #########
@@ -150,7 +149,9 @@ const Insertions = () => {
     //************* INFORMAÇÃO DOS LINKS *******/
     const getDataLinkYoutube = async () => {
         setDataLinkYoutube({});
+        setLoadingLink(true);
         const result = await api.getUrlLink();
+        setLoadingLink(false);
         if(result.error === ''){
             setDataLinkYoutube(result.data);
         } else {
@@ -161,7 +162,9 @@ const Insertions = () => {
     //************* INFORMAÇÃO DOS EVENTOS *******/
     const getDataEvent = async () => {
         setDataEvent({});
+        setLoadingEvent(true);
         const result = await api.getEvent();
+        setLoadingEvent(false);
         if(result.error === ''){
             setDataEvent(result.data);
         } else {
@@ -171,7 +174,9 @@ const Insertions = () => {
 
     const getDataHistoric = async () => {
         setDataHistoric({});
+        setLoadingHistoric(true);
         const result = await api.getHistoric();
+        setLoadingHistoric(false);
         if(result.error === ''){
             setDataHistoric(result.data);
         } else {
@@ -181,7 +186,9 @@ const Insertions = () => {
 
     const getDataProject = async () => {
         setDataProject({});
+        setLoadingProject(true);
         const result = await api.getProjects();
+        setLoadingProject(false);
         if(result.error === '') {
             setDataProject(result.data);
         } else {
@@ -191,7 +198,9 @@ const Insertions = () => {
 
     const getDataMember = async () => {
         setDataMember({});
+        setLoadingMember(true);
         const result = await api.getMembers();
+        setLoadingMember(false);
         if(result.error === '') {
             setDataMember(result.data);
         } else {    
@@ -201,7 +210,9 @@ const Insertions = () => {
 
     const getDataCarSale = async () => {
         setDataCarSale({});
+        setLoadingCarSale(true);
         const result = await api.getCarSale();
+        setLoadingCarSale(false);
         if(result.error === '') {
             setDataCarSale(result.data);
         } else {    
@@ -211,17 +222,21 @@ const Insertions = () => {
 
     const getDataUser = async () => {
         setDataUser({});
+        setLoadingUser(true);
         const result = await api.getUser();
+        setLoadingUser(false);
         if(result.error === '') {
             setDataUser(result.data);
         } else {    
             alert(result.error);
         }
     }
-
+    
     const getDataPartner = async () => {
         setDataPartners({});
+        setLoadingPartners(true);
         const result = await api.getPartners();
+        setLoadingPartners(false);
         if(result.error === '') {
             setDataPartners(result.data);
         } else {    
@@ -237,6 +252,7 @@ const Insertions = () => {
     //************************************************** -- função para os menus -- ****************
     const handleLinkClick = (type) => {
         switch(type) {
+            // eslint-disable-next-line
             case 'viewCarSale':
                 setViewEvents(false);
                 setViewHistory(false);
@@ -247,7 +263,9 @@ const Insertions = () => {
                 setFormLink(false);
                 serViewUser(false);
                 setViewCarSale(true);
+                getDataCarSale();
             break;
+            // eslint-disable-next-line
             case 'viewEvents':
                 setViewCarSale(false);
                 setViewHistory(false);
@@ -258,7 +276,10 @@ const Insertions = () => {
                 setFormLink(false);
                 serViewUser(false);
                 setViewEvents(true);
+                setLoadingEvent(true);
+                getDataEvent();
             break;
+            // eslint-disable-next-line
             case 'viewHistory':
                 setViewCarSale(false);
                 setViewEvents(false);
@@ -269,7 +290,9 @@ const Insertions = () => {
                 setFormLink(false);
                 serViewUser(false);
                 setViewHistory(true);
+                getDataHistoric();
             break;
+            // eslint-disable-next-line
             case 'viewLink':
                 setViewCarSale(false);
                 setViewEvents(false);
@@ -280,7 +303,9 @@ const Insertions = () => {
                 setFormLink(false);
                 serViewUser(false);
                 setViewLink(true);
+                getDataLinkYoutube();
             break;
+            // eslint-disable-next-line
             case 'viewMembers':
                 setViewCarSale(false);
                 setViewEvents(false);
@@ -291,7 +316,9 @@ const Insertions = () => {
                 setFormLink(false);
                 serViewUser(false);
                 setViewMembers(true);
+                getDataMember();
             break;
+            // eslint-disable-next-line
             case 'viewPartners':
                 setViewCarSale(false);
                 setViewEvents(false);
@@ -302,7 +329,9 @@ const Insertions = () => {
                 setFormLink(false);
                 serViewUser(false);
                 setViewPartners(true);
+                getDataPartner();
             break;
+            // eslint-disable-next-line
             case 'viewProjects':
                 setViewCarSale(false);
                 setViewEvents(false);
@@ -313,7 +342,9 @@ const Insertions = () => {
                 setFormLink(false);
                 serViewUser(false);
                 setViewProjects(true);
+                getDataProject();
             break;
+            // eslint-disable-next-line
             case 'viewUsers':
                 setViewEvents(false);
                 setViewHistory(false);
@@ -324,7 +355,10 @@ const Insertions = () => {
                 setFormLink(false);
                 setViewCarSale(false);
                 serViewUser(true);
+                getDataUser();
             break;
+
+            default:
         }
     }
 
@@ -482,7 +516,13 @@ const Insertions = () => {
         if(file) {
             setPhotoEvent(file.target.files[0].name);
             let fileEvent = await api.addFileEvent(file.target.files[0]);
-            setPhotoFile(fileEvent.photo);
+            if(fileEvent.error === '') {
+                setPhotoFile(fileEvent.photo);
+            } else {
+                setPhotoEvent({});
+                setPhotoFile('');
+                alert(fileEvent.error);
+            }
         }
     }
 
@@ -1155,7 +1195,7 @@ const Insertions = () => {
         setPassUser('');
         setPassUserConfirm('');
 
-        if(data.admin === 0) {
+        if(String(data.admin) === '0') {
             setAdminUserChecked(false);            
         } else {
             setAdminUserChecked(true);
@@ -1501,13 +1541,23 @@ const Insertions = () => {
 
 
                         <S.BoxResults>
-                        {dataCarSale.length === 0 && 
+                        {!loadingCarSale && dataCarSale.length === 0 && 
                             <>
                               <S.LabelForms>Não existe publicações no momento!</S.LabelForms>
                             </>
                         }
 
-                        {dataCarSale.length > 0 && dataCarSale.map((item, index) => (
+                        {loadingCarSale && 
+                            <>
+                                <S.LabelForms>
+                                    <S.FileImage style={{marginRight: '20px'}} alt="Load foto" src="../../assets/ajax-loader.gif" />  
+                                    CARREGANDO CARROS A VENDA
+                                    <S.FileImage style={{marginLeft: '20px'}} alt="Load foto" src="../../assets/ajax-loader.gif" />
+                                </S.LabelForms>
+                            </>
+                        }
+
+                        {!loadingCarSale && dataCarSale.length > 0 && dataCarSale.map((item, index) => (
                             <S.BoxInformationEvent key={index}>
                                 <S.BoxEventResults>
                                     <S.BoxEventResultsImage>
@@ -1664,13 +1714,23 @@ const Insertions = () => {
 
 
                         <S.BoxResults>
-                        {dataEvent.length === 0 && 
+                        {!loadingEvent && dataEvent.length === 0 && 
                             <>
                               <S.LabelForms>Não existe publicações no momento!</S.LabelForms>
                             </>
                         }
 
-                        {dataEvent.length > 0 && dataEvent.map((item, index) => (
+                        {loadingEvent && 
+                            <>
+                                <S.LabelForms>
+                                    <S.FileImage style={{marginRight: '20px'}} alt="Load foto" src="../../assets/ajax-loader.gif" />  
+                                    CARREGANDO OS EVENTOS
+                                    <S.FileImage style={{marginLeft: '20px'}} alt="Load foto" src="../../assets/ajax-loader.gif" />
+                                </S.LabelForms>
+                            </>
+                        }
+
+                        {!loadingEvent && dataEvent.length > 0 && dataEvent.map((item, index) => (
                             <S.BoxInformationEvent key={index}>
                                 <S.BoxEventResults>
                                     <S.BoxEventResultsImage>
@@ -1818,13 +1878,23 @@ const Insertions = () => {
 
                         <S.BoxResults>
 
-                            {dataHistoric.length === 0 && 
+                            {!loadingHistoric && dataHistoric.length === 0 && 
                                 <>
                                 <S.LabelForms>Não existe publicações no momento!</S.LabelForms>
                                 </>
                             }
 
-                            {dataHistoric.length > 0 && dataHistoric.map((item, index) => (
+                            {loadingHistoric && 
+                            <>
+                                <S.LabelForms>
+                                    <S.FileImage style={{marginRight: '20px'}} alt="Load foto" src="../../assets/ajax-loader.gif" />  
+                                    CARREGANDO DADOS DA HISTÓRIA DO GRUPO
+                                    <S.FileImage style={{marginLeft: '20px'}} alt="Load foto" src="../../assets/ajax-loader.gif" />
+                                </S.LabelForms>
+                            </>
+                            }
+
+                            {!loadingHistoric && dataHistoric.length > 0 && dataHistoric.map((item, index) => (
                                 <S.BoxInformationEvent key={index}>
                                     <S.BoxEventResults>
                                         <S.BoxEventResultsImage>
@@ -1916,7 +1986,7 @@ const Insertions = () => {
                     }
 
                         <S.BoxResults>
-                            {dataLinkYoutube.length === 0 && 
+                            {!loadingLink && dataLinkYoutube.length === 0 && 
                             <>
                                 <S.InfoDetailsViews>OBS. Nessa área só pode haver uma postagem! Se já
                                     existir clique em alterar para atualizar a publicação.
@@ -1924,7 +1994,17 @@ const Insertions = () => {
                                 <S.LabelForms>Não existe publicações no momento!</S.LabelForms>
                             </>
                             }
-                            {dataLinkYoutube.length > 0 && dataLinkYoutube.map((item, index) => (
+                            {loadingLink && 
+                            <>
+                                <S.LabelForms>
+                                    <S.FileImage style={{marginRight: '20px'}} alt="Load foto" src="../../assets/ajax-loader.gif" />  
+                                    CARREGANDO LINK DISPONÍVEL DO YOUTUBE
+                                    <S.FileImage style={{marginLeft: '20px'}} alt="Load foto" src="../../assets/ajax-loader.gif" />
+                                </S.LabelForms>
+                            </>
+                            }
+
+                            {!loadingLink && dataLinkYoutube.length > 0 && dataLinkYoutube.map((item, index) => (
                                     <S.BoxInformationLlinkYoutube key={index}>
                                         <S.InfoDetailsViews >OBS. Nessa área só pode haver uma postagem! Se já
                                             existir clique em alterar para atualizar a publicação.
@@ -2146,13 +2226,23 @@ const Insertions = () => {
 
 
                         <S.BoxResults>
-                        {dataMember.length === 0 && 
+                        {!loadingMember && dataMember.length === 0 && 
                             <>
                               <S.LabelForms>Não existe publicações no momento!</S.LabelForms>
                             </>
                         }
 
-                        {dataMember.length > 0 && dataMember.map((item, index) => (
+                        {loadingMember && 
+                            <>
+                                <S.LabelForms>
+                                    <S.FileImage style={{marginRight: '20px'}} alt="Load foto" src="../../assets/ajax-loader.gif" />  
+                                    CARREGANDO OS MEMBROS DO CLUBE
+                                    <S.FileImage style={{marginLeft: '20px'}} alt="Load foto" src="../../assets/ajax-loader.gif" />
+                                </S.LabelForms>
+                            </>
+                            }
+
+                        {!loadingMember && dataMember.length > 0 && dataMember.map((item, index) => (
                             <S.BoxInformationEvent key={index}>
                                 <S.BoxEventResults>
                                     <S.BoxEventResultsImage>
@@ -2286,13 +2376,23 @@ const Insertions = () => {
 
 
                         <S.BoxResults>
-                        {dataPartners.length === 0 && 
+                        {!loadingPartners && dataPartners.length === 0 && 
                             <>
                               <S.LabelForms>Não existe publicações no momento!</S.LabelForms>
                             </>
                         }
 
-                        {dataPartners.length > 0 && dataPartners.map((item, index) => (
+                        {loadingPartners && 
+                            <>
+                                <S.LabelForms>
+                                    <S.FileImage style={{marginRight: '20px'}} alt="Load foto" src="../../assets/ajax-loader.gif" />  
+                                        CARREGANDO PARCEIROS
+                                    <S.FileImage style={{marginLeft: '20px'}} alt="Load foto" src="../../assets/ajax-loader.gif" />
+                                </S.LabelForms>
+                            </>
+                        }
+
+                        {!loadingPartners && dataPartners.length > 0 && dataPartners.map((item, index) => (
                             <S.BoxInformationEvent key={index}>
                                 <S.BoxEventResults>
                                     <S.BoxEventResultsImage>
@@ -2527,13 +2627,23 @@ const Insertions = () => {
 
 
                         <S.BoxResults>
-                        {dataProject.length === 0 && 
+                        {!loadingProject && dataProject.length === 0 && 
                             <>
                               <S.LabelForms>Não existe publicações no momento!</S.LabelForms>
                             </>
                         }
 
-                        {dataProject.length > 0 && dataProject.map((item, index) => (
+                        {loadingProject && 
+                            <>
+                                <S.LabelForms>
+                                    <S.FileImage style={{marginRight: '20px'}} alt="Load foto" src="../../assets/ajax-loader.gif" />  
+                                    CARREGANDO OS PROJETOS
+                                    <S.FileImage style={{marginLeft: '20px'}} alt="Load foto" src="../../assets/ajax-loader.gif" />
+                                </S.LabelForms>
+                            </>
+                        }
+
+                        {!loadingProject && dataProject.length > 0 && dataProject.map((item, index) => (
                             <S.BoxInformationEvent key={index}>
                                 <S.BoxEventResults>
                                     <S.BoxEventResultsImage>
@@ -2684,12 +2794,23 @@ const Insertions = () => {
                             </>
                         }
 
-                        {dataUser.length > 0 && dataUser.map((item, index) => (
+                        {loadingUser && 
+                        <>
+                            <S.LabelForms>
+                                <S.FileImage style={{marginRight: '20px'}} alt="Load foto" src="../../assets/ajax-loader.gif" />  
+                                CARREGANDO USUÁRIOS
+                                <S.FileImage style={{marginLeft: '20px'}} alt="Load foto" src="../../assets/ajax-loader.gif" />
+                            </S.LabelForms>
+                        </>
+                        }
+
+                        {!loadingUser && dataUser.length > 0 && dataUser.map((item, index) => (
                             <S.BoxInformationEvent key={index}>
                                 <S.BoxEventResults>
                                     <S.BoxEventResultsDescription>
                                         <S.LabelForms>{item.name}</S.LabelForms>
                                         <S.InfoForms>{item.email}</S.InfoForms>
+                                        <S.InfoForms>{item.admin === '1'? 'Administrador': ''}</S.InfoForms>                                        
                                     </S.BoxEventResultsDescription>
                                 </S.BoxEventResults>
                                

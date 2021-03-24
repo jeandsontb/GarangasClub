@@ -1,7 +1,9 @@
 import React from  'react';
+import { Link } from 'react-router-dom';
 
 import { 
     ContainerHeader,
+    ContainerHeaderShadow,
     HeaderText,
     HeaderGroup,
     HeaderLink,
@@ -10,19 +12,28 @@ import {
 
 import MenuText from '../MenuText';
 
+const handleTopScrollClick = () => {
+    window.scrollTo(0, 0);
+}
+
 const Header = ({ active }) => {
     return (
-        <ContainerHeader className="title-static">
-            <HeaderText id="title-semantic" >Garangas Club</HeaderText>
+        <>
+            <ContainerHeaderShadow />
+            <ContainerHeader className="title-static">
+                <HeaderText id="title-semantic" >Garangas Club</HeaderText>
 
-            <HeaderGroup>
-                <HeaderLink id="title-logo" href="">
-                    <HeaderImage src="/assets/logo.png" />
+                <HeaderGroup>
+                <HeaderLink>
+                    <Link to="/" style={{textDecoration:'none'}} onClick={handleTopScrollClick} >
+                        <HeaderImage src="/assets/logo.png" />
+                    </Link>
                 </HeaderLink>
 
-                <MenuText active={active} marginTop={40} />                    
-            </HeaderGroup>
-        </ContainerHeader> 
+                    <MenuText active={active} marginTop={40} />                    
+                </HeaderGroup>
+            </ContainerHeader> 
+        </>
     );
 }
 

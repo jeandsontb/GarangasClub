@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
+import { Ellipsis } from 'react-awesome-spinners';
 
 import api from '../../services/api';
 import MenuFloat from '../../components/MenuFloat';
@@ -7,6 +8,8 @@ import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import MenuMobile from '../../components/MenuMobile';
 import Modal from '../../components/Modal';
+import LinkUrls from '../../services/ServiceUrlsPhotos';
+import ProjectFake from '../../components/ProjectFake';
 
 import { 
     HeaderBackground,
@@ -14,6 +17,11 @@ import {
     HeaderOpacity,
     HomeGoupContent,
     HomeEventsTitle,
+    HomeEventsLoadingBox,
+    HomeEventLoadingImg,
+    HomeEventLoadingTitle,
+    HomeEventLoadingText,
+    HomeEventLoadingDate,
     HomeEventsBox,
     HomeContent,
     HomeFamilyBackground, 
@@ -41,6 +49,8 @@ const Home = () => {
     const [ projects, setProjects ] = useState([]);
     const [ idProject, setIdProject ] = useState(0);
     const [ idProjectOne, setIdProjectOne ] = useState({});
+    const [ linkPhotosProject, setLinkPhotosProject] = useState('');//recebe apenas o link stático de services ServiceUrlsPhotos
+    const [ photoThumb, setPhotoThumb] = useState('');
 
     const [ activeImg, setActiveImg ] = useState(0);
     
@@ -49,34 +59,62 @@ const Home = () => {
     const [ modalStatus, setModalStatus ] = useState(false);
     const [ activeModal, setActiveModal ] = useState(false);
     const [ heightBox, setHeightBox ] = useState(0);
+    const [ loadingHome, setLoadingHome] = useState(false);
+    const [ loadingEvent, setLoadingEvent] = useState(false);
+    const [ loadingProject, setLoadingProject] = useState(false);
+    const [ loadingProjectOpen, setLoadingProjectOpen ] = useState(false);
     
     
     
     useEffect(() => {
-        api.get('movies').then(response => {
-            setTextMovie(response.data[0].title);
-            setUrlMovie(response.data[0].url);
+        setLinkPhotosProject(LinkUrls());
+        let cancelPromise = true;
+        setLoadingHome(true);
+        setLoadingEvent(true);
+        setLoadingProject(true);
+        api.get('link/movie').then(response => {
+            if(cancelPromise) {
+                setTextMovie(response.data.data[0].title);
+                setUrlMovie(response.data.data[0].url);
+                setLoadingHome(false);
+            }
         });
 
-        api.get('events').then(resEvent => {
-            setEvents(resEvent.data);
+        api.get('event').then(resEvent => {
+            if(cancelPromise) {
+                setEvents(resEvent.data.data);
+                setLoadingEvent(false);
+            }
         });
 
-        api.get('projects').then(resProjec => {
-            setProjects(resProjec.data);
+        api.get('project').then(resProjec => {
+            if(cancelPromise) {
+                setProjects(resProjec.data.data);
+                setLoadingProject(false);
+            }
         });
 
         setHeightBox(ref.current.clientHeight);
+        return () => cancelPromise = false;
+        // eslint-disable-next-line
     }, []);
 
     useEffect(() => {
         setIdProjectOne({});
-        api.get(`projects/${idProject}`).then(resProjectId => {
-            setIdProjectOne(resProjectId.data);
+        setLoadingProjectOpen(true);
+        let cancelPromise = true;
+        api.get(`project/${idProject}`).then(resProjectId => {
+            if(cancelPromise) {
+                setIdProjectOne(resProjectId.data.data);
+                setLoadingProjectOpen(false);
+            }
         });
+
+        return () => cancelPromise = false;
+        // eslint-disable-next-line
     }, [idProject, modalStatus]);
     
-    
+   
     useEffect(() => {
         const manangerScrollPage = () => {
             window.addEventListener("scroll", function (event) {
@@ -92,6 +130,7 @@ const Home = () => {
         }
         
         manangerScrollPage();
+        // eslint-disable-next-line
     }, []);
 
     const url = urlMovie;    
@@ -111,24 +150,31 @@ const Home = () => {
    
     const handleFocusModal = ( id ) => {
         setIdProject(id);
-        setModalStatus(true);
+        setModalStatus(true);        
     }
     
     const handleCloseModal = (e) => {
         if( e.target.classList.contains('ModalBg')) {
             setModalStatus(false);
             setIdProjectOne({});
+            setPhotoThumb('');
             setActiveImg(0);
         }
     }
-
+    
     const handleActiveModal = () => {
         setActiveModal(true);
     }
 
-    const handleRenderImg = ( id ) => {
+    const handleRenderImg = ( id, photoThumb ) => {
+        setPhotoThumb(photoThumb)
         setActiveImg(id);
     }    
+
+    const handleScrollTopProjects = () => {
+        window.scrollTo(0, 0);
+        setLoadingProject(true);
+    }
 
     return (
         <> 
@@ -157,31 +203,87 @@ const Home = () => {
                                 </svg>
                                 <h1>arangas Club</h1>
                             </div>
-                            <h2 >{textMovie}</h2>
+
+                            {loadingHome &&
+                                <div id="preloader" style={{marginTop: '-80px'}} ></div>
+                            }
+
+                            {!loadingHome &&
+                                <h2 >{textMovie}</h2>
+                            }
                         </div>
-                        <div 
+                        {loadingHome && 
+                            <div 
+                            className="boxInfoMovie" 
+                            id="preloader"
+                            >
+                            </div>
+                        }
+
+                        {!loadingHome &&
+                            <div 
                             className="boxInfoMovie" 
                             style={{backgroundImage:`url(${bgUrl})`}}
                             onClick={handleActiveModal}
-                        >
-                        </div>
+                            >
+                            <div>
+                                <img alt="play" src="/assets/play.png"
+                                    style={{
+                                        marginLeft:'43%',
+                                        marginTop:'23%',
+                                        width:'60px',
+                                        height:'40px'
+                                    }}
+                                />
+                                </div>
+                            </div>
+                        }
                     </div>
                 </HeaderOpacity> 
             </HeaderBackground>
 
-            <HomeGoupContent  ref={ref} >
+
+            {/* ################################# EVENTOS ############################# */}
+            <HomeGoupContent ref={ref} >
                 <HomeContent scroll={scrollCount} >
                 <div className="home-content">
                     <h1 className="content" >Calendário de eventos</h1>
                     <HomeEventsTitle scroll={scrollCount} >
                         <h2 className="events-calendary" >EVENTOS E PASSEIOS</h2>
                         <hr />
-                    </HomeEventsTitle>                   
-                    {events.map(event => {
+                    </HomeEventsTitle>  
+                        {loadingEvent === true &&
+                        <>
+                            <HomeEventsLoadingBox>
+                                <div className="events-block">
+                                        <HomeEventLoadingImg></HomeEventLoadingImg>
+                                        <div>
+                                            <HomeEventLoadingTitle></HomeEventLoadingTitle>
+                                            <HomeEventLoadingText></HomeEventLoadingText>
+                                            <HomeEventLoadingText></HomeEventLoadingText>
+                                            <HomeEventLoadingDate></HomeEventLoadingDate>
+                                        </div>
+                                    </div>
+                            </HomeEventsLoadingBox>
+                            <HomeEventsLoadingBox>
+                            <div className="events-block">
+                                    <HomeEventLoadingImg></HomeEventLoadingImg>
+                                    <div>
+                                        <HomeEventLoadingTitle></HomeEventLoadingTitle>
+                                        <HomeEventLoadingText></HomeEventLoadingText>
+                                        <HomeEventLoadingText></HomeEventLoadingText>
+                                        <HomeEventLoadingDate></HomeEventLoadingDate>
+                                    </div>
+                                </div>
+                        </HomeEventsLoadingBox>
+                        </>
+                        }
+                        
+                        {!loadingEvent && events.map(event => {
                             return (
                                 <HomeEventsBox key={event.id} scroll={scrollCount}>
                                     <div className="events-block">
-                                        <img src={event.url} alt="Encontro" />
+                                        <img src={event.img} alt="Encontro" />
                                         <div>
                                             <h2>{event.title}</h2>
                                             <p>{event.description}</p>
@@ -195,9 +297,10 @@ const Home = () => {
                 </HomeContent>
             </HomeGoupContent>
 
-            {/* <HomeFamilyBackground /> */}
+            
+            {/* ################################# BOX FAMÍLIA ############################# */}
 
-            <HomeFamily resetContent={heightBox + (events.length * 110) } >
+            <HomeFamily resetContent={heightBox + (events.length * 130) } >
                 <HomeFamilyText scroll={scrollCount} >Mais que amigos, uma verdadeira Família</HomeFamilyText>
             </HomeFamily>
 
@@ -207,40 +310,53 @@ const Home = () => {
                 </div>
             </HomeFamilyDescription>
 
+            {/* ################################# BOX PROJETOS ############################# */}
+
             <HomeRestauration id="divId" >
                 <div className="home-restoration">
                     <HomeRestaurationText scroll={scrollCount} >PROJETOS E RESTAURAÇÕES</HomeRestaurationText>
                     <HomeRestaurationHr scroll={scrollCount} />
 
-                    <div className="projects" >
-                        {projects.slice(0, 4).map(project => {
-                            return (
-                                <HomeRestaurationProjects scroll={scrollCount} >
-                                    <div className="box" >
-                                        <div className="box-image" >
-                                            <img src={project.images[0].url} alt="Restauration" />
-                                            <strong>{project.name}</strong>
-                                        </div>
-                                        <div className="box-text" >
-                                            <h2>{project.title}</h2>
-                                            <p>{project.description.substring(0, 100)}...</p>
-                                            <div className="box-button" >
-                                                <span 
-                                                    className="details-button" 
-                                                    onClick={() => handleFocusModal(project.id)}
-                                                >
-                                                    Detalhes
-                                                </span>
+                    {loadingProject &&
+                        <ProjectFake scroll={scrollCount}  />
+                    }
+
+                    {!loadingProject &&
+                        <div className="projects" >
+                            {projects.length > 0 && projects.slice(0, 4).map(project => {
+                                return (
+                                    <HomeRestaurationProjects key={project.id} scroll={scrollCount} >
+                                        <div className="box" >
+                                            <div className="box-image" >
+                                                <img src={project.cover} alt="Restauration" />
+                                                <strong>{project.name}</strong>
                                             </div>
-                                        </div>                                                                
-                                    </div>
-                                </HomeRestaurationProjects>  
-                            );
-                        })}
-                    </div>
+                                            <div className="box-text" >
+                                                <h2>{project.title}</h2>
+                                                <p>{project.description.substring(0, 100)}...</p>
+                                                <div className="box-button" >
+                                                    <span 
+                                                        className="details-button" 
+                                                        onClick={() => handleFocusModal(project.id)}
+                                                    >
+                                                        Detalhes
+                                                    </span>
+                                                </div>
+                                            </div>                                                                
+                                        </div>
+                                    </HomeRestaurationProjects>  
+                                );
+                            })}
+                        </div>
+                    }
 
                     <div className="projects-total" >
-                        <Link className="projects-button" to="/projects" style={{textDecoration:'none'}} >
+                        <Link 
+                            onClick={handleScrollTopProjects}
+                            className="projects-button" 
+                            to="/projects" 
+                            style={{textDecoration:'none'}} 
+                        >
                             Veja todos os Projetos
                         </Link>
                     </div>
@@ -258,48 +374,47 @@ const Home = () => {
                 onClick={handleCloseModal}
             >
 
-                    {!idProjectOne &&
-                        <div>
-                            <p color="#FFF" >Carregando...</p>
-                        </div>
+                    {loadingProjectOpen &&
+                        <Ellipsis color="#FFFFFF" />
                     }
 
-                    {idProjectOne &&
+                    {!loadingProjectOpen && idProjectOne.length > 0 &&
                         <ModalBody>
                         <div className="projects-details" >                            
-                            {idProjectOne.images &&
+                            {idProjectOne[0].photos &&
                                 <img 
                                     className="image-featured"
-                                    src={idProjectOne.images[activeImg].url} 
-                                    alt={idProjectOne.name}
+                                    src={photoThumb.length > 0 ? `${linkPhotosProject}${photoThumb}` : idProjectOne[0].cover}  
+                                    alt={idProjectOne[0].name}
                                 />
                             }
 
-                            {idProjectOne.images && idProjectOne.images.map((thumbImg, index ) => {
+                            {idProjectOne[0].photos.length > 0 && idProjectOne[0].photos.map((thumbImg, index ) => {
                                 return (
                                     <button 
-                                        key={thumbImg.id} 
+                                        key={index} 
                                         className={activeImg === index ? 'active' : ''} 
                                         type="button"
-                                        onClick={() => handleRenderImg(index)}
+                                        onClick={() => handleRenderImg(index, thumbImg)}
                                     >
                                         <img 
                                             className="image-thumb"
-                                            src={thumbImg.url}
-                                            alt={thumbImg.name}
+                                            src={`${linkPhotosProject}${thumbImg}`}
+                                            alt="Fotos Project"
                                         />
+
+                                        
                                     </button>
                                 );
                             })}
                         </div> 
-                        
                         <div className="projects-body" >                              
-                            <h2>{idProjectOne.title}</h2> 
+                            <h2>{idProjectOne[0].title}</h2> 
 
-                            <p className="project-description" >{idProjectOne.description}</p>
+                            <p className="project-description" >{idProjectOne[0].description}</p>
 
                             <p className="project-future-projects" >    
-                                {idProjectOne.future_projects}
+                                {idProjectOne[0].futureprojects}
                             </p>
                         </div>                                              
                     </ModalBody>

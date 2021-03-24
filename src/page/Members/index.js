@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
+import { Ellipsis } from 'react-awesome-spinners';
 
+ 
 import api from '../../services/api';
 import Header from '../../components/Header';
 import MenuMobile from '../../components/MenuMobile';
 import MenuFloat from '../../components/MenuFloat';
 import Footer from '../../components/Footer';
+import LinkUrls from '../../services/ServiceUrlsPhotos';
 import {  
     HeadMembers,
     Container,
@@ -13,6 +16,7 @@ import {
     ContainerTitleLine,
     Members,
     Box,
+    BoxFake,
     BoxImage,
     Image,
     ImageTitle,
@@ -37,18 +41,27 @@ import {
 
 const Member = () => {
 
+    const [ loading, setLoading ] = useState(false);
+    const [ loadingOpen, setLoadingOpen] = useState(false);
     const [ menu, setMenu ] = useState(false);
     const [ members, setMembers ] = useState([]);
     const [ idMember, setIdMember ] = useState(0);
     const [ modalStatus, setModalStatus ] = useState(false);
     const [ idMemberOne, setIdMemberOne ] = useState({});
     const [ activeImg, setActiveImg ] = useState(0);
+    const [ linkPhotosMember, setLinkPhotosMember] = useState('');//recebe apenas o link stático de services ServiceUrlsPhotos
+    const [ photoThumb, setPhotoThumb] = useState('');
 
 
     useEffect(() => {
-
-        api.get('personas').then(resPersona => {
-            setMembers(resPersona.data);
+        let cancelPromise = true;
+        setLoading(true);
+        api.get('member').then(resPersona => {
+            if(cancelPromise) {
+                setLinkPhotosMember(LinkUrls());                
+                setMembers(resPersona.data.data);
+                setLoading(false);
+            }
         });
 
         const manangerScrollPage = () => {
@@ -64,16 +77,25 @@ const Member = () => {
         }
 
         manangerScrollPage();
+        return () => cancelPromise = false;
     }, []);
 
 
     useEffect(() => {
-        api.get(`personas/${idMember}`).then(resMemberId => { 
-            setIdMemberOne(resMemberId.data);
-        })
+        let cancelPromise = true;
+        setLoadingOpen(true);
+
+        api.get(`member/${idMember}`).then(resMemberId => { 
+            if(cancelPromise) {
+                setIdMemberOne(resMemberId.data.data);
+                setLoadingOpen(false);
+            }
+        });
+
+        return () => cancelPromise = false;
     }, [idMember]);
 
-    
+
     const handleFocusModal = (id) => {
         setIdMember(id);
         setModalStatus(true);
@@ -82,16 +104,21 @@ const Member = () => {
     const handleCloseModal = (e) => {
         if( e.target.classList.contains('ModalBg')) {
             setModalStatus(false);
+            setIdMember(0);
+            setIdMemberOne({});
+            setPhotoThumb('');
             setActiveImg(0);
         }
     }
 
-    const handleRenderImg = ( id ) => {
+    const handleRenderImg = ( id, thumbImg ) => {
+        setPhotoThumb(thumbImg);
         setActiveImg(id);
     }
 
     return (
         <>
+           
             <HeadMembers>
                 <Header />
                 <MenuFloat active={menu}/>
@@ -105,28 +132,40 @@ const Member = () => {
                     <ContainerTitleLine  />
                 </ContainerTitle>
 
+                {loading &&
+                    <Members>
+                        <BoxFake />
+                        <BoxFake />
+                        <BoxFake />
+                        <BoxFake />
+                        <BoxFake />
+                    </Members>
+                }
+            
 
-                <Members>
-                    {members.length > 0 && members.map((member) => {
-                        return (
-                            <Box key={member.id} >
-                                <BoxImage>
-                                    <Image src={member.avatar} alt={member.name} />
-                                    <ImageTitle>{member.name}</ImageTitle>
-                                </BoxImage> 
-                                <BoxText>
-                                    <BoxButton>
-                                        <ButtonTitle
-                                            onClick={() => handleFocusModal(member.id)} 
-                                        >
-                                            Detalhes
-                                        </ButtonTitle>
-                                    </BoxButton>
-                                </BoxText>                                                                
-                            </Box>
-                        );
-                    })}
-                </Members>
+                {!loading &&
+                    <Members>
+                        {members.length > 0 && members.map((member) => {
+                            return (
+                                <Box key={member.id} >
+                                    <BoxImage>
+                                        <Image src={member.cover} alt={member.name} />
+                                        <ImageTitle>{member.name}</ImageTitle>
+                                    </BoxImage> 
+                                    <BoxText>
+                                        <BoxButton>
+                                            <ButtonTitle
+                                                onClick={() => handleFocusModal(member.id)} 
+                                            >
+                                                Detalhes
+                                            </ButtonTitle>
+                                        </BoxButton>
+                                    </BoxText>                                                                
+                                </Box>
+                            );
+                        })}
+                    </Members>
+                }
 
                 {members.length > 20 &&
                 <BoxPagination>
@@ -144,44 +183,51 @@ const Member = () => {
                 status={modalStatus} 
                 onClick={handleCloseModal}
             >
-                    <ModalBody>
-                        <MemberDetail>
-                            {idMemberOne.images && 
-                                <MemberImgIndex 
-                                    src={idMemberOne.images[activeImg].url} 
-                                    alt={idMemberOne.name}
-                                />
-                            }
+                    {loadingOpen &&
+                        <Ellipsis color="#FFFFFF"/>
+                    }
 
-                            {idMemberOne.images && idMemberOne.images.map((thumbImg, index ) => {
-                                return (
-                                    <MemberButtonThumb 
-                                        key={thumbImg.id} 
-                                        className={activeImg === index ? 'active' : ''} 
-                                        type="button"
-                                        onClick={() => handleRenderImg(index)}
-                                    >
-                                        <MemberButtonThumbImage 
-                                            className="image-thumb"
-                                            src={thumbImg.url}
-                                            alt={thumbImg.name}
-                                        />
-                                    </MemberButtonThumb>
-                                );
-                            })}
-                        </MemberDetail> 
+                    
+                    {!loadingOpen && idMemberOne.length > 0 &&
+                        <ModalBody>
+                            <MemberDetail>
+                                {idMemberOne && idMemberOne.length > 0 &&
+                                    <MemberImgIndex 
+                                        src={photoThumb.length > 0 ? `${linkPhotosMember}${photoThumb}` : idMemberOne[0].cover } 
+                                        alt="Fotos Member"
+                                    />
+                                }
 
-                        <MemberBody>                             
-                            <MemberBodyTitle>{idMemberOne.title}</MemberBodyTitle> 
+                                {idMemberOne.length > 0 && idMemberOne[0].photos.length > 0 && idMemberOne[0].photos.map((thumbImg, index ) => {
+                                    return (
+                                        <MemberButtonThumb 
+                                            key={index} 
+                                            className={activeImg === index ? 'active' : ''} 
+                                            type="button"
+                                            onClick={() => handleRenderImg(index, thumbImg)}
+                                        >
+                                            <MemberButtonThumbImage 
+                                                className="image-thumb"
+                                                src={`${linkPhotosMember}${thumbImg}`}
+                                                alt="Photos Member"
+                                            />
+                                        </MemberButtonThumb>
+                                    );
+                                })}
+                            </MemberDetail> 
 
-                            <MemberBodyDescription>{idMemberOne.description}</MemberBodyDescription>
+                            <MemberBody>                             
+                                <MemberBodyTitle>{idMemberOne[0].title}</MemberBodyTitle> 
 
-                            <MemberBodyFuture>
-                                <strong>Garangueiro. </strong>
-                                {idMemberOne.name}
-                            </MemberBodyFuture>
-                        </MemberBody>
-                    </ModalBody>
+                                <MemberBodyDescription>{idMemberOne[0].description}</MemberBodyDescription>
+
+                                <MemberBodyFuture>
+                                    {idMemberOne[0].name}
+                                </MemberBodyFuture>
+                            </MemberBody>
+                        </ModalBody>
+                    }
+
             </ContainerModal>
 
             <Footer />

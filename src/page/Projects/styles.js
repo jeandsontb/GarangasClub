@@ -73,6 +73,22 @@ export const Box = styled.div`
     }
 `;
 
+export const BoxFakeLoading = styled.div`
+    width: 19.5%;
+    height: 300px;
+    box-shadow: 0 2px 5px var(--blue-active);
+    border-radius: 5px;
+    margin-top:20px;
+    transform:scale(0.95);
+    background-color:var(--brown-strong);
+
+    @media(max-width:768px) {
+        width:100%;
+        height:110px;   
+        margin-top:10px;        
+    }
+`;
+
 export const BoxImage = styled.div`
     width: 100%;
     height: 300px;
@@ -197,7 +213,7 @@ export const ModalBody = styled.div`
     max-width:90vw;
     max-height:95vh;
     overflow:hidden;
-    padding-bottom: 150px;
+    /* padding-bottom: 180px; */
 
     @media(max-width:768px) {
         flex-direction:column;
@@ -210,6 +226,11 @@ export const ModalBody = styled.div`
         border-top-left-radius:0;
         border-top-right-radius:0;
     }
+`;
+
+export const ImagesProject = styled.div`
+    display:flex;
+    flex-direction:column;
 `;
 
 export const ProjectDetail = styled.div`
@@ -241,6 +262,11 @@ export const ProjectImgIndex = styled.img`
         box-shadow: 1px 0 6px #000000;
         margin-bottom: -5px;
     }
+`;
+
+export const ProjectButtonThumbBox = styled.div`
+    display:unset;
+    flex-wrap: wrap;
 `;
 
 export const ProjetcButtonThumb = styled.button`
@@ -276,17 +302,19 @@ export const ProjectButtonThumbImage = styled.img`
 `;
 
 export const ProjectBody = styled.div`
-    background-color: rgb(245, 244, 244);
-    border-radius: 15px;
-    padding: 10px;
     height: auto;
 
     @media(max-width:768px) {
         overflow:auto;
-        padding: 10px;
         margin-top: 10px;
         height: 100%;
     }
+`;
+
+export const ProjectDescription = styled.div`
+    background-color: rgb(245, 244, 244);
+    padding:10px;
+    border-radius:10px;
 `;
 
 export const ProjectBodyTitle = styled.h2`
@@ -312,7 +340,7 @@ export const ProjectBodyDescription = styled.p`
 
 export const ProjectBodyFuture = styled.p`
     font-family: Roboto;
-    color: var(--brown-active);
+    color: var(--brown-active); 
     margin-top: 20px;
 `;
 

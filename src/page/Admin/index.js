@@ -31,18 +31,29 @@ export default () => {
             }
         }   
         checkLogin();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const handleLoginButton = async () => {
         if(cpf && password) {
+            setLoading(true);
             const result = await api.login(cpf, password);
-            let permissionUser = result.user.admin;
-            if(result.error === '' && permissionUser === 1 ) {
-                localStorage.setItem('permission', result.user.admin);
-                localStorage.setItem('token', result.token);
-                history.push('/insertions');
+            setLoading(false);
+            if(result.error === '') {
+
+                let permissionUser = result.user.admin;
+                if(String(permissionUser) === '1') {
+                    localStorage.setItem('permission', result.user.admin);
+                    localStorage.setItem('token', result.token);
+                    history.push('/insertions');
+                } else {
+                    alert('Usuário não tem permissão para acessar essa área');
+                }
+
+
+
             } else {
-                alert(result.error !== '' ? result.error : 'Usuário não tem permissão para acessar essa área');
+                alert(result.error);
             }
         } else {
             alert("digite os dados para acessar");

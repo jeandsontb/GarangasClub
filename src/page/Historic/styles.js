@@ -43,6 +43,10 @@ export const ContainerTitleLine = styled.hr`
     }
 `;
 
+export const BoxHistoric = styled.div`
+    
+`;
+
 export const ContentBox = styled.div`
     display:flex;
     flex-direction:column;

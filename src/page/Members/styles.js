@@ -58,6 +58,22 @@ export const Members = styled.div`
     }
 `;
 
+export const BoxFake = styled.div`
+    width: 19.5%;
+    height: 300px;
+    box-shadow: 0 2px 5px var(--blue-active);
+    border-radius: 5px;
+    margin-top:20px;
+    margin-right:0.5%;
+    background-color:#8C2F1B;
+
+    @media(max-width:768px) {
+        width:100%;
+        height:110px;   
+        margin-top:10px;
+    }
+`;
+
 export const Box = styled.div`
     width: 19.5%;
     height: 300px;

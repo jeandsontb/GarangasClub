@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Ellipsis } from 'react-awesome-spinners';
 
 import api from '../../services/api';
 import Header from '../../components/Header';
@@ -12,7 +13,9 @@ import {
     ContainerTitleText,
     ContainerTitleLine,
     ContainerBoxProjects,
+    ImagesProject,
     Box,
+    BoxFakeLoading,
     BoxImage,
     Image,
     ImageTitle,
@@ -23,29 +26,44 @@ import {
     ModalBody,
     ProjectDetail,
     ProjectImgIndex,
+    ProjectButtonThumbBox,
     ProjetcButtonThumb,
     ProjectButtonThumbImage,
     ProjectBody,
+    ProjectDescription,
     ProjectBodyTitle,
     ProjectBodyDescription,
     ProjectBodyFuture,
 } from './styles';
 
+import LinkUrls from '../../services/ServiceUrlsPhotos';
+
 
 const Projects = () => {
 
+    const [ loading, setLoading ] = useState(false);
+    const [ loadingOpen, setLoadingOpen] = useState(false);
     const [ menu, setMenu ] = useState(false);
     const [ idProject, setIdProject ] = useState(0);
     const [ projects, setProjects ] = useState([]);
     const [ modalStatus, setModalStatus ] = useState(false);
     const [ idProjectOne, setIdProjectOne ] = useState({});
     const [ activeImg, setActiveImg ] = useState(0);
+    const [ linkPhotosProject, setLinkPhotosProject] = useState('');//recebe apenas o link stático de services ServiceUrlsPhotos
+    const [ photoThumb, setPhotoThumb] = useState('');
 
     useEffect(() => {
+        setLinkPhotosProject(LinkUrls());
+            let cancelPromise = true;
+            setLoading(true);
 
-        api.get('projects').then(resProjec => {
-            setProjects(resProjec.data);
-        });
+            api.get('project').then(resProjec => {
+                if(cancelPromise) {
+                    setProjects(resProjec.data.data);
+                    setLoading(false);
+                }
+            });
+            
 
         const manangerScrollPage = () => {
             window.addEventListener("scroll", function (event) {
@@ -60,12 +78,24 @@ const Projects = () => {
         }
 
         manangerScrollPage();
+        return () => cancelPromise = false;
     }, []);
 
+    
     useEffect(() => {
-        api.get(`projects/${idProject}`).then(resProjectId => { 
-            setIdProjectOne(resProjectId.data);
-        })
+        let cancelPromise = true;
+        setLoadingOpen(true);
+        if(idProjectOne !== undefined) {
+            api.get(`project/${idProject}`).then(resProjectId => { 
+                if(cancelPromise) {
+                    setIdProjectOne(resProjectId.data.data);
+                    setLoadingOpen(false);
+                }
+            })
+        }
+
+        return () => cancelPromise = false;
+        // eslint-disable-next-line
     }, [idProject]);
 
     const handleFocusModal = ( id ) => {
@@ -76,11 +106,15 @@ const Projects = () => {
     const handleCloseModal = (e) => {
         if( e.target.classList.contains('ModalBg')) {
             setModalStatus(false);
+            setIdProject(0);
+            setIdProjectOne({});
+            setPhotoThumb('');
             setActiveImg(0);
         }
     }
 
-    const handleRenderImg = ( id ) => {
+    const handleRenderImg = ( id, photoThumb ) => {
+        setPhotoThumb(photoThumb)
         setActiveImg(id);
     }
 
@@ -98,28 +132,40 @@ const Projects = () => {
                     <ContainerTitleLine  />
                 </ContainerTitle>
 
-                <ContainerBoxProjects>
+                {loading &&
+                    <ContainerBoxProjects>
+                        <BoxFakeLoading />
+                        <BoxFakeLoading />
+                        <BoxFakeLoading />
+                        <BoxFakeLoading />
+                        <BoxFakeLoading />
+                    </ContainerBoxProjects>
+                }
 
-                    {projects && projects.map((project) => {
-                        return (
-                            <Box key={project.id} >
-                                <BoxImage>
-                                    <Image src={project.images[0].url} alt={project.name} />
-                                    <ImageTitle>{project.name}</ImageTitle>
-                                </BoxImage>
-                                <BoxText>
-                                    <BoxButton>
-                                        <ButtonTitle
-                                            onClick={() => handleFocusModal(project.id)} 
-                                        >
-                                            Detalhess
-                                        </ButtonTitle>
-                                    </BoxButton>
-                                </BoxText>                                                                
-                            </Box>
-                        );
-                    })}                                    
-                </ContainerBoxProjects>
+                
+                {!loading &&
+                    <ContainerBoxProjects>
+                        {projects.length > 0  && projects.map((project) => {
+                            return (
+                                <Box key={project.id} >
+                                    <BoxImage>
+                                        <Image src={project.cover} alt={project.name} />
+                                        <ImageTitle>{project.name}</ImageTitle>
+                                    </BoxImage>
+                                    <BoxText>
+                                        <BoxButton>
+                                            <ButtonTitle
+                                                onClick={() => handleFocusModal(project.id)} 
+                                            >
+                                                Detalhess
+                                            </ButtonTitle>
+                                        </BoxButton>
+                                    </BoxText>                                                                
+                                </Box>
+                            );
+                        })}                                
+                    </ContainerBoxProjects>
+                }
             </Container>
 
 
@@ -130,44 +176,55 @@ const Projects = () => {
                 status={modalStatus} 
                 onClick={handleCloseModal}
             >
-                    <ModalBody>
-                        <ProjectDetail>
-                            {idProjectOne.images && 
-                                <ProjectImgIndex 
-                                    src={idProjectOne.images[activeImg].url} 
-                                    alt={idProjectOne.name}
-                                />
-                            }
 
-                            {idProjectOne.images && idProjectOne.images.map((thumbImg, index ) => {
+                    {loadingOpen && 
+                        <Ellipsis color="#FFFFFF"/>
+                    }
+
+
+                    {!loadingOpen && idProjectOne.length > 0 &&
+                    <ModalBody>
+                        <ImagesProject>
+                        <ProjectDetail>
+                            {idProjectOne && idProjectOne.length > 0 && 
+                                <ProjectImgIndex 
+                                    src={photoThumb.length > 0 ? `${linkPhotosProject}${photoThumb}` : idProjectOne[0].cover} 
+                                    alt="Fotos Project"
+                                />
+                            }                            
+                        </ProjectDetail> 
+                        <ProjectButtonThumbBox>
+                            {idProjectOne.length > 0 && idProjectOne[0].photos.length > 0 && idProjectOne[0].photos.map((thumbImg, index ) => {
                                 return (
-                                    <ProjetcButtonThumb 
-                                        key={thumbImg.id} 
-                                        className={activeImg === index ? 'active' : ''} 
-                                        type="button"
-                                        onClick={() => handleRenderImg(index)}
-                                    >
-                                        <ProjectButtonThumbImage 
-                                            className="image-thumb"
-                                            src={thumbImg.url}
-                                            alt={thumbImg.name}
-                                        />
-                                    </ProjetcButtonThumb>
+                                        <ProjetcButtonThumb 
+                                            key={index} 
+                                            className={activeImg === index ? 'active' : ''} 
+                                            type="button"
+                                            onClick={() => handleRenderImg(index, thumbImg)}
+                                        >
+                                            <ProjectButtonThumbImage 
+                                                className="image-thumb"
+                                                src={`${linkPhotosProject}${thumbImg}`}
+                                                alt="Fotos Project"
+                                            />
+                                        </ProjetcButtonThumb>
                                 );
                             })}
-                        </ProjectDetail> 
+                        </ProjectButtonThumbBox> 
+                        </ImagesProject>
 
-                        <ProjectBody>                             
-                            <ProjectBodyTitle>{idProjectOne.title}</ProjectBodyTitle> 
+                        <ProjectBody>
+                            <ProjectDescription>                             
+                                <ProjectBodyTitle>{idProjectOne.length > 0 ? idProjectOne[0].title : ''}</ProjectBodyTitle>
+                                <ProjectBodyDescription>{idProjectOne.length > 0 ? idProjectOne[0].description : ''}</ProjectBodyDescription>
 
-                            <ProjectBodyDescription>{idProjectOne.description}</ProjectBodyDescription>
-
-                            <ProjectBodyFuture>
-                                <strong>Melhoramentos futuros. </strong>
-                                {idProjectOne.future_projects}
-                            </ProjectBodyFuture>
+                                <ProjectBodyFuture>
+                                    {idProjectOne.length > 0 ? idProjectOne[0].futureprojects : ''}
+                                </ProjectBodyFuture>
+                            </ProjectDescription>
                         </ProjectBody>
                     </ModalBody>
+                    }
             </ContainerModal>
 
 

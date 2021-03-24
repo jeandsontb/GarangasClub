@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 import MenuText from '../MenuText';
 import { 
@@ -9,13 +10,19 @@ import {
     FloatNav
  } from './styles';
 
+ const handleTopScrollClick = () => {
+    window.scrollTo(0, 0);
+}
+
 const MenuFloat = ({active}) => {
     return (
         <MenuScroll active={active} >
             {active &&
                 <ContainerNav>
                     <FloatImage>
-                        <Image src="/assets/logo.png" />
+                        <Link to="/" style={{textDecoration:'none'}} onClick={handleTopScrollClick} >
+                            <Image src="/assets/logo.png" />
+                        </Link>
                     </FloatImage>
 
                     <FloatNav>

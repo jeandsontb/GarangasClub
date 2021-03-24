@@ -65,6 +65,55 @@
     cursor: pointer;
 }
 
+ /* ####################################################ESTILIZAÇÃO DO PAINEL LINK YOUTUBE ##### */
+
+ .boxInfo #preloader {
+    position:relative;
+    background-color:var(--grey-soft);
+}
+
+.boxInfo #preloader:before{
+    margin-left: 170px;
+    margin-top: 100px;
+    width:20px;
+    height:20px;
+    border-radius:20px;
+    background: var(--brown-strong);
+    content:'';
+    position:absolute;
+    background:var(--brown-strong);
+    animation: preloader_before 1.5s infinite ease-in-out;
+}
+
+.boxInfo #preloader:after{
+    margin-left: 170px;
+    margin-top: 100px;
+    width:20px;
+    height:20px;
+    border-radius:20px;
+    background:var(--brown-strong);
+    content:'';
+    position:absolute;
+    background:var(--brown-strong);
+    left:22px;
+    animation: preloader_after 1.5s infinite ease-in-out;
+}
+
+@keyframes preloader_before {
+    0% {transform: translateX(0px) rotate(0deg)}
+    50% {transform: translateX(50px) scale(1.2) rotate(260deg); background:var(--brown-relative);border-radius:0px;}
+      100% {transform: translateX(0px) rotate(0deg)}
+}
+@keyframes preloader_after {
+    0% {transform: translateX(0px)}
+    50% {transform: translateX(-50px) scale(1.2) rotate(-260deg);background:var(--brown-relative);border-radius:0px;}
+    100% {transform: translateX(0px)}
+}
+
+
+
+/* ################################################ FIM ESTILIZAÇÃO DO PAINEL LINK YOUTUBE ##### */
+
 
 
 /* ####################### ESTILIZAÇÃO PARA EVENTOS ########################## */
@@ -359,6 +408,7 @@
         width: 22rem;
         height:12rem;
     }
+   
 
     .home-content .events-calendary {
         font-size: 18px;

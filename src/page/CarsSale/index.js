@@ -5,6 +5,7 @@ import Header from '../../components/Header';
 import MenuMobile from '../../components/MenuMobile';
 import MenuFloat from '../../components/MenuFloat';
 import Footer from '../../components/Footer';
+import { Ellipsis } from 'react-awesome-spinners';
 import {  
     HeadCarSale,
     Container,
@@ -13,6 +14,8 @@ import {
     ContainerTitleLine,
     Sales,
     Box,
+    BoxFake,
+    TextNotFound,
     BoxImage,
     Image,
     ImageTitle,
@@ -34,24 +37,35 @@ import {
     SaleBodyPhone,
     SaleBodyPrice,
 } from './styles';
-
+import LinkUrls from '../../services/ServiceUrlsPhotos';
 
 const Sale = () => {
 
+    const [ loading, setLoading ] = useState(false);
+    const [ loadingOpen, setLoadingOpen] = useState(false);
     const [ menu, setMenu ] = useState(false);
-    const [ sales, setSales ] = useState([]);
     const [ idSale, setIdSale ] = useState(0);
     const [ modalStatus, setModalStatus ] = useState(false);
     const [ idSaleOne, setIdSaleOne ] = useState({});
     const [ activeImg, setActiveImg ] = useState(0);
+    const [ dataCarSale, setDataCarSale ] = useState([]);
+    const [ linkPhotosCarSale, setLinkPhotosCarSale] = useState('');//recebe apenas o link stático de services ServiceUrlsPhotos
+    const [ photoThumb, setPhotoThumb] = useState('');
 
 
     useEffect(() => {
-        const manangerScrollPage = () => {
-
-            api.get('carsales').then(resCarSale => {
-                setSales(resCarSale.data);
+        let cancelPromise = true;
+        setLoading(true);
+        
+        if(cancelPromise) {
+            api.get('car/sale').then(resCarSale => {
+                setLinkPhotosCarSale(LinkUrls());
+                setDataCarSale(resCarSale.data.data);
+                setLoading(false);
             });
+        }
+
+        const manangerScrollPage = () => {
 
             window.addEventListener("scroll", function (event) {
                 let scroll = this.scrollY;
@@ -65,12 +79,22 @@ const Sale = () => {
         }
 
         manangerScrollPage(); 
+
+        return () => cancelPromise = false;
     }, []);
 
     useEffect(() => {
-        api.get(`carsales/${idSale}`).then(resSaleId => { 
-            setIdSaleOne(resSaleId.data);
-        })
+        let cancelPromise = true;
+        setLoadingOpen(true);
+
+        api.get(`car/sale/${idSale}`).then(resSaleId => { 
+            if(cancelPromise) {
+                setIdSaleOne(resSaleId.data.data);
+                setLoadingOpen(false);
+            }
+        });
+
+        return () => cancelPromise = false;
     }, [idSale]);
 
 
@@ -86,7 +110,8 @@ const Sale = () => {
         }
     }
 
-    const handleRenderImg = ( id ) => {
+    const handleRenderImg = ( id, thumbImg ) => {
+        setPhotoThumb(thumbImg)
         setActiveImg(id);
     }
 
@@ -104,29 +129,47 @@ const Sale = () => {
                     <ContainerTitleLine  />
                 </ContainerTitle>
 
-                <Sales>
-                    {sales.length > 0 && sales.map((sale) => {
-                        return (
-                            <Box key={sale.id} >
-                                <BoxImage>
-                                    <Image src={sale.cover} alt={sale.name} />
-                                    <ImageTitle>{sale.name}</ImageTitle>
-                                </BoxImage> 
-                                <BoxText>
-                                    <BoxButton>
-                                        <ButtonTitle
-                                            onClick={() => handleFocusModal(sale.id)} 
-                                        >
-                                            Detalhes
-                                        </ButtonTitle>
-                                    </BoxButton>
-                                </BoxText>                                                                
-                            </Box>
-                        );
-                    })}
-                </Sales>
+                {loading &&
+                    <Sales>
+                        <BoxFake />
+                        <BoxFake />
+                        <BoxFake />
+                        <BoxFake />
+                        <BoxFake />
+                    </Sales>
+                }
 
-                {sales.length > 20 &&
+                {!loading && dataCarSale.length === 0 &&
+                    <Sales>
+                        <TextNotFound >Não existe nenhum carro a venda no momento.</TextNotFound>
+                    </Sales>
+                }
+
+                {!loading &&
+                    <Sales>
+                        {dataCarSale.length > 0 && dataCarSale.map((sale) => {
+                            return (
+                                <Box key={sale.id} >
+                                    <BoxImage>
+                                        <Image src={sale.cover} alt={sale.name} />
+                                        <ImageTitle>{sale.name}</ImageTitle>
+                                    </BoxImage> 
+                                    <BoxText>
+                                        <BoxButton>
+                                            <ButtonTitle
+                                                onClick={() => handleFocusModal(sale.id)} 
+                                            >
+                                                Detalhes
+                                            </ButtonTitle>
+                                        </BoxButton>
+                                    </BoxText>                                                               
+                                </Box>
+                            );
+                        })}
+                    </Sales>
+                }
+
+                {dataCarSale.length > 20 &&
                 <BoxPagination>
                     <ShowButton>
                         <ShowButtonTitle>MOSTRAR MAIS</ShowButtonTitle>
@@ -141,27 +184,36 @@ const Sale = () => {
                 status={modalStatus} 
                 onClick={handleCloseModal}
             >
+                    {loadingOpen &&
+                        <Ellipsis color="#FFFFFF" />
+                    }
+
+
+                    {!loadingOpen && idSaleOne.length > 0 &&
                     <ModalBody>
                         <SaleDetail>
-                            {idSaleOne.images && 
+                            {idSaleOne.length > 0 && idSaleOne[0].cover !== undefined && 
                                 <SaleImgIndex 
-                                    src={idSaleOne.images[activeImg].url} 
-                                    alt={idSaleOne.name}
+                                    src={photoThumb.length > 0 ? `${linkPhotosCarSale}${photoThumb}` : idSaleOne[0].cover} 
+                                    alt="Carros a Venda"
                                 />
                             }
+                            
 
-                            {idSaleOne.images && idSaleOne.images.map((thumbImg, index ) => {
+                            {idSaleOne.length > 0 && idSaleOne[0].photos.map((thumbImg, index ) => {
                                 return (
+                                    
                                     <SaleButtonThumb 
-                                        key={thumbImg.id} 
+                                        key={index} 
                                         className={activeImg === index ? 'active' : ''} 
                                         type="button"
-                                        onClick={() => handleRenderImg(index)}
+                                        onClick={() => handleRenderImg(index, thumbImg)}
                                     >
+                                        
                                         <SaleButtonThumbImage 
                                             className="image-thumb"
-                                            src={thumbImg.url}
-                                            alt={thumbImg.name}
+                                            src={`${linkPhotosCarSale}${thumbImg}`}
+                                            alt="Carros a Venda"
                                         />
                                     </SaleButtonThumb>
                                 );
@@ -169,18 +221,19 @@ const Sale = () => {
                         </SaleDetail> 
 
                         <SaleBody>                             
-                            <SaleBodyTitle>{idSaleOne.title}</SaleBodyTitle> 
+                            <SaleBodyTitle>{idSaleOne.length > 0 ? idSaleOne[0].title : '' }</SaleBodyTitle> 
 
-                            <SaleBodyDescription>{idSaleOne.description}</SaleBodyDescription>
+                            <SaleBodyDescription>{idSaleOne.length > 0 ? idSaleOne[0].description : ''}</SaleBodyDescription>
 
-                            <SaleBodyPhone>Contato: {idSaleOne.phone}</SaleBodyPhone>
+                            <SaleBodyPhone>Contato: {idSaleOne.length > 0 ? idSaleOne[0].phone : '' }</SaleBodyPhone>
 
                             <SaleBodyPrice>
                                 <strong>Valor R$. </strong>
-                                {idSaleOne.price}
+                                {idSaleOne.length > 0 ? idSaleOne[0].price : ''}
                             </SaleBodyPrice>
                         </SaleBody>
                     </ModalBody>
+                    }
             </ContainerModal>
 
 

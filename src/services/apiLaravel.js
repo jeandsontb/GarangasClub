@@ -1,4 +1,5 @@
-const baseUrl = 'http://127.0.0.1:8000/api';
+// const baseUrl = 'http://127.0.0.1:8000/api';
+const baseUrl = 'http://apigarangas.pubjaiz.com.br/public/api';
 
 const request = async (method, endpoint, params, token = null) => {
     method = method.toLowerCase();
@@ -15,6 +16,8 @@ const request = async (method, endpoint, params, token = null) => {
       case 'delete':
         body = JSON.stringify(params);
         break;
+
+      default:
     }
   
     let headers = {'Content-Type': 'application/json'};

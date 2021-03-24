@@ -81,7 +81,7 @@ export const HomeEventsBox = styled.div`
     margin-right: 20px;
     transform:scale(0.95);
     transition: all ease .2s;
-    cursor:pointer;
+    cursor: grab;
 
     :hover {
         transform:scale(1);
@@ -89,6 +89,68 @@ export const HomeEventsBox = styled.div`
 
     @media(max-width:768px) {
         margin-left: ${props => props.scroll > 150 ? 20 : -30}px;
+    }
+`;
+
+export const HomeEventsLoadingBox = styled.div`
+    @media(max-width:768px) {
+        margin-left: 25px;
+    }
+`;
+
+export const HomeEventLoadingImg = styled.div`
+    width:200px;
+    height:120px;
+    background-color:#8C2F1B;
+    margin-left:50px;
+    border-radius:5px;
+
+    @media(max-width:768px) {
+        margin-left: 0;
+    }
+`;
+
+export const HomeEventLoadingTitle = styled.div`
+    width:250px; 
+    height:30px; 
+    background-color:#8C2F1B;
+    margin-left:15px;
+    margin-top:15px;
+
+    @media(max-width:768px) {
+        margin-left: 0;
+        width:150px;
+        margin-top:10px;
+    }
+`;
+
+export const HomeEventLoadingText = styled.div`
+    width:300px;
+    height:15px;
+    background-color:#8C2F1B;
+    margin-left:15px;
+    margin-top:5px;
+
+    @media(max-width:768px) {
+        margin-left: 0;
+        margin-top:5px;
+        height: 4px;
+        width:150px;
+    }
+`;
+    
+export const HomeEventLoadingDate = styled.div`
+    width:100px;
+    height:20px;
+    background-color:#8C2F1B;
+    margin-left:15px;
+    margin-top:8px;
+
+    @media(max-width:768px) {
+        margin-left: 0;
+        margin-top:5px;
+        height: 12px;
+        width:100px;
     }
 `;
     
@@ -136,7 +198,7 @@ export const HomeFamilyText = styled.h1`
         font-size:18px;
         text-align:center;
         margin-top:10px;
-    }
+    } 
 `;
 export const HomeFamilyDescription = styled.section`
     display:flex;
@@ -207,7 +269,6 @@ export const HomeRestaurationHr = styled.hr`
 `;
 
 export const HomeRestaurationProjects = styled.div`
-    background: cadetblue;
     flex: 1;
     width: 24%;
     height:300px;

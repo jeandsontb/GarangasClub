@@ -4,6 +4,8 @@ import Header from '../../components/Header';
 import MenuMobile from '../../components/MenuMobile';
 import MenuFloat from '../../components/MenuFloat';
 import Footer from '../../components/Footer';
+import api from '../../services/api';
+import HistoricFake from '../../components/HistoricFake';
 import {  
     HeadHistoric,
     Content,
@@ -13,15 +15,28 @@ import {
     ContentBox,
     ContentImage,
     ContentBoxText,
-    ContentText
+    ContentText,
+    BoxHistoric
 } from './styles'; 
 
 const Historic = () => {
 
+    const [ loading, setLoading ] = useState(false);
     const [ menu, setMenu ] = useState(false);
+    const [ dataHistoric, setDataHistoric] = useState([]);
 
 
     useEffect(() => {
+        let cancelPromise = true;
+        setLoading(true);
+
+        api.get('historic').then(response => {
+            if(cancelPromise) {
+                setDataHistoric(response.data.data);
+                setLoading(false);
+            }
+        });        
+
         const manangerScrollPage = () => {
             window.addEventListener("scroll", function (event) {
                 let scroll = this.scrollY;
@@ -35,6 +50,8 @@ const Historic = () => {
         }
 
         manangerScrollPage();
+
+        return () => cancelPromise = false;
     }, []);
 
     return (
@@ -52,22 +69,26 @@ const Historic = () => {
                     <ContainerTitleLine  />
                 </ContainerTitle>
 
-                <ContentBox>
-                    <ContentImage src="/assets/historic.jpg" alt="Primeiro encontro" />
-                    <ContentBoxText>
-                        <ContentText >
-                            Tudo começou no final de uma tarde com apenas uma negociação do seu fusca,
-                            Dyogo co-fundador do Garangas estava para se desfazer do seu fusca quando
-                            nesse momento uma pessoa que não tinha nada haver, se envolve em seu negócio 
-                            chamando sua atenção para que ele não concretizasse a venda, e assim o 
-                            negócio não foi fechado naquele dia, após esse dia iniciou uma amizade
-                            e interesse pelos carros antigos onde foi formado o grupo no whatsapp
-                            e  iníciando aí uma grande amizade, em pouco tempo já teria mais de 50 
-                            integrantes todos unidos e compartilhando experiências por um único interesse,  
-                            Carros Antigos ou GARANGAS CLUB.
-                        </ContentText>
-                    </ContentBoxText>
-                </ContentBox>
+                {loading &&
+                    <ContentBox>
+                        <HistoricFake />
+                    </ContentBox>
+                }
+
+                {!loading &&
+                    <ContentBox>
+                        {dataHistoric.length > 0 && dataHistoric.map((data, index) => (
+                            <BoxHistoric key={index}>
+                                <ContentImage key={index} src={data.image} alt="Primeiro encontro" />
+                                <ContentBoxText>
+                                    <ContentText >
+                                        {data.description}
+                                    </ContentText>
+                                </ContentBoxText>
+                            </BoxHistoric>
+                        ))}
+                    </ContentBox>
+                }
             </Content>
 
 
