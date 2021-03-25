@@ -15,7 +15,7 @@
     font-size: 52px;
     margin-bottom: -2px;
     color: transparent;
-    border-radius: 4px;
+    border-radius: 4px; 
     box-shadow: #000;
     opacity: 0.8;
     margin-left: 5px;
@@ -51,6 +51,21 @@
     box-shadow:#000;
 }
 
+.boxInfo .boxInfoMovieLoading {
+    width: 25rem;
+    height:15rem;
+    margin-left: 50px;
+    margin-right: 50px;
+    border-radius: 0.5rem;
+    margin-top: 20px;
+    background-size: cover;
+    background-position: center;
+    border: 5px solid var(--blue-azure);
+    box-shadow: 1px 0 6px #000000;
+    cursor: pointer;
+}
+
+
 .boxInfo .boxInfoMovie {
     width: 25rem;
     height:15rem;
@@ -69,7 +84,7 @@
 
  .boxInfo #preloader {
     position:relative;
-    background-color:var(--grey-soft);
+    background-color:var(--brown-relative);
 }
 
 .boxInfo #preloader:before{
@@ -109,7 +124,6 @@
     50% {transform: translateX(-50px) scale(1.2) rotate(-260deg);background:var(--brown-relative);border-radius:0px;}
     100% {transform: translateX(0px)}
 }
-
 
 
 /* ################################################ FIM ESTILIZAÇÃO DO PAINEL LINK YOUTUBE ##### */
@@ -392,6 +406,10 @@
         margin-left: 8%;
     }
 
+    .boxInfo .boxInfoMovieLoading {
+        margin-top: 200px;
+    }
+
     .boxInfo .boxInfoText h1 {
         font-size: 35px;
         width: 100%;
@@ -403,8 +421,13 @@
         margin-top: calc(100vh - 210% );
     }
 
+    .boxInfo .boxInfoMovieLoadingFake {
+        margin-top: 130px;
+    }
+
     .boxInfo .boxInfoMovie {
         align-items: flex-end;
+        margin-top: 80px;
         width: 22rem;
         height:12rem;
     }

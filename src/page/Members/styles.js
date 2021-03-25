@@ -364,5 +364,47 @@ export const MemberBodyFuture = styled.p`
     margin-top: 20px;
 `;
 
+export const ButtonCloseModal = styled.div`
+    width:100px;
+    height:35px;
+    background-color:#FFF;
+    position:fixed;
+    right:50px;
+    top:25px;
+    border-radius:20px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    cursor:pointer;
+
+    @media(max-width:768px) { 
+        background-color:rgba(0,0,0, 0.6);
+        width:35px;
+        right:30px;
+        top:5px;
+    }
+`;
+
+export const TextButtonCloseModal = styled.strong`
+    font-family:'Roboto', sans-serif;
+    font-size:16px;
+    color:var(--brown-active);
+
+    @media(max-width:768px) { 
+        display:none;
+    }
+`;
+
+export const TextButtonCloseModalMobile = styled.strong`
+    font-family:'Roboto', sans-serif;
+    display:none;
+
+    @media(max-width:768px) {         
+        display:block;
+        font-size:16px;
+        color:#FFF;
+    }
+`;
+
 
     

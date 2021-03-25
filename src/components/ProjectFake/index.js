@@ -11,7 +11,7 @@ const SubContainer = styled.div`
     margin-left: 2%;
     transition: all ease .6s;
     border-radius:5px;
-    background-color:#8C2F1B;
+    background-color:var(--brown-relative);
 
     @media(max-width:768px) {
         width:100%;
@@ -22,8 +22,11 @@ const SubContainer = styled.div`
 const ProjectFake = () => {
     return (
         <Container >
-            <SubContainer>
-            </SubContainer>
+            <SubContainer />
+            <SubContainer />
+            <SubContainer />
+            <SubContainer />
+            <SubContainer />
         </Container>
     );
 

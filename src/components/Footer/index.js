@@ -32,6 +32,7 @@ const Footer = () => {
                     <FooterLinks><Link to="/historic" onClick={handleTopScrollClick} style={{textDecoration:'none', color:"#184059"}}>História</Link></FooterLinks>
                     <FooterLinks><Link to="/members" onClick={handleTopScrollClick} style={{textDecoration:'none', color:"#184059"}}>Integrantes</Link></FooterLinks>
                     <FooterLinks><Link to="/partners" onClick={handleTopScrollClick} style={{textDecoration:'none', color:"#184059"}}>Carros a venda</Link></FooterLinks>
+                    <FooterLinks><Link to="/admin" onClick={handleTopScrollClick} style={{textDecoration:'none', color:"#184059"}}>Adm</Link></FooterLinks>
                 </FooterBoxLinks>
                 <FooterCopyright>Copiryght@2020 Todos os direitos reservados</FooterCopyright>
             </FooterBox>

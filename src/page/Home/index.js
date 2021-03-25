@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { Ellipsis } from 'react-awesome-spinners';
+import ScrollMenu from 'react-horizontal-scrolling-menu';
 
 import api from '../../services/api';
 import MenuFloat from '../../components/MenuFloat';
@@ -34,7 +35,14 @@ import {
     HomeRestaurationHr,
     HomeRestaurationProjects,
     Container,
-    ModalBody
+    ModalBody,
+    ModalBodyImagensThumb,
+    ButtonColorThumb,
+    ButtonLeftThumb,
+    ButtonRightThumb,
+    ButtonCloseModal,
+    TextButtonCloseModal,
+    TextButtonCloseModalMobile
 } from './styles';
 import './style.css';
 
@@ -161,6 +169,10 @@ const Home = () => {
             setActiveImg(0);
         }
     }
+
+    const handleCloseModalButton = () => {
+        setModalStatus(false);
+    }
     
     const handleActiveModal = () => {
         setActiveModal(true);
@@ -214,7 +226,7 @@ const Home = () => {
                         </div>
                         {loadingHome && 
                             <div 
-                            className="boxInfoMovie" 
+                            className="boxInfoMovieLoading" 
                             id="preloader"
                             >
                             </div>
@@ -389,24 +401,30 @@ const Home = () => {
                                 />
                             }
 
-                            {idProjectOne[0].photos.length > 0 && idProjectOne[0].photos.map((thumbImg, index ) => {
-                                return (
-                                    <button 
-                                        key={index} 
-                                        className={activeImg === index ? 'active' : ''} 
-                                        type="button"
-                                        onClick={() => handleRenderImg(index, thumbImg)}
-                                    >
-                                        <img 
-                                            className="image-thumb"
-                                            src={`${linkPhotosProject}${thumbImg}`}
-                                            alt="Fotos Project"
-                                        />
-
-                                        
-                                    </button>
-                                );
-                            })}
+                            <ModalBodyImagensThumb>
+                            {idProjectOne[0].photos.length > 0 &&      
+                                <ScrollMenu 
+                                    arrowLeft={<ButtonColorThumb><ButtonLeftThumb>{"<"}</ButtonLeftThumb></ButtonColorThumb>}
+                                    arrowRight={<ButtonColorThumb><ButtonRightThumb>{">"}</ButtonRightThumb></ButtonColorThumb>}
+                                    // arrowLeft={<div style={{ fontSize: "30px" }}>{" < "}</div>}
+                                    data={idProjectOne[0].photos.map((thumbImg, index ) => (
+                                        <button 
+                                            key={index} 
+                                            className={activeImg === index ? 'active' : ''} 
+                                            type="button"
+                                            onClick={() => handleRenderImg(index, thumbImg)}
+                                            >
+                                                        
+                                                <img 
+                                                    className="image-thumb"
+                                                    src={`${linkPhotosProject}${thumbImg}`}
+                                                    alt="Fotos Project"
+                                                />
+                                        </button>
+                                    ))}
+                                /> 
+                            }
+                            </ModalBodyImagensThumb>
                         </div> 
                         <div className="projects-body" >                              
                             <h2>{idProjectOne[0].title}</h2> 
@@ -416,7 +434,16 @@ const Home = () => {
                             <p className="project-future-projects" >    
                                 {idProjectOne[0].futureprojects}
                             </p>
-                        </div>                                              
+                        </div>   
+
+                        <ButtonCloseModal>
+                            <TextButtonCloseModal onClick={handleCloseModalButton}>
+                                FECHAR
+                            </TextButtonCloseModal> 
+                            <TextButtonCloseModalMobile onClick={handleCloseModalButton}>
+                                X
+                            </TextButtonCloseModalMobile>    
+                        </ButtonCloseModal>                                           
                     </ModalBody>
                     }                    
             </Container>

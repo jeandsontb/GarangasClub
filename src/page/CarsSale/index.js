@@ -36,6 +36,9 @@ import {
     SaleBodyDescription,
     SaleBodyPhone,
     SaleBodyPrice,
+    ButtonCloseModal,
+    TextButtonCloseModal,
+    TextButtonCloseModalMobile
 } from './styles';
 import LinkUrls from '../../services/ServiceUrlsPhotos';
 
@@ -113,6 +116,10 @@ const Sale = () => {
     const handleRenderImg = ( id, thumbImg ) => {
         setPhotoThumb(thumbImg)
         setActiveImg(id);
+    }
+
+    const handleCloseModalButton = () => {
+        setModalStatus(false);
     }
 
     return (
@@ -232,6 +239,14 @@ const Sale = () => {
                                 {idSaleOne.length > 0 ? idSaleOne[0].price : ''}
                             </SaleBodyPrice>
                         </SaleBody>
+                        <ButtonCloseModal>
+                            <TextButtonCloseModal onClick={handleCloseModalButton}>
+                                FECHAR
+                            </TextButtonCloseModal> 
+                            <TextButtonCloseModalMobile onClick={handleCloseModalButton}>
+                                X
+                            </TextButtonCloseModalMobile>    
+                        </ButtonCloseModal> 
                     </ModalBody>
                     }
             </ContainerModal>

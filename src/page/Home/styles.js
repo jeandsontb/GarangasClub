@@ -101,7 +101,7 @@ export const HomeEventsLoadingBox = styled.div`
 export const HomeEventLoadingImg = styled.div`
     width:200px;
     height:120px;
-    background-color:#8C2F1B;
+    background-color:var(--brown-relative);
     margin-left:50px;
     border-radius:5px;
 
@@ -113,7 +113,7 @@ export const HomeEventLoadingImg = styled.div`
 export const HomeEventLoadingTitle = styled.div`
     width:250px; 
     height:30px; 
-    background-color:#8C2F1B;
+    background-color:var(--brown-relative);
     margin-left:15px;
     margin-top:15px;
 
@@ -127,7 +127,7 @@ export const HomeEventLoadingTitle = styled.div`
 export const HomeEventLoadingText = styled.div`
     width:300px;
     height:15px;
-    background-color:#8C2F1B;
+    background-color:var(--brown-relative);
     margin-left:15px;
     margin-top:5px;
 
@@ -142,7 +142,7 @@ export const HomeEventLoadingText = styled.div`
 export const HomeEventLoadingDate = styled.div`
     width:100px;
     height:20px;
-    background-color:#8C2F1B;
+    background-color:var(--brown-relative);
     margin-left:15px;
     margin-top:8px;
 
@@ -179,7 +179,7 @@ export const HomeFamily = styled.section`
     margin-top:${props => props.resetContent - 150}px;
 
     @media(max-width:768px) {
-        margin-top:${props => props.resetContent + 300}px;
+        margin-top:${props => props.resetContent + 210}px;
     }    
 `;
 
@@ -331,5 +331,80 @@ export const ModalBody = styled.div`
         align-items:unset;
         border-top-left-radius:0;
         border-top-right-radius:0;
+    }
+`;
+
+export const ModalBodyImagensThumb = styled.div`
+    width:100%;
+`;
+
+export const ButtonColorThumb = styled.div`
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    width:30px;
+    height:30px;
+    border-radius:25px;
+    background-color:var(--brown-active); 
+    cursor:pointer; 
+
+    @media(max-width:768px) { 
+        display:none;
+    }
+`;
+
+export const ButtonLeftThumb = styled.strong`
+    font-size:15px;
+    font-weight:bolder;
+    color:var(--white-active);
+    font-family:'McLaren', cursive;    
+`;
+
+export const ButtonRightThumb = styled.strong`
+    font-size:15px;
+    font-weight:bolder;
+    color:var(--white-active);
+    font-family:'McLaren', cursive;
+`;
+
+export const ButtonCloseModal = styled.div`
+    width:100px;
+    height:35px;
+    background-color:#FFF;
+    position:fixed;
+    right:50px;
+    top:25px;
+    border-radius:20px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    cursor:pointer;
+
+    @media(max-width:768px) { 
+        background-color:rgba(0,0,0, 0.6);
+        width:35px;
+        right:30px;
+        top:5px;
+    }
+`;
+
+export const TextButtonCloseModal = styled.strong`
+    font-family:'Roboto', sans-serif;
+    font-size:16px;
+    color:var(--brown-active);
+
+    @media(max-width:768px) { 
+        display:none;
+    }
+`;
+
+export const TextButtonCloseModalMobile = styled.strong`
+    font-family:'Roboto', sans-serif;
+    display:none;
+
+    @media(max-width:768px) {         
+        display:block;
+        font-size:16px;
+        color:#FFF;
     }
 `;

@@ -213,7 +213,7 @@ export const ModalBody = styled.div`
     max-width:90vw;
     max-height:95vh;
     overflow:hidden;
-    /* padding-bottom: 180px; */
+    padding-bottom: 100px;
 
     @media(max-width:768px) {
         flex-direction:column;
@@ -229,11 +229,6 @@ export const ModalBody = styled.div`
 `;
 
 export const ImagesProject = styled.div`
-    display:flex;
-    flex-direction:column;
-`;
-
-export const ProjectDetail = styled.div`
     max-width: 500px;
     max-height: 320px;
     margin-right: 20px;
@@ -264,9 +259,10 @@ export const ProjectImgIndex = styled.img`
     }
 `;
 
-export const ProjectButtonThumbBox = styled.div`
-    display:unset;
-    flex-wrap: wrap;
+export const ModalBodyImagensThumb = styled.div`
+    display:flex;
+    flex-direction:column;
+    width:100%;
 `;
 
 export const ProjetcButtonThumb = styled.button`
@@ -302,10 +298,14 @@ export const ProjectButtonThumbImage = styled.img`
 `;
 
 export const ProjectBody = styled.div`
+    background-color: rgb(245, 244, 244);
+    border-radius: 15px;
+    padding: 10px;
     height: auto;
 
     @media(max-width:768px) {
         overflow:auto;
+        padding: 10px;
         margin-top: 10px;
         height: 100%;
     }
@@ -344,3 +344,74 @@ export const ProjectBodyFuture = styled.p`
     margin-top: 20px;
 `;
 
+export const ButtonColorThumb = styled.div`
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    width:30px;
+    height:30px;
+    border-radius:25px;
+    background-color:var(--brown-active); 
+    cursor:pointer; 
+
+    @media(max-width:768px) { 
+        display:none;
+    }
+`;
+
+export const ButtonLeftThumb = styled.strong`
+    font-size:15px;
+    font-weight:bolder;
+    color:var(--white-active);
+    font-family:'McLaren', cursive;    
+`;
+
+export const ButtonRightThumb = styled.strong`
+    font-size:15px;
+    font-weight:bolder;
+    color:var(--white-active);
+    font-family:'McLaren', cursive;
+`;
+
+export const ButtonCloseModal = styled.div`
+    width:100px;
+    height:35px;
+    background-color:#FFF;
+    position:fixed;
+    right:50px;
+    top:25px;
+    border-radius:20px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    cursor:pointer;
+
+    @media(max-width:768px) { 
+        background-color:rgba(0,0,0, 0.6);
+        width:35px;
+        right:30px;
+        top:5px;
+    }
+`;
+
+export const TextButtonCloseModal = styled.strong`
+    font-family:'Roboto', sans-serif;
+    font-size:16px;
+    color:var(--brown-active);
+
+    @media(max-width:768px) { 
+        display:none;
+    }
+`;
+
+export const TextButtonCloseModalMobile = styled.strong`
+    font-family:'Roboto', sans-serif;
+    display:none;
+
+    @media(max-width:768px) {         
+        display:block;
+        font-size:16px;
+        color:#FFF;
+    }
+`;
+ 

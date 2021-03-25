@@ -36,6 +36,9 @@ import {
     MemberBodyTitle,
     MemberBodyDescription,
     MemberBodyFuture,
+    ButtonCloseModal,
+    TextButtonCloseModal,
+    TextButtonCloseModalMobile
 } from './styles';
 
 
@@ -114,6 +117,10 @@ const Member = () => {
     const handleRenderImg = ( id, thumbImg ) => {
         setPhotoThumb(thumbImg);
         setActiveImg(id);
+    }
+
+    const handleCloseModalButton = () => {
+        setModalStatus(false);
     }
 
     return (
@@ -225,6 +232,14 @@ const Member = () => {
                                     {idMemberOne[0].name}
                                 </MemberBodyFuture>
                             </MemberBody>
+                            <ButtonCloseModal>
+                            <TextButtonCloseModal onClick={handleCloseModalButton}>
+                                FECHAR
+                            </TextButtonCloseModal> 
+                            <TextButtonCloseModalMobile onClick={handleCloseModalButton}>
+                                X
+                            </TextButtonCloseModalMobile>    
+                        </ButtonCloseModal> 
                         </ModalBody>
                     }
 

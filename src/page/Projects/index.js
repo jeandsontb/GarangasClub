@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Ellipsis } from 'react-awesome-spinners';
+import ScrollMenu from 'react-horizontal-scrolling-menu';
 
 import api from '../../services/api';
 import Header from '../../components/Header';
@@ -24,9 +25,8 @@ import {
     ButtonTitle,
     ContainerModal,
     ModalBody,
-    ProjectDetail,
     ProjectImgIndex,
-    ProjectButtonThumbBox,
+    ModalBodyImagensThumb,
     ProjetcButtonThumb,
     ProjectButtonThumbImage,
     ProjectBody,
@@ -34,6 +34,13 @@ import {
     ProjectBodyTitle,
     ProjectBodyDescription,
     ProjectBodyFuture,
+    ButtonColorThumb,
+    ButtonLeftThumb,
+    ButtonRightThumb,
+    ButtonCloseModal,
+    TextButtonCloseModal,
+    TextButtonCloseModalMobile
+
 } from './styles';
 
 import LinkUrls from '../../services/ServiceUrlsPhotos';
@@ -118,6 +125,10 @@ const Projects = () => {
         setActiveImg(id);
     }
 
+    const handleCloseModalButton = () => {
+        setModalStatus(false);
+    }
+
     return (
         <>
             <HeadProjects >
@@ -185,34 +196,36 @@ const Projects = () => {
                     {!loadingOpen && idProjectOne.length > 0 &&
                     <ModalBody>
                         <ImagesProject>
-                        <ProjectDetail>
                             {idProjectOne && idProjectOne.length > 0 && 
                                 <ProjectImgIndex 
                                     src={photoThumb.length > 0 ? `${linkPhotosProject}${photoThumb}` : idProjectOne[0].cover} 
                                     alt="Fotos Project"
                                 />
-                            }                            
-                        </ProjectDetail> 
-                        <ProjectButtonThumbBox>
-                            {idProjectOne.length > 0 && idProjectOne[0].photos.length > 0 && idProjectOne[0].photos.map((thumbImg, index ) => {
-                                return (
-                                        <ProjetcButtonThumb 
-                                            key={index} 
-                                            className={activeImg === index ? 'active' : ''} 
-                                            type="button"
-                                            onClick={() => handleRenderImg(index, thumbImg)}
-                                        >
-                                            <ProjectButtonThumbImage 
-                                                className="image-thumb"
-                                                src={`${linkPhotosProject}${thumbImg}`}
-                                                alt="Fotos Project"
-                                            />
-                                        </ProjetcButtonThumb>
-                                );
-                            })}
-                        </ProjectButtonThumbBox> 
-                        </ImagesProject>
+                            } 
 
+                            <ModalBodyImagensThumb>
+                                {idProjectOne.length > 0 && idProjectOne[0].photos.length > 0 &&
+                                    <ScrollMenu 
+                                        arrowLeft={<ButtonColorThumb><ButtonLeftThumb>{"<"}</ButtonLeftThumb></ButtonColorThumb>}
+                                        arrowRight={<ButtonColorThumb><ButtonRightThumb>{">"}</ButtonRightThumb></ButtonColorThumb>}
+                                        data={idProjectOne[0].photos.map((thumbImg, index ) => (
+                                            <ProjetcButtonThumb 
+                                                key={index} 
+                                                className={activeImg === index ? 'active' : ''} 
+                                                type="button"
+                                                onClick={() => handleRenderImg(index, thumbImg)}
+                                            >
+                                                <ProjectButtonThumbImage 
+                                                    className="image-thumb"
+                                                    src={`${linkPhotosProject}${thumbImg}`}
+                                                    alt="Fotos Project"
+                                                />
+                                            </ProjetcButtonThumb>
+                                        ))}
+                                    />                                        
+                                }
+                            </ModalBodyImagensThumb>
+                        </ImagesProject>
                         <ProjectBody>
                             <ProjectDescription>                             
                                 <ProjectBodyTitle>{idProjectOne.length > 0 ? idProjectOne[0].title : ''}</ProjectBodyTitle>
@@ -223,6 +236,14 @@ const Projects = () => {
                                 </ProjectBodyFuture>
                             </ProjectDescription>
                         </ProjectBody>
+                        <ButtonCloseModal>
+                            <TextButtonCloseModal onClick={handleCloseModalButton}>
+                                FECHAR
+                            </TextButtonCloseModal> 
+                            <TextButtonCloseModalMobile onClick={handleCloseModalButton}>
+                                X
+                            </TextButtonCloseModalMobile>    
+                        </ButtonCloseModal> 
                     </ModalBody>
                     }
             </ContainerModal>
