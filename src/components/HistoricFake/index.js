@@ -10,7 +10,7 @@ const ContentImage = styled.div`
     height:300px;
     box-shadow: 0px 5px 5px var(--blue-strong);
     border-radius:10px;
-    background-color:#8C2F1B;
+    background-color:var(--brown-relative);
 
     @media(max-width:768px) {
         height:120px;
@@ -20,7 +20,7 @@ const ContentBoxText = styled.div`
     margin-top:50px;
 `;
 const ContentText = styled.div`
-    background-color:#8C2F1B;
+    background-color:var(--brown-relative);
     width:100%;
     height:20px;
     margin-top:3px;

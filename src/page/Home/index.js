@@ -80,28 +80,33 @@ const Home = () => {
         setLoadingHome(true);
         setLoadingEvent(true);
         setLoadingProject(true);
-        api.get('link/movie').then(response => {
-            if(cancelPromise) {
-                setTextMovie(response.data.data[0].title);
-                setUrlMovie(response.data.data[0].url);
-                setLoadingHome(false);
-            }
-        });
 
-        api.get('event').then(resEvent => {
-            if(cancelPromise) {
-                setEvents(resEvent.data.data);
-                setLoadingEvent(false);
-            }
-        });
+        const getApiDataHome = () => {
 
-        api.get('project').then(resProjec => {
-            if(cancelPromise) {
-                setProjects(resProjec.data.data);
-                setLoadingProject(false);
-            }
-        });
+            api.get('link/movie').then(response => {
+                if(cancelPromise) {
+                    setTextMovie(response.data.data[0].title);
+                    setUrlMovie(response.data.data[0].url);
+                    setLoadingHome(false);
+                }
+            });
+    
+            api.get('event').then(resEvent => {
+                if(cancelPromise) {
+                    setEvents(resEvent.data.data);
+                    setLoadingEvent(false);
+                }
+            });
+    
+            api.get('project').then(resProjec => {
+                if(cancelPromise) {
+                    setProjects(resProjec.data.data);
+                    setLoadingProject(false);
+                }
+            });
+        }
 
+        getApiDataHome();
         setHeightBox(ref.current.clientHeight);
         return () => cancelPromise = false;
         // eslint-disable-next-line
@@ -111,13 +116,17 @@ const Home = () => {
         setIdProjectOne({});
         setLoadingProjectOpen(true);
         let cancelPromise = true;
-        api.get(`project/${idProject}`).then(resProjectId => {
-            if(cancelPromise) {
-                setIdProjectOne(resProjectId.data.data);
-                setLoadingProjectOpen(false);
-            }
-        });
 
+        const getApiDataProjectId = () => {
+            api.get(`project/${idProject}`).then(resProjectId => {
+                if(cancelPromise) {
+                    setIdProjectOne(resProjectId.data.data);
+                    setLoadingProjectOpen(false);
+                }
+            });
+        }
+
+        getApiDataProjectId();
         return () => cancelPromise = false;
         // eslint-disable-next-line
     }, [idProject, modalStatus]);

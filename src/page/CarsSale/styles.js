@@ -81,7 +81,7 @@ export const BoxFake = styled.div`
     border-radius: 5px;
     margin-top:20px;
     margin-right:0.5%;
-    background-color:#8C2F1B;
+    background-color:var(--brown-relative);
 
     @media(max-width:768px) {
         width:100%;
