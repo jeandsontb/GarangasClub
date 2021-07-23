@@ -14,7 +14,7 @@ import MenuText from '../MenuText';
 
 const handleTopScrollClick = () => {
     window.scrollTo(0, 0);
-}
+} 
 
 const Header = ({ active }) => {
     return (

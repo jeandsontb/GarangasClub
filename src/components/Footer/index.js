@@ -35,7 +35,7 @@ const Footer = () => {
                     <FooterLinks><Link to="/admin" onClick={handleTopScrollClick} style={{textDecoration:'none', color:"#184059"}}>Adm</Link></FooterLinks>
                 </FooterBoxLinks>
                 <FooterCopyright>Copiryght@2020 Todos os direitos reservados</FooterCopyright>
-            </FooterBox>
+            </FooterBox> 
             <FooterDesigner>
                 <FooterBoxAuthor>
                     <FooterTextAuthor>Site desenvolvido por</FooterTextAuthor>

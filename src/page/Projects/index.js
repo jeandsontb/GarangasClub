@@ -127,6 +127,10 @@ const Projects = () => {
 
     const handleCloseModalButton = () => {
         setModalStatus(false);
+        setIdProject(0);
+        setIdProjectOne({});
+        setPhotoThumb('');
+        setActiveImg(0);
     }
 
     return (

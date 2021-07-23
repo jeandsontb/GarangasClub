@@ -10,7 +10,7 @@ export const MenuScroll = styled.div`
     left:0;
     transition: all ease .2s;
     box-shadow:-5px 0px 5px #000;
-    z-index:99;
+    z-index:99; 
 
     @media(max-width: 768px) {
         display:none !important;

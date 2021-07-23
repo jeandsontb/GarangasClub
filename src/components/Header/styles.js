@@ -19,7 +19,7 @@ export const ContainerHeaderShadow = styled.div`//ficou por traz para favorecer 
     background: linear-gradient(180deg, rgba(191,135,86,1) 75%, rgba(255,255,0,0) 100%);
     position:relative;
     width: 100vw;
-    height: 170px;      
+    height: 170px;     
     z-index:96;
 
     @media(max-width: 768px) {

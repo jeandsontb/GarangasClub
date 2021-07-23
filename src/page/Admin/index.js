@@ -9,7 +9,7 @@ export default () => {
     const api = useApi();
     const history = useHistory();
 
-    const [cpf, setCpf] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
 
@@ -35,9 +35,9 @@ export default () => {
     }, []);
 
     const handleLoginButton = async () => {
-        if(cpf && password) {
+        if(email && password) {
             setLoading(true);
-            const result = await api.login(cpf, password);
+            const result = await api.login(email, password);
             setLoading(false);
             if(result.error === '') {
 
@@ -66,8 +66,8 @@ export default () => {
             <S.Box>
                 <S.Login>
                     <S.TextLogin>LOGIN</S.TextLogin>
-                    <S.Label>CPF</S.Label>
-                    <S.Input type="text" value={cpf} disabled={loading} onChange={e => setCpf(e.target.value)} placeholder="Digite o CPF" />
+                    <S.Label>E-mail</S.Label>
+                    <S.Input type="text" value={email} disabled={loading} onChange={e => setEmail(e.target.value)} placeholder="Digite o e-mail" />
                     <S.Label>Senha</S.Label>
                     <S.Input type="password" value={password} disabled={loading} onChange={e => setPassword(e.target.value)} placeholder="Digite a senha" />
                     <S.BoxButton>

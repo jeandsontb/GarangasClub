@@ -1,5 +1,5 @@
 // const baseUrl = 'http://127.0.0.1:8000/api';
-const baseUrl = 'http://apigarangas.pubjaiz.com.br/public/api';
+const baseUrl = '';
 
 const request = async (method, endpoint, params, token = null) => {
     method = method.toLowerCase();
@@ -43,8 +43,8 @@ export default () => {
             let json = await request('post', '/auth/validate', {}, token);
             return json;
         },
-        login: async (cpf, password) => {
-            let json = await request('post', '/auth/login', {cpf, password});
+        login: async (email, password) => {
+            let json = await request('post', '/auth/login', {email, password});
             return json;
         },
         logout: async () => {

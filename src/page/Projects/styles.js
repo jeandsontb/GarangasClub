@@ -378,7 +378,7 @@ export const ButtonCloseModal = styled.div`
     height:35px;
     background-color:#FFF;
     position:fixed;
-    right:50px;
+    right:50px; 
     top:25px;
     border-radius:20px;
     display:flex;

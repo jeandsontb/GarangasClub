@@ -121,6 +121,10 @@ const Member = () => {
 
     const handleCloseModalButton = () => {
         setModalStatus(false);
+        setIdMember(0);
+        setIdMemberOne({});
+        setPhotoThumb('');
+        setActiveImg(0);
     }
 
     return (
