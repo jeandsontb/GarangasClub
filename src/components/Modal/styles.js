@@ -17,7 +17,7 @@ export const Content = styled.div`
     background-color:#FFF;
     border-radius:10px;
     padding:10px;
-    box-shadow: 0px 0px 2px #000;
+    box-shadow: 0px 0px 2px #000; 
 
     @media(max-width:768px) {
         padding:0;

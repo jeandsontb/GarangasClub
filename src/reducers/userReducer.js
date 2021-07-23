@@ -13,5 +13,5 @@ export default (state = initialState, action) => {
         return {...state, email:action.payload.email};
     }
 
-    return state;
+    return state; 
 }

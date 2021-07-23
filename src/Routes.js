@@ -40,7 +40,7 @@ export default () => {
                 <Admin />
             </Route>
             <Route  >
-                <NotFound />
+                <NotFound /> 
             </Route>
         </Switch>
     );

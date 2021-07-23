@@ -18,7 +18,7 @@ export default ({ url, closeModal }) => {
             <Content> 
                 <Player >
                     <iframe src = {url} title={url} >                            
-                    </iframe>
+                    </iframe> 
                 </Player>
             </Content>
         </Container>
